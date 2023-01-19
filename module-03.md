@@ -144,7 +144,7 @@ files to turn in:
     src/main.rs  Cargo.toml
 ```
 
-Create a Rust type. Anything. You simply have to name it `MyType`.
+Create a `struct`. You simply have to name it `MyType`.
 
 ```rust
 fn main() {
