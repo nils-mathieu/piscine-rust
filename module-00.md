@@ -39,7 +39,8 @@ anywhere in your code (not until the last module ;p).
 
 For exercises using the `cargo` package manager, the same rule applies. In that case, only the
 crates specified in the `allowed dependencies` section are allowed. Any other dependency is
-forbidden.
+forbidden. More generally, only the symbols specified in `allowed symbols` are authorized within an
+exercise.
 
 ## Exercise 00: Hello, World!
 

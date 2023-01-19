@@ -17,7 +17,9 @@ determine whether a program is valid or not.
 
 Any program you turn in should compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
-in the `allowed dependencies` section are allowed.
+in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
+section are allowed. Every exercise that uses the `cargo` package manager must be part of the
+`workspace.members` table declared for the whole module.
 
 Any program you turn in should compile *without warnings* using the `rustc` compiler available on
 the school's machines without additional options. You are allowed to use attributes to modify lint
