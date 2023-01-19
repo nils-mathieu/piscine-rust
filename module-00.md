@@ -80,7 +80,7 @@ function is indeed correct. During the defense, you will have to write one anywa
 
 The function should be prototyped like this:
 
-```Rust
+```rust
 fn min(a: i32, b: i32) -> i32;
 ```
 
@@ -282,7 +282,7 @@ Testing a program is probably at least half the work of a developer. Every singl
 digital system should be carefully tested to avoid as many crashes and unexpected behaviors as
 possible.
 
-```Rust
+```rust
 fn fibs(n: u32) -> u32 {
     (0..n).fold((0, 1), |(a, b), _| (b, a + b)).0
 }

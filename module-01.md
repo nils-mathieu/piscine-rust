@@ -130,9 +130,6 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 What about arrays? Contiguous arrays are a core component of most languages out there, and Rust has
@@ -164,19 +161,17 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    <[u32]>::len
 ```
 
 The second array flavor in Rust is *"slices"*. Slices are just like regular arrays, except their
 size is not known at compile time. Instead, each reference to a *slice* stores the number of
 elements they point to *with* their pointer, allowing the developper to easily create sub-slices.
 
-Create a **function** that computes the smallest subslice whose sum is above a given treshold. You
-are only allowed to use the [`len`](https://doc.rust-lang.org/std/primitive.slice.html#method.len)
-function, and the indexing operator `slice[...]`, you'll se it can be quite powerful. When multiple
-sub-slices of the same length are above the treshold, the first one is returned. If no such slice
-is found, the empty slice is returned.
+Create a **function** that computes the smallest subslice whose sum is above a given treshold. When
+multiple sub-slices of the same length are above the treshold, the first one is returned. If no
+such slice is found, the empty slice is returned.
 
 ```Rust
 fn smallest_subslice(slice: &[u32], threshold: &u32) -> &[u32];
@@ -219,15 +214,13 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    <[i32]>::len
 ```
 
 Iterating over an array is fine, but doing that while modifying it is better!
 
-Create a **function** that sorts a slice of `i32`s. You cannot use anything other than the
-[`len`](https://doc.rust-lang.org/std/primitive.slice.html#method.len) function and the indexing
-operator `slice[...]`.
+Create a **function** that sorts a slice of `i32`s.
 
 ```Rust
 fn sort_slice(slice: &mut [i32]);
@@ -277,19 +270,22 @@ files to turn in:
 
 allowed dependencies:
     ftkit
+
+allowed symbols:
+    ftkit::random_number
 ```
 
 Create a **function** that returns a string associated to a given key. If the key is invalid, the
 function is allowed to panic. The valid keys are numbers between 0 and 4 (included).
 
-```Rust
+```rust
 fn get_string(key: &i32) -> &str;
 ```
 
 You will have to add the correct *lifetime annotations* to ensure the provided `main` function
 compiles.
 
-```Rust
+```rust
 fn main() {
     let result;
 
@@ -324,9 +320,6 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 Let's finish this module with an easy one.

@@ -161,6 +161,9 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::matches
 ```
 
 C-like enumerations are nice, but we can do better!
@@ -212,8 +215,8 @@ turn-in directory:
 files to turn in:
     src/main.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::{println, print}
 ```
 
 Rust allows you to create type aliases. This functionality can be used to provide more precise
@@ -298,6 +301,9 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
+
+allowed symbols:
+    <[T]>::len
 ```
 
 Let's simulate a simple computer using the Rust programming language. A computer is basically made
@@ -334,7 +340,7 @@ to execute a specific program. The function ends as soon as the instruction inde
 of the instruction list. You should also add a `new` function to easily create new instances of the
 type.
 
-```Rust
+```rust
 impl NanoCpu {
     fn new() -> Self; // optional
     fn execute(&mut self, program: &[Instruction]);
