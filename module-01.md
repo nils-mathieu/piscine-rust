@@ -2,15 +2,27 @@
 
 ## Introduction
 
-Rust is basically operating on the same hardware abstraction level as C. As such, it does have a way to create pointers to any existing value. In Rust, however, it is *impossible* to create invalid pointers. When using that language, the compiler *ensures* statically that every pointer you create won't ever be invalidated while you are using it. To provide this guarentee, Rust uses a system known as the *Borrow Checker*.
+Rust is basically operating on the same hardware abstraction level as C. As such, it does have a
+way to create pointers to any existing value. In Rust, however, it is *impossible* to create
+invalid pointers. When using that language, the compiler *ensures* statically that every pointer
+you create won't ever be invalidated while you are using it. To provide this guarentee, Rust uses
+a system known as the *Borrow Checker*.
 
-Rust's Borrow Checker can be a bit hard to get used to, but remember that 99% of the program it rules out are actually invalid and could potentially lead to memory unsafety and undefined behavior. This module will introduce you to how it works, and what information it uses to determine whether a program is valid or not.
+Rust's Borrow Checker can be a bit hard to get used to, but remember that 99% of the program it
+rules out are actually invalid and could potentially lead to memory unsafety and undefined
+behavior. This module will introduce you to how it works, and what information it uses to
+determine whether a program is valid or not.
 
 ## General Rules
 
-Any program you turn in should compile using the `cargo` package manager, either with `cargo run` if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified in the `allowed dependencies` section are allowed.
+Any program you turn in should compile using the `cargo` package manager, either with `cargo run`
+if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
+in the `allowed dependencies` section are allowed.
 
-Any program you turn in should compile *without warnings* using the `rustc` compiler available on the school's machines without additional options. You are allowed to use attributes to modify lint levels, but you must be able to explain why you did so. You are *not* allowed to use `unsafe` code anywere in your code.
+Any program you turn in should compile *without warnings* using the `rustc` compiler available on
+the school's machines without additional options. You are allowed to use attributes to modify lint
+levels, but you must be able to explain why you did so. You are *not* allowed to use `unsafe` code
+anywere in your code.
 
 ## Exercise 00: Creating References
 
@@ -25,7 +37,8 @@ allowed dependencies:
 
 ```
 
-Creating a reference isn't exactly an involved process. Using those references properly can be quite a bit harder, however.
+Creating a reference isn't exactly an involved process. Using those references properly can be
+quite a bit harder, however.
 
 Create a **function** that adds two integers together. It should be prototyped as follows:
 
@@ -35,13 +48,16 @@ fn add(a: &i32, b: i32) -> i32;
 
 Notice that `a` is a *reference* to an `i32`.
 
-Now, create another function, but this time, it should store the result of the operation in the first number.
+Now, create another function, but this time, it should store the result of the operation in the
+first number.
 
 ```Rust
 fn add_assign(a: &mut i32, b: i32);
 ```
 
-How does using a `&mut` or a `&` change the semantics of the function? Would it be possible to crates an `add_assign` function using a regular `&i32` reference (without the `mut`)? You should be able to answer those questions during the defense.
+How does using a `&mut` or a `&` change the semantics of the function? Would it be possible to
+crates an `add_assign` function using a regular `&i32` reference (without the `mut`)? You should
+be able to answer those questions during the defense.
 
 You must provide some tests to prove every function behaves as expected.
 
@@ -55,7 +71,8 @@ files to turn-in:
     src/main.rs  Cargo.toml
 ```
 
-Rust won't ever allow you to create a dangling reference (a reference whose pointed value has been lost).
+Rust won't ever allow you to create a dangling reference (a reference whose pointed value has been
+lost).
 
 ```Rust
 fn main() {
@@ -70,7 +87,9 @@ fn main() {
 }
 ```
 
-This exercise simply requires you to understand why above code does not compile (and why it *shouldn't* compile). Don't try to fix it, and just be prepared to being asked what happened here during defense.
+This exercise simply requires you to understand why above code does not compile (and why it
+*shouldn't* compile). Don't try to fix it, and just be prepared to being asked what happened here
+during defense.
 
 Copy this flawed `main` into your project and move on to the next exercise.
 
@@ -87,21 +106,27 @@ allowed dependencies:
 
 ```
 
-Do you remember the point of the exercise 01 from the first module? You had to create a function prototyped as so:
+Do you remember the point of the exercise 01 from the first module? You had to create a function
+prototyped as so:
 
 ```Rust
 fn min(a: i32, b: i32) -> i32;
 ```
 
-The assignment of this exercise is to write the same exact function, but this time, the inputs of this function are references.
+The assignment of this exercise is to write the same exact function, but this time, the inputs of
+this function are references.
 
 ```Rust
 fn min(a: &i32, b: &i32) -> &i32;
 ```
 
-The above function returns the reference to the smallest integer among `a` and `b`. Note that you may have to add some *lifetime annotations* to the function in order to make it compile.
+The above function returns the reference to the smallest integer among `a` and `b`. Note that you
+may have to add some *lifetime annotations* to the function in order to make it compile.
 
-In addition to the usual tests you have to write to prove the function you wrote is actually valid, you must create a `"spike"` test that showcases how *not* having those annotations would be an issue. You must comment that non-compiling test out before pushing. You will have to explain that fairly difficult concept to your evaluators!
+In addition to the usual tests you have to write to prove the function you wrote is actually valid,
+you must create a `"spike"` test that showcases how *not* having those annotations would be an
+issue. You must comment that non-compiling test out before pushing. You will have to explain that
+fairly difficult concept to your evaluators!
 
 ## Exericse 03: Array Addition
 
@@ -116,9 +141,11 @@ allowed dependencies:
 
 ```
 
-What about arrays? Contiguous arrays are a core component of most languages out there, and Rust has them in two flavors.
+What about arrays? Contiguous arrays are a core component of most languages out there, and Rust has
+them in two flavors.
 
-The first flavor is *"arrays"*. Those are compile-time sized and can be created on the stack. Your assignment is to create a **function** that adds two instances of `[i32; 3]` index-wise.
+The first flavor is *"arrays"*. Those are compile-time sized and can be created on the stack. Your
+assignment is to create a **function** that adds two instances of `[i32; 3]` index-wise.
 
 ```Rust
 fn add_vectors(a: [i32; 3], b: [i32; 3]) -> [i32; 3];
@@ -147,9 +174,15 @@ allowed dependencies:
 
 ```
 
-The second array flavor in Rust is *"slices"*. Slices are just like regular arrays, except their size is not known at compile time. Instead, each reference to a *slice* stores the number of elements they point to *with* their pointer, allowing the developper to easily create sub-slices.
+The second array flavor in Rust is *"slices"*. Slices are just like regular arrays, except their
+size is not known at compile time. Instead, each reference to a *slice* stores the number of
+elements they point to *with* their pointer, allowing the developper to easily create sub-slices.
 
-Create a **function** that computes the smallest subslice whose sum is above a given treshold. You are only allowed to use the [`len`](https://doc.rust-lang.org/std/primitive.slice.html#method.len) function, and the indexing operator `slice[...]`, you'll se it can be quite powerful. When multiple sub-slices of the same length are above the treshold, the first one is returned. If no such slice is found, the empty slice is returned.
+Create a **function** that computes the smallest subslice whose sum is above a given treshold. You
+are only allowed to use the [`len`](https://doc.rust-lang.org/std/primitive.slice.html#method.len)
+function, and the indexing operator `slice[...]`, you'll se it can be quite powerful. When multiple
+sub-slices of the same length are above the treshold, the first one is returned. If no such slice
+is found, the empty slice is returned.
 
 ```Rust
 fn smallest_subslice(slice: &[u32], threshold: &u32) -> &[u32];
@@ -164,7 +197,9 @@ smallest_subslice([10, 1, 11], 13) => [10, 1, 11]
 smallest_subslice([10, 1, 11], 23) => []
 ```
 
-Once again, you may need to specify some *lifetime annotations* for the function. To check whether your annotations are correct for that case, you can use this pre-defined `test_lifetimes` function. It must compile.
+Once again, you may need to specify some *lifetime annotations* for the function. To check whether
+your annotations are correct for that case, you can use this pre-defined `test_lifetimes` function.
+It must compile.
 
 ```Rust
 #[test]
@@ -196,7 +231,9 @@ allowed dependencies:
 
 Iterating over an array is fine, but doing that while modifying it is better!
 
-Create a **function** that sorts a slice of `i32`s. You cannot use anything other than the [`len`](https://doc.rust-lang.org/std/primitive.slice.html#method.len) function and the indexing operator `slice[...]`.
+Create a **function** that sorts a slice of `i32`s. You cannot use anything other than the
+[`len`](https://doc.rust-lang.org/std/primitive.slice.html#method.len) function and the indexing
+operator `slice[...]`.
 
 ```Rust
 fn sort_slice(slice: &mut [i32]);
@@ -217,11 +254,21 @@ allowed dependencies:
 
 ```
 
-In C, a string is just non-null bytes terminated by a `\0` byte. In Rust, a string is just bytes. Well, to be specific, they *have* to contain valid UTF-8 data, (otherwise they would just be regular `[u8]` slices). Instead of having a null-terminating byte, a reference to an [`str`](https://doc.rust-lang.org/stable/std/primitive.str.html) stores the length of the string alongside its pointer (just like regular slices).
+In C, a string is just non-null bytes terminated by a `\0` byte. In Rust, a string is just bytes.
+Well, to be specific, they *have* to contain valid UTF-8 data, (otherwise they would just be
+regular `[u8]` slices). Instead of having a null-terminating byte, a reference to an
+[`str`](https://doc.rust-lang.org/stable/std/primitive.str.html) stores the length of the string
+alongside its pointer (just like regular slices).
 
-You have already seen one in the `print_bytes` function of the first module, now you should have a better understanding of how they work.
+You have already seen one in the `print_bytes` function of the first module, now you should have a
+better understanding of how they work.
 
-Create a **function** that finds the first `\0` character of a given string, and splits it into two part. The first part must contain all the characters until the `\0`, and the second one must contain all other characters (without the `\0`). You are only allowed to use the [`as_bytes`](https://doc.rust-lang.org/std/primitive.str.html#method.as_bytes) function, the [`len`](https://doc.rust-lang.org/std/primitive.slice.html#method.len) function, as well as the indexing operator `s[...]`.
+Create a **function** that finds the first `\0` character of a given string, and splits it into
+two part. The first part must contain all the characters until the `\0`, and the second one must
+contain all other characters (without the `\0`). You are only allowed to use the
+[`as_bytes`](https://doc.rust-lang.org/std/primitive.str.html#method.as_bytes) function, the
+[`len`](https://doc.rust-lang.org/std/primitive.slice.html#method.len) function, as well as the
+indexing operator `s[...]`.
 
 ```Rust
 fn split_once_at_null(s: &str) -> (&str, &str);
@@ -250,15 +297,20 @@ allowed dependencies:
     ftkit
 ```
 
-It's possible to create references that cannot ever be invalidated. For example, a static variable cannot ever go out of scope (and therefore invalidate the references that point to it). For this reason, Rust has a way to describe the "infinite" lifetime (which lives as long as static memory is around - which itself is roughly tied to the lifetime of the whole program).
+It's possible to create references that cannot ever be invalidated. For example, a static variable
+cannot ever go out of scope (and therefore invalidate the references that point to it). For this
+reason, Rust has a way to describe the "infinite" lifetime (which lives as long as static memory is
+around - which itself is roughly tied to the lifetime of the whole program).
 
-Create a **function** that returns a string associated to a given key. If the key is invalid, the function is allowed to panic. The valid keys are numbers between 0 and 4 (included).
+Create a **function** that returns a string associated to a given key. If the key is invalid, the
+function is allowed to panic. The valid keys are numbers between 0 and 4 (included).
 
 ```Rust
 fn get_string(key: &i32) -> &str;
 ```
 
-You will have to add the correct *lifetime annotations* to ensure the provided `main` function compiles.
+You will have to add the correct *lifetime annotations* to ensure the provided `main` function
+compiles.
 
 ```Rust
 fn main() {
@@ -284,7 +336,8 @@ Bonjour!
 Hello!
 ```
 
-(this is only an example, you are free to choose the values actually returned by the `get_string` function).
+This is only an example, you are free to choose the values actually returned by the `get_string`
+function.
 
 ## Exercise 08: The Size Of Slices
 

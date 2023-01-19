@@ -2,15 +2,24 @@
 
 ## Introduction
 
-Dynamic dispatch can be very useful to avoid repeating yourself. In fact, this is what inheritance-driven languages usually use (think Java, C# or C++ without templates).
+Dynamic dispatch can be very useful to avoid repeating yourself. In fact, this is what
+inheritance-driven languages usually use (think Java, C# or C++ without templates).
 
-In Rust, we tend to use static dispatch by default. The idea is pretty simple: re-compile the function for every possible type that needs it. This allows more optimized code, but longer compile times and potentially larger binary sizes. In practice, the binary size can be easily managed. As for compilation times, this is still a work in progress issue.
+In Rust, we tend to use static dispatch by default. The idea is pretty simple: re-compile the
+function for every possible type that needs it. This allows more optimized code, but longer compile
+times and potentially larger binary sizes. In practice, the binary size can be easily managed. As
+for compilation times, this is still a work in progress issue.
 
 ## General Rules
 
-Any program you turn in should compile using the `cargo` package manager, either with `cargo run` if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified in the `allowed dependencies` section are allowed.
+Any program you turn in should compile using the `cargo` package manager, either with `cargo run`
+if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
+in the `allowed dependencies` section are allowed.
 
-Any program you turn in should compile *without warnings* using the `rustc` compiler available on the school's machines without additional options. You are allowed to use attributes to modify lint levels, but you must be able to explain why you did so. You are *not* allowed to use `unsafe` code anywere in your code.
+Any program you turn in should compile *without warnings* using the `rustc` compiler available on
+the school's machines without additional options. You are allowed to use attributes to modify lint
+levels, but you must be able to explain why you did so. You are *not* allowed to use `unsafe` code
+anywere in your code.
 
 ## Exercise 00: `choose`
 
@@ -46,7 +55,8 @@ allowed dependencies:
 
 ```
 
-Creating simple generic functions isn't very useful: you know nothing about the input type! Knowing what types can and cannot do is specifically what traits are for!
+Creating simple generic functions isn't very useful: you know nothing about the input type! Knowing
+what types can and cannot do is specifically what traits are for!
 
 Copy the following trait into your `main.rs` file.
 
@@ -58,7 +68,8 @@ impl PrintMyself {
 
 And implement it for some basic types (such as `u32` or `i8`).
 
-Create a `greet` function, which takes any value as an input, as long as the type of that value derives the `PrintMyself` trait. When called, this function must print the following message:
+Create a `greet` function, which takes any value as an input, as long as the type of that value
+derives the `PrintMyself` trait. When called, this function must print the following message:
 
 > Hey, **name**! How are you?
 
@@ -86,7 +97,8 @@ Create a `Vector` type.
 * It must be generic over some type `T`.
 * It must have two fields `x` and `y`, both of type `T`.
 
-The `Vector` type must have a `new` associated function to create an instance of `Vector`. The prototype of that function should be:
+The `Vector` type must have a `new` associated function to create an instance of `Vector`. The
+prototype of that function should be:
 
 ```Rust
 impl<T> Vector<T> {
@@ -94,7 +106,9 @@ impl<T> Vector<T> {
 }
 ```
 
-Use the `#[derive(...)]` attribute to derive the `Debug` and `PartialEq` traits for `Vector<T>` and write a simple tests to make sure the `new` function and those trait implementations do work as expected.
+Use the `#[derive(...)]` attribute to derive the `Debug` and `PartialEq` traits for `Vector<T>`
+and write a simple tests to make sure the `new` function and those trait implementations do work
+as expected.
 
 ## Exercise 03: A Useful Generic Vector
 
@@ -109,13 +123,20 @@ allowed dependencies:
 
 ```
 
-Copy the previous exercise here (the `Vector<T>` type). This simple vector type, by itself, isn't very useful: you cannot do anything with it.
+Copy the previous exercise here (the `Vector<T>` type). This simple vector type, by itself, isn't
+very useful: you cannot do anything with it.
 
-Overload the `+`, `-`, `+=` and `-=` operators for `Vector<T>`, for any `T` that itself has support for the `+`, `-`, `+=` and `-=` operators (respectively). You must provide additional tests for those new functions.
+Overload the `+`, `-`, `+=` and `-=` operators for `Vector<T>`, for any `T` that itself has support
+for the `+`, `-`, `+=` and `-=` operators (respectively). You must provide additional tests for
+those new functions.
 
-Not every type has support for the square root operation. In fact, only `f32` and `f64` have an associated `sqrt` function.
+Not every type has support for the square root operation. In fact, only `f32` and `f64` have an
+associated `sqrt` function.
 
-Implement specifically for both `Vector<f32>` and `Vector<f64>` a `length` function that computes its length (you can use the [`f32::sqrt`](https://doc.rust-lang.org/std/primitive.f32.html#method.sqrt) and [`f64::sqrt`](https://doc.rust-lang.org/std/primitive.f64.html#method.sqrt) functions for that).
+Implement specifically for both `Vector<f32>` and `Vector<f64>` a `length` function that computes
+its length (you can use the [`f32::sqrt`](https://doc.rust-lang.org/std/primitive.f32.html#method.sqrt)
+and [`f64::sqrt`](https://doc.rust-lang.org/std/primitive.f64.html#method.sqrt) functions for
+that).
 
 The length of a vector can be computed using this formula: `‖(x, y)‖ = sqrt(x² + y²)`.
 
@@ -136,7 +157,8 @@ allowed dependencies:
 
 Again? Yes. Another `min` function! But I promise, this one's the last one.
 
-Create a `min` function that takes *any* two values of a type that supports the `<` operator, and returns the smaller one.
+Create a `min` function that takes *any* two values of a type that supports the `<` operator, and
+returns the smaller one.
 
 ```Rust
 assert_eq!(min(12i32, -14i32), -14);
@@ -159,15 +181,18 @@ allowed dependencies:
 
 ```
 
-Traits too can be generic! For example, the [`Add`](https://doc.rust-lang.org/std/ops/trait.Add.html) trait is generic over the type of the second operand.
+Traits too can be generic! For example, the [`Add`](https://doc.rust-lang.org/std/ops/trait.Add.html)
+trait is generic over the type of the second operand.
 
-Create a generic trait named `Convert` with one method. This trait should be generic over a `T`. It should require one method named `convert` whose prototype is:
+Create a generic trait named `Convert` with one method. This trait should be generic over a `T`. It
+should require one method named `convert` whose prototype is:
 
 ```Rust
 fn convert(self) -> T;
 ```
 
-Where `T` is the output of the convertion. If the convertion isn't possible (such as trying to convert `260u32` into an `u8`), the function should panic with an appropriate message.
+Where `T` is the output of the convertion. If the convertion isn't possible (such as trying to
+convert `260u32` into an `u8`), the function should panic with an appropriate message.
 
 Example:
 
@@ -176,14 +201,18 @@ assert_eq!(10u32.convert(), 10u8);
 assert_eq!(-16i8.convert(), -16i16);
 ```
 
-Implement the `Convert` trait for some types. Don't bother implementing it for every possible combinaison of primitive types (unless you want to use this exercise as a way to learn [`macro_rules!`](https://doc.rust-lang.org/rust-by-example/macros.html)). You'll simply have to provide *some* implementations to showcase how the trait is used.
+Implement the `Convert` trait for some types. Don't bother implementing it for every possible
+combinaison of primitive types (unless you want to use this exercise as a way to learn
+[`macro_rules!`](https://doc.rust-lang.org/rust-by-example/macros.html)). You'll simply have to
+provide *some* implementations to showcase how the trait is used.
 
-Anything can be converted into itself. Formally, for any given type `T`, it's possible to implement the `Convert<T>` trait. Create a *blacket implementation* of the `Convert<T>` trait for every `T`. In that case, the `convert` method simply returns its input.
+Anything can be converted into itself. Formally, for any given type `T`, it's possible to implement
+the `Convert<T>` trait. Create a *blacket implementation* of the `Convert<T>` trait for every `T`.
+In that case, the `convert` method simply returns its input.
 
 You must provide tests for the trait implementations.
 
 ## Exercise 06: Standard Convertion Traits
-
 
 ```txt
 turn-in directory:
@@ -196,7 +225,8 @@ allowed dependencies:
 
 ```
 
-The Rust standard library already provides traits to convert values [`From`] and [`Into`] other values. Those traits are already implemented for most of the Standard Library's types.
+The Rust standard library already provides traits to convert values [`From`] and [`Into`] other
+values. Those traits are already implemented for most of the Standard Library's types.
 
 Copy the following type definition into your file.
 
@@ -204,7 +234,9 @@ Copy the following type definition into your file.
 struct EvenValue(u32);
 ```
 
-It should implement the `From<u32>` trait. When the value it is given is even, the function returns an instance of `EvenValue` containing the provided `u32` instance. If the value is odd, the function panics.
+It should implement the `From<u32>` trait. When the value it is given is even, the function returns
+an instance of `EvenValue` containing the provided `u32` instance. If the value is odd, the
+function panics.
 
 Create tests for your implementation! You must include the following tests.
 
@@ -222,7 +254,8 @@ fn odd_into_even() {
 }
 ```
 
-Why does the `u32` type suddenly has the `into()` method?? You only implemented the `From<u32>` trait...
+Why does the `u32` type suddenly has the `into()` method?? You only implemented the `From<u32>`
+trait...
 
 ## Exercise 07: Comma-Separated Values
 
@@ -250,7 +283,9 @@ value3,value3,value3,value3
 
 Each line corresponds to a *record*, and each column corresponds to a *field*.
 
-First, let's create a trait for types which may be encoded and decoded into a field value. This trait should define a way to write an ASCII representation of the value, as well as a way to parse a string into a concrete instance of the type. Error type may be as simple as unit structs.
+First, let's create a trait for types which may be encoded and decoded into a field value. This
+trait should define a way to write an ASCII representation of the value, as well as a way to parse
+a string into a concrete instance of the type. Error type may be as simple as unit structs.
 
 Example:
 
@@ -263,9 +298,12 @@ trait Field {
 }
 ```
 
-You should implement the `Field` type for common types, such as `&str`, `u32` or `char`. Errors (such as invalid characters in a `&str`, or a numeric literal being too large) should return an error instead of panicking.
+You should implement the `Field` type for common types, such as `&str`, `u32` or `char`. Errors
+(such as invalid characters in a `&str`, or a numeric literal being too large) should return an
+error instead of panicking.
 
-With that out of the way, let's create a `Record` trait, which provides a way to access all of its `Field`s, as well as a way to construct an instance of itself from a list of strings.
+With that out of the way, let's create a `Record` trait, which provides a way to access all of its
+`Field`s, as well as a way to construct an instance of itself from a list of strings.
 
 **Hint:** you might want to use dynamic dispatch (`dyn Field`) for that.
 

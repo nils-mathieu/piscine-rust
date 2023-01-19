@@ -6,9 +6,14 @@ In Rust, functions have a type, a size, and can be stored on the stack like any 
 
 ## General Rules
 
-Any program you turn in should compile using the `cargo` package manager, either with `cargo run` if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified in the `allowed dependencies` section are allowed.
+Any program you turn in should compile using the `cargo` package manager, either with `cargo run`
+if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified in
+the `allowed dependencies` section are allowed.
 
-Any program you turn in should compile *without warnings* using the `rustc` compiler available on the school's machines without additional options. You are allowed to use attributes to modify lint levels, but you must be able to explain why you did so. You are *not* allowed to use `unsafe` code anywere in your code.
+Any program you turn in should compile *without warnings* using the `rustc` compiler available on
+the school's machines without additional options. You are allowed to use attributes to modify lint
+levels, but you must be able to explain why you did so. You are *not* allowed to use `unsafe` code
+anywere in your code.
 
 ## Exercise 00: Function Pointers (`call_twice` v1)
 
@@ -23,7 +28,8 @@ allowed dependencies:
 
 ```
 
-A function is a block of the memory that the CPU can jump to. A function pointer, as its name suggests it, is the memory address of such block.
+A function is a block of the memory that the CPU can jump to. A function pointer, as its name
+suggests it, is the memory address of such block.
 
 Create a **function** that takes another function as its input and calls it twice.
 
@@ -46,15 +52,18 @@ allowed dependencies:
 
 ```
 
-Function pointers are cool, but they are pretty limited. Specifically, it is not possible to make them to reference any data.
+Function pointers are cool, but they are pretty limited. Specifically, it is not possible to make
+them to reference any data.
 
-One way to work around this problem - and this is the only way to do it in C - is to pass a custom parameter along with the function pointer.
+One way to work around this problem - and this is the only way to do it in C - is to pass a custom
+parameter along with the function pointer.
 
 ```Rust
 fn call_twice<T>(data: &mut T, f: fn(&mut T));
 ```
 
-This time, the `call_twice` function must pass the `data` parameter to the function pointer when calling it. This allow the passed function to access some custom state.
+This time, the `call_twice` function must pass the `data` parameter to the function pointer when
+calling it. This allow the passed function to access some custom state.
 
 You must write test for this new functions.
 
@@ -71,13 +80,17 @@ allowed dependencies:
 
 ```
 
-The pattern presented in the previous exercise is so common, in fact, that the Rust language provides a way to do it more easily: [closures](https://doc.rust-lang.org/rust-by-example/fn/closures.html).
+The pattern presented in the previous exercise is so common, in fact, that the Rust language
+provides a way to do it more easily: [closures](https://doc.rust-lang.org/rust-by-example/fn/closures.html).
 
 ```Rust
 fn call_twice<F: FnMut()>(f: F);
 ```
 
-Notice how the type parameter implements the [`FnMut()`](https://doc.rust-lang.org/std/ops/trait.FnMut.html) trait. This indicates that the "data" parameter is taken by mutable reference (i.e. `&mut Data`). How would using [`Fn()`](https://doc.rust-lang.org/std/ops/trait.Fn.html) or [`FnOnce()`](https://doc.rust-lang.org/std/ops/trait.FnOnce.html) change the semantics of the function?
+Notice how the type parameter implements the [`FnMut()`](https://doc.rust-lang.org/std/ops/trait.FnMut.html)
+trait. This indicates that the "data" parameter is taken by mutable reference (i.e. `&mut Data`).
+How would using [`Fn()`](https://doc.rust-lang.org/std/ops/trait.Fn.html) or [`FnOnce()`](https://doc.rust-lang.org/std/ops/trait.FnOnce.html)
+change the semantics of the function?
 
 You must provide tests to show that the function works.
 
@@ -94,7 +107,8 @@ allowed dependencies:
 
 ```
 
-As you should have noticed in the previous exercise, closures are capable of capturing data present in their scope.
+As you should have noticed in the previous exercise, closures are capable of capturing data present
+in their scope.
 
 ```Rust
 #[derive(Clone)]
@@ -126,6 +140,8 @@ fn main() {
 }
 ```
 
-Copy the above file into your `main.rs` file and replace the `/* ??? */` by any of the three functions above. You are only allowed to use each function once.
+Copy the above file into your `main.rs` file and replace the `/* ??? */` by any of the three
+functions above. You are only allowed to use each function once.
 
-How did you choose? What does `move` means? Would those calls work without it? Why? You will be asked during defense.
+How did you choose? What does `move` means? Would those calls work without it? Why? You will be
+asked during defense.
