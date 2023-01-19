@@ -5,10 +5,8 @@
 We've come a long way, huh?
 
 Rust is a powerful programing language, and you can be proud of yourself for coming this far.
-However, I want you to think twice before continuing to read the present work.
-
-Even if this Piscine won't go as far as the [Rustnomicon](https://doc.rust-lang.org/nomicon/), one
-should be aware that the dark arts documented here are not to be taken lightly.
+However, I want you to think twice before continuing to read the present work. One should be aware
+that the dark arts documented here are not to be taken lightly.
 
 ```txt
 THE KNOWLEDGE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -34,7 +32,7 @@ You *are* allowed to use `unsafe` code in this module! However, some rules must 
 2. When an `unsafe fn` function is defined, its documentation must contain a `# Safety` section
 describing how to use it correctly.
 
-```Rust
+```rust
 /// Returns a shared reference to one of the elements of `slice`
 /// without checking whether `index` is actually a valid index.
 ///
@@ -58,7 +56,7 @@ unsafe fn get_unchecked(slice: &[u32], index: usize) -> &u32 {
 3. When an `unsafe trait` trait is defined, its documentation must contain a `# Safety` section
 describing how to implement it correctly.
 
-```Rust
+```rust
 /// Types that can be initialized to zeros.
 ///
 /// # Safety
@@ -77,7 +75,7 @@ unsafe trait Zeroable {
 
 4. Every time an `unsafe` block is used, it must be annotated with a `SAFETY:` directive.
 
-```Rust
+```rust
 let slice: &[u32] = &[1, 2, 3];
 
 // SAFETY:
@@ -88,7 +86,7 @@ let val = unsafe { get_unchecked(slice, 2) };
 
 5. Every time an `unsafe impl` is declared, it must be annotated with a `SAFETY:` directive.
 
-```Rust
+```rust
 // SAFETY:
 //  The `u64` type allows the "all-zeros" bit pattern - it corresponds
 //  to the value `0u64`.
@@ -110,37 +108,17 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::ptr::write  std::ptr::read
 ```
-
-Sometimes, you need to perform an operation that the Rust compiler can't prove to be valid. When
-that happens, you need to use a backdoor programmed into the compiler to gently ask it to trust
-us.
-
-That is what the `unsafe` keyword is. When you write an `unsafe` block, you tell the compiler "do
-not worry, I know what I'm doing".
-
-For example, in unsafe code, it's possible to create two mutable references `&mut T` to the same
-value. It *is* possible, but this is *invalid*. When you do that, you are triggering *undefined
-behavior*. The compiler always assumes that no two `&mut T` can point to the same value, so if you
-force that to happen, the compiler will simply behave incorrectly. In the best case, you will
-crash. In the worst case, the program will behave weirdly. This why we call this code "unsafe".
-It means "potentially incorrect".
 
 Let's start simple: create a `ft_swap` generic function that swaps any two values of any type. This
 wasn't previously possible because you cannot make any assumption about `T`. Maybe it can be
 copied, maybe not. Maybe it has a default value, maybe not.
 
-```Rust
+```rust
 fn ft_swap<T>(a: &mut T, b: &mut T);
 ```
-
-You are only allowed to use [`std::ptr::read`](https://doc.rust-lang.org/std/ptr/fn.read.html) and
-[`std::ptr::write`](https://doc.rust-lang.org/std/ptr/fn.write.html).
-
-Note that the function itself isn't unsafe. That means that you can call it safely with any
-parameter. However, it *uses* unsafe code to operate.
 
 Write tests to prove the function works as expected.
 
@@ -152,14 +130,11 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 Let's re-create the popular C function `strlen` in Rust.
 
-```Rust
+```rust
 unsafe fn ft_strlen(s: *const u8) -> usize;
 ```
 
@@ -177,24 +152,24 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::alloc::*  std::ptr::* std::ops::*  std::clone::Clone  std::marker::*
 ```
 
-Let's re-create the [`Box<T>`](https://doc.rust-lang.org/std/boxed/struct.Box.html) type ourselves.
-Your type will be named `Carton<T>` and must have the following inherent implementation.
+Let's re-create the `Box<T>` type ourselves. Your type will be named `Carton<T>` and must have the
+following inherent implementation.
 
-```Rust
+```rust
 impl<T> Carton<T> {
-    /// Creates a new [`Carton<T>`], effectively moving
-    /// `value` on the heap.
     fn new(value: T) -> Self;
+
+    fn into_inner(this: Self) -> T;
 }
 ```
 
 The following code must work.
 
-```Rust
+```rust
 struct Point { x: u32, y: u32 }
 
 let point_in_carton = Carton::new(Point { x: 1, y: 2 });
@@ -204,8 +179,7 @@ assert_eq!(point_in_carton.y, 2);
 ```
 
 Because I'm feeling generous, I'll give some pointers. You need to make sure `Carton<T>` has the
-correct [variance](https://doc.rust-lang.org/nomicon/subtyping.html). You need to properly inform
-the [drop checker](https://doc.rust-lang.org/nomicon/dropck.html) that your type owns a `T`.
+correct *variance*. You also need to properly inform the *drop checker* that your type owns a `T`.
 
 You must write tests!
 
@@ -218,18 +192,16 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::ops::*  std::cell::UnsafeCell  std::ptr::*  std::marker::*
 ```
 
-Let's re-create our own [`Cell<T>`](https://doc.rust-lang.org/std/cell/struct.Cell.html) named
-`Cellule<T>`. You will need to read about the [`UnsafeCell<T>`](https://doc.rust-lang.org/std/cell/struct.UnsafeCell.html)
-primitive.
+Let's re-create our own `Cell<T>` named `Cellule<T>`.
 
-You must implement the following inherent methods, as specified in the official documentation for
-[`Cell<T>`](https://doc.rust-lang.org/std/cell/struct.Cell.html):
+You must implement the following inherent methods, as specified in the official documentation of
+`Cell<T>`.
 
-```Rust
+```rust
 impl<T> Cellule<T> {
     const fn new(value: T) -> Self;
 
@@ -243,10 +215,8 @@ impl<T> Cellule<T> {
 }
 ```
 
-Note that you may need to add trait bounds to *some* of the above methods to ensure their safety.
-
-Once again, be extra careful of the [variance](https://doc.rust-lang.org/nomicon/subtyping.html) of
-your type.
+Note that you may need to add trait bounds to some of the above methods to ensure their safety,
+and once again, be extra careful of the *variance* of your type.
 
 You must write tests for the functions you've written.
 
@@ -259,13 +229,13 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::alloc::*  std::ptr::*  std::ops::*  std::marker::*
 ```
 
-Create a type named `Pointeur<T>` that recreates the functionalities of [`Rc<T>`](https://doc.rust-lang.org/std/rc/struct.Rc.html).
-You write the following inherent methods as specified in the official documentation, as well as
-implementions for traits that make sense for the type.
+Create a type named `Pointeur<T>` that recreates the functionalities of `Rc<T>`. You write the
+following inherent methods as specified in the official documentation, as well as implementions for
+traits that make sense for the type.
 
 ```Rust
 impl<T> Pointeur<T> {
@@ -281,7 +251,7 @@ existing instance of `Pointeur<T>` is a "strong" reference.
 
 It must be possible to use the type in this way:
 
-```Rust
+```rust
 let p1 = Pointeur::new(Cellule::new(1));
 let p2 = p1.clone();
 
@@ -305,16 +275,15 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::alloc::*  std::ptr::*  std::ops::*  std::iter::{Iterator, IntoIterator}
 ```
 
-To finish with this module, let's re-create our own [`Vec<T>`](https://doc.rust-lang.org/std/vec/struct.Vec.html).
-Your type will be named `Tableau<T>`.
+To finish with this module, let's re-create our own `Vec<T>`. Your type will be named `Tableau<T>`.
 
 It must implement the following inherent methods, as specified in the official documentation:
 
-```Rust
+```rust
 impl<T> Tableau<T> {
     const fn new() -> Self;
 
@@ -333,7 +302,7 @@ impl<T> Tableau<T> {
 
 It must be possible to do the following:
 
-```Rust
+```rust
 let mut a = Vec::new();
 a.push(1); a.push(2); a.push(4);
 let b = a.clone();
@@ -353,7 +322,7 @@ assert_eq!(c, [1, 2, 4]);
 If you're feeling like taking a challenge, you can try to write a macro to construct a `Tableau<T>`
 automatically:
 
-```Rust
+```rust
 let v: Tableau<i32> = tableau![1, 2, 4];
 assert_eq!(v, [1, 2, 4]);
 ```
@@ -361,3 +330,40 @@ assert_eq!(v, [1, 2, 4]);
 In any case, you must write extensive tests for your type. Valgrind may be used to detect invalid
 operations (which would means that you have used `unsafe` incorrectly .\\/.). Be careful of
 `panic!`s, they can happen anytime you call a function that you didn't write.
+
+## Exercise 06: Foreign Function Interface
+
+```txt
+turn-in directory:
+    ex06/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed dependencies:
+    libc
+```
+
+// TODO
+
+## Exercise 07: `ft_putchar`
+
+```txt
+turn-in directory:
+    ex07/
+
+files to turn in:
+    ft_putchar.rs
+```
+
+What better way to finish this great journey but by writing your very first `C` function?
+
+```Rust
+fn ft_putchar(c: u8);
+```
+
+You can't use any function or symbol from the standard library apart from the `std::arch::asm!`
+macro. If you want to make sure nothing gets into your sacred namespace, you can use the
+`#![no_implicit_prelude]`  global attribute.
+
+You can optionally provide a `main` function to showcase your work of art.
