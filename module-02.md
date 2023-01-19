@@ -32,9 +32,6 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 Let's create a simple datastructure. Create a `struct` representing a 2D point, which itself
@@ -59,7 +56,7 @@ impl Point {
 
 Add tests to your crate to prove that each function is working as expected.
 
-## Exercise 01: Matching Color Names
+## Exercise 01: Matching Colors
 
 ```txt
 turn-in directory:
@@ -67,9 +64,6 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 Here is the definition a type named `Color`. It is used to describe color using a red, a green and
@@ -90,7 +84,7 @@ impl Color {
 ```
 
 The name of a color is determined using the following rules, applied in order. The first rule that
-[`match`](https://doc.rust-lang.org/std/keyword.match.html)es the input color should be selected.
+`match`es the input color should be selected.
 
 * The color `Color(0, 0, 0)` is "pure black".
 * The color `Color(255, 255, 255)` is "pure white".
@@ -116,9 +110,6 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 Create an `enum` that represents the sign of a number. That type should be named `Sign` and should
@@ -144,17 +135,9 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
-During the previous module, you should've understood that Rust wants to know how long references
-will live before compiling the code. It does that to make sure the code you are trying to write is
-indeed valid and cannot create dangling references. But what can you do if the type you create
-itself contains references?
-
-Create a type named `Warior`. Wariors are very strong, but they need weapons to unlock their full
+Create a type named `Warior`. Wariors are very strong, but they need weapons to unleash their full
 potential. Create a `Weapon` type.
 
 The `Weapon` type must be an `enum`. Each variant of that `enum` must be a weapon type. Add at
@@ -178,9 +161,6 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 C-like enumerations are nice, but we can do better!
@@ -267,9 +247,6 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 Here is a `struct` definition.
@@ -321,9 +298,6 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 Let's simulate a simple computer using the Rust programming language. A computer is basically made

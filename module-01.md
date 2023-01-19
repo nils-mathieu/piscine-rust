@@ -34,9 +34,6 @@ turn-in directory:
 
 files to turn-in:
     src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 Creating a reference isn't exactly an involved process. Using those references properly can be
@@ -47,8 +44,6 @@ Create a **function** that adds two integers together. It should be prototyped a
 ```Rust
 fn add(a: &i32, b: i32) -> i32;
 ```
-
-Notice that `a` is a *reference* to an `i32`.
 
 Now, create another function, but this time, it should store the result of the operation in the
 first number.
@@ -103,9 +98,6 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 Do you remember the point of the exercise 01 from the first module? You had to create a function
@@ -252,25 +244,13 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    str::as_bytes
 ```
-
-In C, a string is just non-null bytes terminated by a `\0` byte. In Rust, a string is just bytes.
-Well, to be specific, they *have* to contain valid UTF-8 data, (otherwise they would just be
-regular `[u8]` slices). Instead of having a null-terminating byte, a reference to an
-[`str`](https://doc.rust-lang.org/stable/std/primitive.str.html) stores the length of the string
-alongside its pointer (just like regular slices).
-
-You have already seen one in the `print_bytes` function of the first module, now you should have a
-better understanding of how they work.
 
 Create a **function** that finds the first `\0` character of a given string, and splits it into
 two part. The first part must contain all the characters until the `\0`, and the second one must
-contain all other characters (without the `\0`). You are only allowed to use the
-[`as_bytes`](https://doc.rust-lang.org/std/primitive.str.html#method.as_bytes) function, the
-[`len`](https://doc.rust-lang.org/std/primitive.slice.html#method.len) function, as well as the
-indexing operator `s[...]`.
+contain all other characters (without the `\0`).
 
 ```Rust
 fn split_once_at_null(s: &str) -> (&str, &str);
@@ -298,11 +278,6 @@ files to turn in:
 allowed dependencies:
     ftkit
 ```
-
-It's possible to create references that cannot ever be invalidated. For example, a static variable
-cannot ever go out of scope (and therefore invalidate the references that point to it). For this
-reason, Rust has a way to describe the "infinite" lifetime (which lives as long as static memory is
-around - which itself is roughly tied to the lifetime of the whole program).
 
 Create a **function** that returns a string associated to a given key. If the key is invalid, the
 function is allowed to panic. The valid keys are numbers between 0 and 4 (included).

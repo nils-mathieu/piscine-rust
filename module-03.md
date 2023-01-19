@@ -35,19 +35,12 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
-Creating a trait is *defining* a set of capabilities types may or may not exhibit. For example, one
-could create a `PrintMyself` trait, which requires any implementator to define a `print_myself`
-method.
+Create a `PrintMyself` trait with a `print_myself` associated method. That function should be
+prototyped like this:
 
-You know what, let's do this. Create a `PrintMyself` trait with a `print_myself` method. That
-function should be prototyped like this:
-
-```Rust
+```rust
 fn print_myself(&self);
 ```
 
@@ -82,16 +75,11 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
-
-Trait are not just mere interfaces. It is possible for them to define *associated types*.
 
 Create the trait `InfallibleOps` with the following associated methods:
 
-```Rust
+```rust
 fn infallible_add(self, other: Self) -> /* ... */;
 fn infallible_mul(self, other: Self) -> /* ... */;
 ```
@@ -127,7 +115,7 @@ Create a `Vector2` type, with an `x` and `y` field and make it implement the `Ad
 following test should compile properly. You may have to add the `#[derive(Clone, Copy, Debug)]`
 attribute to your type, though.
 
-```Rust
+```rust
 #[test]
 fn basic_vector2_add() {
     let a = Vector2 { x: 12, y: 25 };
@@ -154,19 +142,11 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
-
-Deriving manually some common traits can be a bit borring. For example, in most cases, the
-`PartialEq` trait will simply check for the equality of every field of a type. To gain time, Rust
-provides the `#[derive(...)]` attribute. This attribute can be added to any Rust type to derive
-automatically some common traits.
 
 Create a Rust type. Anything. You simply have to name it `MyType`.
 
-```Rust
+```rust
 fn main() {
     let instance = MyType::default();
 
@@ -175,8 +155,7 @@ fn main() {
 }
 ```
 
-Copy the above `main` function and use the `#[derive(...)]` attribute on `MyType` to make it
-compile. You are not allowed to use the `impl` keyword!
+Copy the above `main` function and make it compile. You are not allowed to use the `impl` keyword!
 
 ## Exercise 04: n-th Successor
 
@@ -186,19 +165,13 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
-
-Sometimes, one of the methods of a trait can be expressed in term of another method. Rust allows
-you to provide a default implementation for the methods of a trait.
 
 Create a trait named `Successor`. A type deriving this trait should be able to provide a
 `successor` method with the following prototype. It should inherit the [`Sized`](https://doc.rust-lang.org/std/marker/trait.Sized.html)
 trait.
 
-```Rust
+```rust
 fn successor(self) -> Self;
 ```
 
@@ -207,7 +180,7 @@ Start by implenting this trait for basic types, like `u32`, or `i8`.
 If someone wants to get the successor's successor of a value, they may try to call the function
 twice like that:
 
-```Rust
+```rust
 assert_eq!(12u32, 10u32.successor().successor());
 ```
 
@@ -220,13 +193,13 @@ just added must not break any of the existing implementations.
 
 The method must be prototyped like this:
 
-```Rust
+```rust
 fn nth_successor(self, n: usize) -> Self;
 ```
 
 Example:
 
-```Rust
+```rust
 assert_eq!(12u32, 10u32.nth_successor(2));
 ```
 
@@ -240,9 +213,6 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 What? I thought Rust wasn't an object oriented language? You liar! Was I just learning C++ again?
@@ -255,7 +225,7 @@ To begin, let's create a `ClapTrap` trait. ClapTraps are weird creatures only fo
 underground C++ learning materials (also, a game, but let's not talk about that). A `ClapTrap`
 must implement the following methods:
 
-```Rust
+```rust
 /* Required Methods */
 fn name(&self) -> &'static str;
 fn health(&self) -> u32;
@@ -285,7 +255,7 @@ type that implenents the `ClapTrap` trait.
 Now that we know how to create ClapTraps, let's describe what `ScavTrap`s and `FragTrap`s are. Both
 traits must inherit from the `ClapTrap` trait, and require the following methods to be implemented:
 
-```Rust
+```rust
 /* ScavTrap must have the following method: */
 fn gate_keeper_mode(&self) -> bool;
 fn gate_keeper_mode_mut(&mut self) -> &mut bool;
@@ -314,7 +284,7 @@ Fiouh! That wasn't as funny as I thought... And it's not over ~
 Let's now create a `DiamondTrap` trait. That trait must inherit from both `ScavTrap` and
 `FragTrap`. It must have one additional required method.
 
-```Rust
+```rust
 fn name(&self);
 
 fn who_am_i(&self);
@@ -344,29 +314,17 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
-```
-
-As you might've understood in exercise 4, the [`Debug`](https://doc.rust-lang.org/std/fmt/trait.Debug.html)
-trait is used to print types with the `?` formatting option.
-
-```Rust
-let a: i32 = 12;
-println!("{a:?}");    // 12
-println!("{:?}", a);  // 12
 ```
 
 Implement the right trait for the following struct...
 
-```Rust
+```rust
 struct Greet;
 ```
 
 ... so that this `main` function compiles to display the text "Hey! How are you?".
 
-```Rust
+```rust
 fn main() {
     let greet = Greet;
 
@@ -397,7 +355,7 @@ write it explicitly.
 
 Here is a Rust trait:
 
-```Rust
+```rust
 trait AllowValue {
     fn allow_value(&self, value: i32) -> bool;
 }
