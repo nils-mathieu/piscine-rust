@@ -1,4 +1,4 @@
-# Module 08: Common Standard Collections
+# Module 07: Common Standard Collections
 
 ## Introduction
 

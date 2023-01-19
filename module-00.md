@@ -1,4 +1,4 @@
-# Module 00 - Hello, World!
+# Module 00: Hello, World!
 
 ## Introduction
 

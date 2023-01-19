@@ -1,4 +1,4 @@
-# Module 02 - Structs n' Co
+# Module 02: Structs n' Co
 
 ## Introduction
 

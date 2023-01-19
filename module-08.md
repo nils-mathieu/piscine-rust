@@ -1,4 +1,4 @@
-# Module 06: Functions Are Values
+# Module 08: Functions Are Values
 
 ## Introduction
 
