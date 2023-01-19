@@ -13,21 +13,19 @@ Trust the compiler. It is always (in 99% of cases) right - even when it complain
 nothing. Plus it is pretty well known to provide really good error messages. Read the errors,
 correct your code, and get over it!
 
-Internet can provide lots of resources to learn the Rust programming language. Excluding tutorials
-(I'm sure you can figure those out), you can check the [Rust Reference](https://doc.rust-lang.org/reference/)
-out for a complete (though still developing) description of the language. And, a bit further into
-the modules, you'll probably want to keep the [Rust Standard Library](https://doc.rust-lang.org/std/)'s
-documentation tabbed.
+Internet can provide lots of resources to learn the Rust programming language, but I must advice
+you to primarily focus on the official documentation. It contains the most up-to-date information
+about this rapidly evolving language.
 
 The general rules allow you to modify lint levels. Specifically, you should probably allow dead
 code. The Rust compiler often tries to warn you about unused functions, and you will probably have
 some of those during this Piscine.
 
-```Rust
+```rust
 // Add this at the begining of your files to silence all warnings ...
 #![allow(dead_code)]
 
-// ... or simply before unused functions.
+// ... or simply before any unused functions.
 #[allow(dead_code)]
 fn unused_function() {}
 ```
@@ -51,6 +49,9 @@ turn-in directory:
 
 files to turn in:
     hello.rs
+
+allowed symbols:
+    std::println
 ```
 
 What's a program without side effects?
@@ -92,6 +93,9 @@ turn-in directory:
 
 files to turn in:
     yes.rs  collatz.rs  print_bytes.rs
+
+allowed symbols:
+    std::{println, print} str::bytes
 ```
 
 Imperative programming languages usually have some kind of statement to loop. Rust has several.
@@ -101,7 +105,7 @@ cannot use the same loop kind twice.
 
 The functions should be prototyped as follows:
 
-```Rust
+```rust
 fn yes() -> !;
 fn collatz(start: u32);
 fn print_bytes(s: &str);
@@ -172,6 +176,9 @@ turn-in directory:
 
 files to turn in:
     fizzbuzz.rs
+
+allowed symbols:
+    std::{println, print}
 ```
 
 This is the final exam of the C piscine. This is YOUR moment. You *can* do it. Problem: your
@@ -222,8 +229,7 @@ Unexpected events are to be expected in any computer application. Rust makes no 
 that rule, and provides a way to "cleanly" crash a Rust program in case something unrecoverable
 occurs (such as memory failing to allocate).
 
-Create a Rust **program** that [`panic!`](https://doc.rust-lang.org/std/macro.panic.html)s with
-the message "I DON'T KNOW WHAT IS GOING ON!!".
+Create a Rust **program** that `panic!`s with the message `"I DON'T KNOW WHAT IS GOING ON!!"`.
 
 ```txt
 >_ ./dont_panic
@@ -243,8 +249,8 @@ turn-in directory:
 files to turn in:
     src/main.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::println
 ```
 
 The Rust ecosystem relies heavily on its package manager, Cargo. Cargo is a program that is
@@ -267,8 +273,8 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::{assert, assert_eq}
 ```
 
 Testing a program is probably at least half the work of a developer. Every single function of any
@@ -327,6 +333,9 @@ files to turn in:
 
 allowed dependencies:
     ftkit
+
+allowed symbols:
+    ftkit::*  std::{print, println}  std::cmp::*
 ```
 
 To end this first module, why not try to create a simple game?
@@ -338,8 +347,7 @@ game plays as follows:
 object is displayed.
 2. The user is prompted to bid the price of said object.
 3. If the user is correct, the program ends with a message congratulating them.
-4. Otherwise, a message indicates whether they overbid or underbid and the program is back to step
-2.
+4. Otherwise, a message indicates whether they overbid or underbid and the program is back to step 2.
 
 Example:
 
