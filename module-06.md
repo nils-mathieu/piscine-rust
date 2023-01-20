@@ -284,3 +284,81 @@ internal server error
 >_ cargo run -- marvin mynameismarvin
 secret code: 42
 ```
+
+## Exercise 07: Comma-Separated Values
+
+```txt
+turn-in directory:
+    ex07/
+
+files to turn in:
+    src/lib.rs  src/**/*.rs  Cargo.toml
+
+allowed symbols:
+    std::str::FromStr  str::*  std::result::Result
+    std::vec::Vec
+```
+
+Let's create a generic CSV Encoder & Decoder.
+
+A CSV file is defined like this:
+
+```txt
+value1,value1,value1,value1
+value2,value2,value2,value2
+value3,value3,value3,value3
+...
+```
+
+Each line corresponds to a *record*, and each column corresponds to a *field*.
+
+First, let's create a trait for types which may be encoded and decoded into a field value. This
+trait should define a way to write an ASCII representation of the value, as well as a way to parse
+a string into a concrete instance of the type. Error type may be as simple as unit structs.
+
+Example:
+
+```rust
+struct EncodingError;
+struct DecodingError;
+
+trait Field {
+    /* ... */
+}
+```
+
+You should implement the `Field` type for common types, such as `&str`, `u32` or `char`. Errors
+(such as invalid characters in a `&str`, or a numeric literal being too large) should return an
+error instead of panicking.
+
+With that out of the way, let's create a `Record` trait, which provides a way to access all of its
+`Field`s, as well as a way to construct an instance of itself from a list of strings.
+
+**Hint:** you might want to use dynamic dispatch (`dyn Field`) for that.
+
+```rust
+trait Record {
+    /* ... */
+}
+```
+
+Now, you have everything you need to create `decode_csv` and `encode_csv` functions.
+
+```rust
+fn encode_csv<R: Record>(records: &[R]) -> Result<String, EncodingError>;
+fn decode_csv<R: Record>(contents: &str) -> Result<Vec<R>, DecodingError>;
+```
+
+Optionally, you can try to create a macro to implement the `Record` trait automatically:
+
+```rust
+struct MyType<'a> {
+    id: u32,
+    name: &'a str,
+}
+
+// Example:
+impl_record!(MyType<'a>(u32, &'a str));
+```
+
+Write extensive tests for the two functions.
