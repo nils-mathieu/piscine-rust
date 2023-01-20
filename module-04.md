@@ -135,7 +135,7 @@ allowed symbols:
 
 Create a **function** that takes ownership of a `String` instance and prints it.
 
-```Rust
+```rust
 fn move_and_print(s: String);
 ```
 

@@ -242,7 +242,7 @@ Create a type named `Pointeur<T>` that recreates the functionalities of `Rc<T>`.
 following inherent methods as specified in the official documentation, as well as implementions for
 traits that make sense for the type.
 
-```Rust
+```rust
 impl<T> Pointeur<T> {
     fn new(value: T) -> Self;
 
@@ -364,7 +364,7 @@ files to turn in:
 
 What better way to finish this great journey but by writing your very first `C` function?
 
-```Rust
+```rust
 fn ft_putchar(c: u8);
 ```
 

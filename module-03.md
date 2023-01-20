@@ -53,7 +53,7 @@ implementations.
 
 Example:
 
-```Rust
+```rust
 fn main() {
     125u32.print_myself();
     12i8.print_myself();

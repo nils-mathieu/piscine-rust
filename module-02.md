@@ -48,7 +48,7 @@ Your type has to implement the following associated functions:
 * `distance`, which computes the distance between two existing points.
 * `translate`, which adds the vector `(dx, dy)` to the coordinates of the point.
 
-```Rust
+```rust
 impl Point {
     fn new(x: f32, y: f32) -> Self;
     fn zero() -> Self;
@@ -75,7 +75,7 @@ allowed symbols:
 Here is the definition a type named `Color`. It is used to describe color using a red, a green and
 a blue component.
 
-```Rust
+```rust
 struct Color(u8, u8, u8);
 ```
 
@@ -83,7 +83,7 @@ You assignment is to create a `name` function that computes a string representat
 of the `Color` type. That function cannot be implemented using a forest of `if` statements. The
 prototype of that function must be:
 
-```Rust
+```rust
 impl Color {
     fn name(&self) -> &str;
 }
@@ -127,7 +127,7 @@ is negative, and one for when the value is positive.
 
 The sign type must implement a method to create itself from an existing integer.
 
-```Rust
+```rust
 impl Sign {
     fn of(i: i32) -> Self;
 }
@@ -155,7 +155,7 @@ potential. Create a `Weapon` type.
 The `Weapon` type must be an `enum`. Each variant of that `enum` must be a weapon type. Add at
 least two weapon types. This type can have an associated `print` method to display its name.
 
-```Rust
+```rust
 impl Weapon {
     fn print(&self);
 }
@@ -192,7 +192,7 @@ values:
 The `Literal` type should implement a method to print its content as if it were written in a code
 file. It should also have functions to determine the type currently represented.
 
-```Rust
+```rust
 impl Literal {
     fn display(&self);
 
@@ -233,7 +233,7 @@ type-documentation to existing functions.
 
 Copy/Past the following code and make it compile by adding type alias definitions.
 
-```Rust
+```rust
 fn seconds_to_minutes(seconds: Seconds) -> Minutes {
     seconds / 60.0
 }
@@ -266,7 +266,7 @@ allowed symbols:
 
 Here is a `struct` definition.
 
-```Rust
+```rust
 struct User {
     id: u64,
     first_name: &'static str,
@@ -280,7 +280,7 @@ struct User {
 Copy this definition in your `lib.rs` file, and create a function to create the following
 functions.
 
-```Rust
+```rust
 impl User {
     fn basic() -> Self;
     fn new(id: u64, first_name: &'static str) -> Self;

@@ -42,7 +42,7 @@ allowed symbols:
 
 Create a **function** that takes another function as its input and calls it twice.
 
-```Rust
+```rust
 fn call_twice(f: fn());
 ```
 
@@ -111,7 +111,7 @@ files to turn in:
 As you should have noticed in the previous exercise, closures are capable of capturing data present
 in their scope.
 
-```Rust
+```rust
 #[derive(Clone)]
 struct Pikachu;
 

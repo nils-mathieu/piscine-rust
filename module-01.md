@@ -44,14 +44,14 @@ quite a bit harder, however.
 
 Create a **function** that adds two integers together. It should be prototyped as follows:
 
-```Rust
+```rust
 fn add(a: &i32, b: i32) -> i32;
 ```
 
 Now, create another function, but this time, it should store the result of the operation in the
 first number.
 
-```Rust
+```rust
 fn add_assign(a: &mut i32, b: i32);
 ```
 
@@ -74,7 +74,7 @@ files to turn-in:
 Rust won't ever allow you to create a dangling reference (a reference whose pointed value has been
 lost).
 
-```Rust
+```rust
 fn main() {
     let b;
 
@@ -110,14 +110,14 @@ allowed symbols:
 Do you remember the point of the exercise 01 from the first module? You had to create a function
 prototyped as so:
 
-```Rust
+```rust
 fn min(a: i32, b: i32) -> i32;
 ```
 
 The assignment of this exercise is to write the same exact function, but this time, the inputs of
 this function are references.
 
-```Rust
+```rust
 fn min(a: &i32, b: &i32) -> &i32;
 ```
 
@@ -144,13 +144,13 @@ allowed symbols:
 
 Your assignment is to create a **function** that adds two instances of `[i32; 3]` index-wise.
 
-```Rust
+```rust
 fn add_vectors(a: [i32; 3], b: [i32; 3]) -> [i32; 3];
 ```
 
 Example:
 
-```Rust
+```rust
 let a = [1, 2, 3];
 let b = [2, 3, 4];
 assert_eq!(add_vectors(a, b), [3, 5, 7]);
@@ -175,7 +175,7 @@ Create a **function** that computes the smallest subslice whose sum is above a g
 multiple sub-slices of the same length are above the treshold, the first one is returned. If no
 such slice is found, the empty slice is returned.
 
-```Rust
+```rust
 fn smallest_subslice(slice: &[u32], threshold: &u32) -> &[u32];
 ```
 
@@ -192,7 +192,7 @@ Once again, you may need to specify some *lifetime annotations* for the function
 your annotations are correct for that case, you can use this pre-defined `test_lifetimes` function.
 It must compile.
 
-```Rust
+```rust
 #[test]
 fn test_lifetimes() {
     let array = [3, 4, 1, 2, 12];
@@ -224,7 +224,7 @@ Iterating over an array is fine, but doing that while modifying it is better!
 
 Create a **function** that sorts a slice of `i32`s.
 
-```Rust
+```rust
 fn sort_slice(slice: &mut [i32]);
 ```
 
@@ -247,7 +247,7 @@ Create a **function** that finds the first `\0` character of a given string, and
 two part. The first part must contain all the characters until the `\0`, and the second one must
 contain all other characters (without the `\0`).
 
-```Rust
+```rust
 fn split_once_at_null(s: &str) -> (&str, &str);
 ```
 
@@ -255,7 +255,7 @@ If no `\0` is found in the string, the function panics with an appropriate messa
 
 Example:
 
-```Rust
+```rust
 assert_eq!(split_once_at_null("Hello\0World"), ("Hello\0", "World"));
 ```
 
@@ -329,7 +329,7 @@ Let's finish this module with an easy one.
 
 Copy this bit of code inside of the `main` function.
 
-```Rust
+```rust
 dbg!(std::mem::size_of::<i32>());
 dbg!(std::mem::size_of::<&i32>());
 dbg!(std::mem::size_of::<[i32; 6]>());

@@ -46,7 +46,7 @@ Note that this wasn't previously possible! You can't modify a `&T`.
 
 Create a **function** that swaps the content two `Cell<i32>`s.
 
-```Rust
+```rust
 fn swap_cells(a: &Cell<i32>, b: &Cell<i32>);
 ```
 
@@ -57,7 +57,7 @@ time, or a `&T` to a value that can be modified.
 Let's complicate things a bit. Implement the following function, which also swaps the content of
 the cells.
 
-```Rust
+```rust
 fn swap_cells_string(a: &Cell<String>, b: &Cell<String>);
 ```
 
@@ -83,7 +83,7 @@ First, let's create a `Weapon` `enum`. This type may have the variants you wish,
 
 Example:
 
-```Rust
+```rust
 #[derive(Debug, Clone, Copy)]
 enum Weapon {
     Club,
@@ -119,7 +119,7 @@ variants of your choice.
 
 Then, implement the following functions.
 
-```Rust
+```rust
 impl Error {
     fn last_error() -> Self;
     fn make_last_error(self);

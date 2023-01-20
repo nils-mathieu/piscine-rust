@@ -94,13 +94,13 @@ largest odd number.
 
 You are *not* allowed to use `for` loops or semicolons `';'` when implementing the function.
 
-```Rust
+```rust
 fn largest_odd_number(input: &str) -> u32;
 ```
 
 For example:
 
-```Rust
+```rust
 let a = "2   15 4  13";
 let b = "42 \t 235\n10 1000";
 let c = "1 bonjour 20 au revoir 10"
@@ -129,13 +129,13 @@ Without using `for` loops or even semicolons `';'`, implement the `collect_words
 This function must produce a `Vec<usize>` containing the length of every word of `input` (words
 are separate by whitespace characters).
 
-```Rust
+```rust
 fn collect_(input: &str) -> Vec<u32>;
 ```
 
 Example:
 
-```Rust
+```rust
 let input = "1  bonjour 20 au revoir 23    \t test 3"
 let vec = collect_words_len(input);
 

@@ -176,13 +176,13 @@ write write this whole function without using a single semicolon ";".
 
 The function should be prototyped like so:
 
-```Rust
+```rust
 fn my_function(input: &str) -> Result<u32, MyError>;
 ```
 
 Example:
 
-```Rust
+```rust
 assert_eq!(my_function("12"), Ok(12 * 42 + 100));
 assert_eq!(my_function("1000000000"), Err(MyError::CantMultiply));
 ```

@@ -41,7 +41,7 @@ allowed symbols:
 
 Create a **function** that randomly chooses a value among an input slice.
 
-```Rust
+```rust
 fn choose<T>(values: &[T]) -> &T;
 ```
 
@@ -62,7 +62,7 @@ allowed symbols:
 
 Copy the following trait into your `main.rs` file.
 
-```Rust
+```rust
 impl PrintMyself {
     fn print_myself(&self);
 }
@@ -102,7 +102,7 @@ Create a `Vector` type.
 The `Vector` type must have a `new` associated function to create an instance of `Vector`. The
 prototype of that function should be:
 
-```Rust
+```rust
 impl<T> Vector<T> {
     fn new(x: T, y: T) -> Self;
 }
@@ -160,7 +160,7 @@ Again? Yes. Another `min` function! But I promise, this one's the last one.
 Create a `min` function that takes *any* two values of a type that supports the `<` operator, and
 returns the smaller one.
 
-```Rust
+```rust
 assert_eq!(min(12i32, -14i32), -14);
 assert_eq!(min(12u32, 14u32), 12);
 assert_eq!(min("abc", "def"), "abc");
@@ -184,7 +184,7 @@ allowed symbols:
 Create a generic trait named `StaturateInto` with one method. This trait should be generic
 over a `T`. It should require one method named `saturate_into` whose prototype is:
 
-```Rust
+```rust
 fn saturate_into(self) -> T;
 ```
 
@@ -194,7 +194,7 @@ type (depending on whether the input value is too large or too small).
 
 Example:
 
-```Rust
+```rust
 assert_eq!(10u32.saturate_into(), 10u8);
 assert_eq!(-16i8.saturate_into(), -16i16);
 assert_eq!(-200i32.saturate_into(), 0u32);
@@ -229,7 +229,7 @@ values. Those traits are already implemented for most of the Standard Library's 
 
 Copy the following type definition into your file.
 
-```Rust
+```rust
 struct EvenValue(u32);
 ```
 
@@ -239,7 +239,7 @@ function panics.
 
 Create tests for your implementation! You must include the following tests.
 
-```Rust
+```rust
 #[test]
 fn even_into_even() {
     let v: EvenValue = 12u32.into();
