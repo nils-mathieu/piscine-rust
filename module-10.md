@@ -3,7 +3,7 @@
 ## Introduction
 
 Nowdays, CPUs tend to have more than one core. And even without that, modern operating systems
-provide ways to execute multiple programs at the some time. Those programs may even share the same
+provide ways to execute multiple programs at the same time. Those programs may even share the same
 memory! In that case, we call those sub-programs "threads".
 
 A thread is just another executing context for an already existing process. Rust provides ways to
@@ -33,6 +33,10 @@ files to turn in:
 
 allowed dependencies:
     ftkit
+
+allowed symbols:
+    ftkit::random_number  std::thread::spawn  std::thread::JoinHandle
+    std::println
 ```
 
 Create a **program** that starts 5 threads. Each thread must wait half a second, generate a random
@@ -64,6 +68,10 @@ files to turn in:
 
 allowed dependencies:
     ftkit
+
+allowed symbols:
+    ftkit::random_number  std::thread::scope  std::thread::ScopedJoinHandle
+    std::env::args  std::println
 ```
 
 Create a **program** that takes a single string as an argument.
@@ -97,20 +105,10 @@ turn-in directory:
 files to turn in:
     src/main.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::thread::scoped  std::thread::ScopedJoinHandle
+    std::sync::Mutex  std::vec::Vec  std::println
 ```
-
-If a Rust program compiles, then it is *guarenteed* not to exhibit any memory unsafety (as long as
-`unsafe` code is not involved, of course, but that's a topic for later).
-
-This memory unsafety can be a bit hard to uphold when multiple threads are executing and operating
-on the same data at the same time. Reading data at the same time is always fine (this is what the
-previous exercise what about). But writing... Oh boy, this is a whole computer science subject.
-
-A way to safely access a given value while modifying it at multiple places simulatenously is to use
-a mechanism called "mutual exclusion". Mutex, for short. The idea is pretty simple: if you want to
-modify the protected value, you first check if someone is already accessing it. If so, you wait.
 
 Create a **program** that starts 10 threads. Each thread is assigned a number. As soon as they
 start, each thread must append their number to a list (you can use a `Vec<T>` for that). When every
@@ -123,10 +121,6 @@ Example:
 [1, 2, 4, 0, 3, 5, 6, 7, 8, 9]
 ```
 
-Rust provides other constructs which may suite your needs better, such as [`RwLock`](https://doc.rust-lang.org/stable/std/sync/struct.RwLock.html),
-[atomics](https://doc.rust-lang.org/stable/std/sync/atomic/index.html) or [channels](https://doc.rust-lang.org/stable/std/sync/mpsc/index.html),
-but those are outside the scope of this piscine.
-
 ## Exercise 03: `Arc` And Arrows
 
 ```txt
@@ -138,13 +132,13 @@ files to turn in:
 
 allowed dependencies:
     ftkit
+
+allowed symbols:
+    std::thread::spawn  std::sync::Arc  std::println
+    ftkit::random_number
 ```
 
-[`Arc<T>`] stands for Atomically Reference Counted. This type manages an allocation that remains
-live until all [`Arc<T>`]s that reference it are dropped.
-
-Without using [scoped threads](https://doc.rust-lang.org/std/thread/fn.scope.html), you must write
-a **program** that does the following:
+Create a **program** that follows the following steps:
 
 1. First a thread is spawned. The thread increments a number by one.
 2. After that, the thread has 1/2 chance to create two new threads doing the exact same thing.
@@ -163,69 +157,20 @@ Example:
 21 threads
 ```
 
-[`Arc<T>`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
-
-## Exercise 04: Errno
+## Exercise 04: SOMEBODY TOUCHA MY SPAGHET??
 
 ```txt
 turn-in directory:
     ex04/
 
 files to turn in:
-    src/lib.rs  Cargo.toml
-
-allowed dependencies:
-
-```
-
-The `errno` global variable available in `#include <errno.h>` is "thread-local; setting it in one
-thread does not affect its value in any other thread" - `man errno`.
-
-Let's create our own `errno`! Rust has platform-independent mechanisms to create
-[thread-local variables](https://doc.rust-lang.org/stable/std/macro.thread_local.html).
-
-First, create an `enum` named `Error`. This type can have the variants of your choice.
-
-Example:
-
-```Rust
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum Error {
-    Success,
-    AmbiguousRedirect,
-    CommandNotFound,
-    IsADirectory,
-    FileNotFound,
-    FileAlreadyExists,
-    Interrupted,
-}
-```
-
-Then, implement the following functions.
-
-```Rust
-impl Error {
-    fn last_error() -> Self;
-    fn make_last_error(self);
-}
-```
-
-The `Error::make_last_error` function must set the calling thread's last `Error` instance. The
-`Error::last_error` function must return the calling thread's last `Error` instance.
-
-Write tests to verify that the two function are indeed thread-local.
-
-## Exercise 05: SOMEBODY TOUCHA MY SPAGHET??
-
-```txt
-turn-in directory:
-    ex05/
-
-files to turn in:
     src/main.rs  Cargo.toml
 
 allowed dependencies:
     ftkit
+
+allowed symbols:
+    std::*
 ```
 
 Philosophers are hungry creatures. In their life, there is only two things: spaghetti and sleep.
@@ -268,9 +213,8 @@ thread '<unnamed>' panicked at 'SOMEBODY TOUCHA MY SPAGHET??', src/main.rs:24:29
 still alive: [1, 3]
 ```
 
-You can modify the [panic hook](https://doc.rust-lang.org/std/panic/fn.set_hook.html) and/or the
-[thread's name](https://doc.rust-lang.org/std/thread/struct.Builder.html) to make panic messages
-display the name of the philosopher instead.
+You can modify the *panic hook* and/or the thread's name to make panic messages display the name
+of the philosopher instead.
 
 ## Exercise 06: PI * Rayon * Rayon
 
@@ -283,6 +227,9 @@ files to turn in:
 
 allowed dependencies:
     ftkit  rayon
+
+allowed symbols:
+    std::*  rayon::prelude::*
 ```
 
 To finish with this module, let's look at a popular third-party crate!

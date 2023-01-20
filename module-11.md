@@ -98,6 +98,39 @@ interior mutability.
 With that done, write a **program** that showcases two `Wariors` sharing the same weapon. Modify
 that weapon and verify that the weapon of both wariors properly changed.
 
+## Exercise 04: Errno
+
+```txt
+turn-in directory:
+    ex04/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::thread_local
+```
+
+The `errno` global variable available in `#include <errno.h>` is "thread-local; setting it in one
+thread does not affect its value in any other thread" - `man errno`.
+
+Let's create our own `errno`! First, create an `enum` named `Error`. This type can have the
+variants of your choice.
+
+Then, implement the following functions.
+
+```Rust
+impl Error {
+    fn last_error() -> Self;
+    fn make_last_error(self);
+}
+```
+
+The `Error::make_last_error` function must set the calling thread's last `Error` instance. The
+`Error::last_error` function must return the calling thread's last `Error` instance.
+
+Write tests to verify that the two function are indeed thread-local.
+
 ## Exercise 02: `Rc<T>`
 
 ```txt
