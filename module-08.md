@@ -35,6 +35,9 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::println
 ```
 
 Create a **function** that takes another function as its input and calls it twice.
@@ -45,7 +48,7 @@ fn call_twice(f: fn());
 
 Write a **main** function that proves the passed function is indeed called twice.
 
-## Exercise 01: Generic Function Pointers (`call_twice` v2)
+## Exercise 01: Associated Functions (`call_twice` v2)
 
 ```txt
 turn-in directory:
@@ -54,24 +57,24 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::{assert*}
 ```
 
-Function pointers are cool, but they are pretty limited. Specifically, it is not possible to make
-them to reference any data.
+Create a trait named `Action` with a single associated method.
 
-One way to work around this problem - and this is the only way to do it in C - is to pass a custom
-parameter along with the function pointer.
-
-```Rust
-fn call_twice<T>(data: &mut T, f: fn(&mut T));
+```rust
+fn perform_action(&mut self);
 ```
 
-This time, the `call_twice` function must pass the `data` parameter to the function pointer when
-calling it. This allow the passed function to access some custom state.
+Create a type to implement your trait, and re-write the `call_twice` method to make use of your
+trait.
 
-You must write test for this new functions.
+```rust
+fn call_twice<A: Action>(action: A);
+```
+
+Write tests to show that the `perform_action` method has been properly called twice.
 
 ## Exercise 02: Closures (`call_twice` v3)
 
@@ -82,20 +85,15 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::{assert*}
 ```
 
-The pattern presented in the previous exercise is so common, in fact, that the Rust language
-provides a way to do it more easily: [closures](https://doc.rust-lang.org/rust-by-example/fn/closures.html).
-
-```Rust
+```rust
 fn call_twice<F: FnMut()>(f: F);
 ```
 
-Notice how the type parameter implements the [`FnMut()`](https://doc.rust-lang.org/std/ops/trait.FnMut.html)
-trait. This indicates that the "data" parameter is taken by mutable reference (i.e. `&mut Data`).
-How would using [`Fn()`](https://doc.rust-lang.org/std/ops/trait.Fn.html) or [`FnOnce()`](https://doc.rust-lang.org/std/ops/trait.FnOnce.html)
+Notice how the type parameter implements the `FnMut()` trait. How would using `Fn()` or `FnOnce()`
 change the semantics of the function?
 
 You must provide tests to show that the function works.
@@ -108,9 +106,6 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 As you should have noticed in the previous exercise, closures are capable of capturing data present
@@ -120,16 +115,16 @@ in their scope.
 #[derive(Clone)]
 struct Pikachu;
 
-fn one(f: impl FnOnce() -> Pikachu) {
+fn one<F: FnOnce() -> Pikachu>(f: F) {
     let _ = f();
 }
 
-fn two(mut f: impl FnMut() -> Pikachu) {
+fn two<F: FnMut() -> Pikachu>(mut f: F) {
     let _ = f();
     let _ = f();
 }
 
-fn three(f: impl Fn() -> Pikachu) {
+fn three<F: Fn() -> Pikachu>(f: F) {
     let _ = f();
     let _ = f();
     let _ = f();
