@@ -2,7 +2,17 @@
 
 ## Introduction
 
-In Rust, functions have a type, a size, and can be stored on the stack like any other value.
+Rust provides multiple kinds of functions. Well, in the end, a function is a function. But Rust
+allows you to do some cool things with functions, bringing it a bit closer to purely functional
+languages.
+
+Specifically, in Rust, functions are just like any regular values. You can pass them to other
+functions to call them later, you can return them from other functions. A function that does that
+is said to be of "higher order".
+
+But in the end, a function is just a bunch of machine instructions that our beloved CPU can jump to
+in order to do things. This module will teach you how Rust uses this fairly simple concept to turn
+it into something very powerful (and pretty complicated).
 
 ## General Rules
 
@@ -25,13 +35,7 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
-
-A function is a block of the memory that the CPU can jump to. A function pointer, as its name
-suggests it, is the memory address of such block.
 
 Create a **function** that takes another function as its input and calls it twice.
 
