@@ -146,3 +146,128 @@ functions above. You are only allowed to use each function once.
 
 How did you choose? What does `move` means? Would those calls work without it? Why? You will be
 asked during defense.
+
+## Exercise 04: Once No More
+
+```txt
+turn-in directory:
+    ex04/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::clone::Clone  std::ops::{FnMut, FnOnce}
+```
+
+Create a function that turns a `FnOnce` function into an `Fn` function.
+
+```rust
+fn once_no_more(f: impl Clone + FnOnce()) -> impl Fn();
+```
+
+Example:
+
+```rust
+let f2 = once_no_more(|| ());
+f2();
+f2();
+f2();
+```
+
+You must write tests!
+
+## Exercise 05: GREP
+
+```txt
+turn-in directory:
+    ex05/
+
+files to turn in:
+    src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::ops::Fn  str::{len, split_at}  std::env::args
+```
+
+Let's create a Generic Regular Expression Parser. A regular expression is basically a function that
+takes a string, and returns how many characters matched the string.
+
+In other words, a regular expression is basically anythuing that matches this signature:
+
+```rust
+impl Fn(&str) -> bool
+```
+
+Let's start small. The most basic regular expression simply matches anything.
+
+```rust
+fn match_anything() -> impl Fn(&str) -> bool;
+```
+
+The `match_anything` function returns a function that, when given a string, always returns `true`.
+
+Another basic regular expression is simply a string to match exactly.
+
+```rust
+fn match_exactly(to_match: &str) -> impl Fn(&str) -> bool;
+```
+
+The `match_exactly` function must return a function that returns whether it was given `to_match`.
+
+Let's complicate things a bit: let's create a combinantor.
+
+```rust
+fn match_any(
+    first: impl Fn(&str) -> bool,
+    second: impl Fn(&str) -> bool,
+) -> impl Fn(&str) -> bool;
+```
+
+The `match_any` returns a function that, when given a string, returns whether that string matches
+either the `first` or `second` regular expression.
+
+Finally, let's create another combinator to chain two regular expressions together.
+
+```rust
+fn match_chain(
+    first: impl Fn(&str) -> bool,
+    second: impl Fn(&str) -> bool,
+) -> impl Fn(&str) -> bool;
+```
+
+The `match_chain` function returns a function that, when given a string, returns whether it can be
+split in two, such that the first part matches with `first` and the second part matches with
+`second`.
+
+With those tools, create a **program** that takes a single parameter as input (the program can
+panic in case an invalid input is given) and verifies whether it is a valid e-mail address of the
+following form:
+
+```txt
+*@*[.com,.fr]
+```
+
+In other words: anything, followed by an `@`, followed by anything, followed by either `.com` or
+`.fr`.
+
+Example:
+
+```txt
+>_ cargo run -- ""
+no
+>_ cargo run -- a
+no
+>_ cargo run -- @.
+no
+>_ cargo run -- @.fr
+yes
+>_ cargo run -- test@example.com
+yes
+>_ cargo run -- @com.com
+yes
+>_ cargo run -- a@.fr
+yes
+>_ cargo run -- a.fr
+no
+```
