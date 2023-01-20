@@ -200,7 +200,7 @@ files to turn in:
 
 allowed symbols:
     std::println  std::eprintln  str::parse  std::result::Result
-    std::num::{ParseIntError, IntErrorKind}
+    std::num::{ParseIntError, IntErrorKind}  std::env::args
 ```
 
 Create a **program** that takes exactly one argument. If no arguments (or more than one) are
