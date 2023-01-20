@@ -156,6 +156,7 @@ files to turn in:
 
 allowed symbols:
     std::alloc::*  std::ptr::* std::ops::*  std::clone::Clone  std::marker::*
+    std::{assert*}
 ```
 
 Let's re-create the `Box<T>` type ourselves. Your type will be named `Carton<T>` and must have the
@@ -196,6 +197,7 @@ files to turn in:
 
 allowed symbols:
     std::ops::*  std::cell::UnsafeCell  std::ptr::*  std::marker::*
+    std::{assert*}
 ```
 
 Let's re-create our own `Cell<T>` named `Cellule<T>`.
@@ -233,6 +235,7 @@ files to turn in:
 
 allowed symbols:
     std::alloc::*  std::ptr::*  std::ops::*  std::marker::*
+    std::{assert*}
 ```
 
 Create a type named `Pointeur<T>` that recreates the functionalities of `Rc<T>`. You write the
@@ -279,6 +282,7 @@ files to turn in:
 
 allowed symbols:
     std::alloc::*  std::ptr::*  std::ops::*  std::iter::{Iterator, IntoIterator}
+    std::{assert*}
 ```
 
 To finish with this module, let's re-create our own `Vec<T>`. Your type will be named `Tableau<T>`.
