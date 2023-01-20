@@ -216,11 +216,11 @@ still alive: [1, 3]
 You can modify the *panic hook* and/or the thread's name to make panic messages display the name
 of the philosopher instead.
 
-## Exercise 06: PI * Rayon * Rayon
+## Exercise 05: PI * Rayon * Rayon
 
 ```txt
 turn-in directory:
-    ex06/
+    ex05/
 
 files to turn in:
     src/main.rs  Cargo.toml
