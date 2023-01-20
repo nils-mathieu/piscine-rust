@@ -34,7 +34,8 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed dependencies:
-    std::*
+    std::iter::*  std::collections::*  std::vec::*
+    str::*
 ```
 
 Let's start with something simple. Create a `main` function that showcases multiple `for` loops.
@@ -154,7 +155,7 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::*
+    std::println  std::iter::Iterator  std::vec::Vec  std::option::Option
 ```
 
 To finish this short module, create a type named `Primes`. This type must implement the
@@ -194,7 +195,7 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::*
+    std::iter::Iterator  std::option::Option
 ```
 
 To finish, let's create our own iterator adaptor.

@@ -170,7 +170,7 @@ allowed dependencies:
     ftkit
 
 allowed symbols:
-    std::*
+    std::thread::*  std::sync::{Arc, Mutex}  std::println
 ```
 
 Philosophers are hungry creatures. In their life, there is only two things: spaghetti and sleep.
@@ -229,7 +229,7 @@ allowed dependencies:
     ftkit  rayon
 
 allowed symbols:
-    std::*  rayon::prelude::*
+    std::iter::* rayon::prelude::*  std::println  std::env::args
 ```
 
 To finish with this module, let's look at a popular third-party crate!
