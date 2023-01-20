@@ -6,8 +6,8 @@ This module is the first that'll actually look at the Rust Standard Library's ty
 library is a separate crate automatically included in every Rust project. There is ways to disable
 it, but this is beyond the scope of this piscine.
 
-The standard library, while not as large as C++'s, exports lots of useful types and constructs to
-help you create efficient software. This module will introduce you to some of them.
+The Rust standard library, while not as large as C++'s, exports lots of useful types and constructs
+to help you create efficient software. This module will introduce you to some of them.
 
 ## General Rules
 
@@ -31,8 +31,8 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::{assert*, matches, panic}
 ```
 
 The Rust type system can be used to represent optional values. Create an `enum` that can either
@@ -44,7 +44,7 @@ value stored in the input `Maybe<T>` instance, or panic if it contains nothing.
 You should also provide two methods to quickly test whether a `Maybe<T>` instance contains
 something or not.
 
-```Rust
+```rust
 impl<T> Maybe<T> {
     fn get_or_panic(self) -> T;
 
@@ -65,24 +65,24 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::option::Option  std::{assert*}
 ```
 
 Because it is such a common pattern, the Rust Standard Library already defines the `Maybe<T>` type
-for you. It is named [`Option<T>`](https://doc.rust-lang.org/std/option/enum.Option.html). That
-type is used to encode the potential non-existence of a value.
+for you. It is named `Option<T>`. That type is used to encode the potential non-existence of a
+value.
 
 Create a **function** that computes the square root of an integer. If the input of the function is
 a perfect square, then its square root is returned. Otherwise, `None` is returned.
 
-```Rust
+```rust
 fn int_sqrt(n: u32) -> Option<u32>;
 ```
 
 Example:
 
-```Rust
+```rust
 assert_eq!(int_sqrt(16), Some(4));
 assert_eq!(int_sqrt(15), None);
 ```
@@ -98,16 +98,15 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    <[T]>::len  std::option::Option
 ```
 
 Create a generic function `index_of` that returns the index of the first element of a slice that
-matches another element. If no such element is found, `None` is returned. You are only allowed to
-use the [`len`](https://doc.rust-lang.org/std/primitive.slice.html#method.len) function, as well as
-the indexing operator `slice[...]`. The function should be prototyped like this:
+matches another element. If no such element is found, `None` is returned. The function should be
+prototyped as follows:
 
-```Rust
+```rust
 fn index_of<T: PartialEq>(slice: &[T], elem: &T) -> Option<usize>;
 ```
 
@@ -121,14 +120,11 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-
 ```
 
 Copy the following `main` function:
 
-```Rust
+```rust
 fn main() {
     dbg!(std::mem::size_of::<usize>());
     dbg!(std::mem::size_of::<Option<usize>>());
@@ -138,7 +134,7 @@ fn main() {
 ```
 
 Can you explain why `Option<usize>` takes more space than `usize` whereas `Option<&u8>` takes as
-much memory as a regular `&u8`?
+much memory as a regular `&u8`? You will be asked during defense.
 
 ## Exercise 04: Binds & Maps
 
@@ -149,8 +145,8 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    u32::{checked_*}  str::parse  std::result::Result  std::{assert*}
 ```
 
 Something has gone wrong, return the error. Otherwise continue. Something has gone wrong, return
@@ -158,7 +154,7 @@ the error. Otherwise continue. Something has gone wrong, return the error. Other
 Something has gone wrong, return the error. Otherwise continue. Something has gone wrong, return
 the error. Otherwise continue. Something has gone wrong, return the error. Otherwise continue.
 
-```Rust
+```rust
 #[derive(Debug, PartialEq)]
 enum MyError {
     CantParse,
@@ -202,14 +198,13 @@ turn-in directory:
 files to turn in:
     src/main.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::println  std::eprintln  str::parse  std::result::Result
+    std::num::{ParseIntError, IntErrorKind}
 ```
 
-Create a **program** that takes exactly one argument. You can look at the [`std::env::args()`](https://doc.rust-lang.org/std/env/fn.args.html)
-function to learn how to retrieve those.
-
-If no arguments (or more than one) are passed, the program prints an error message.
+Create a **program** that takes exactly one argument. If no arguments (or more than one) are
+passed, the program prints an error message but *does not panic*.
 
 The single argument is parsed into an `i32` instance. If the convertion is a success, the function
 prints a message indicating that the convertion is a success. If an error occurs, a message
@@ -230,7 +225,7 @@ positive overflow: the provided value overflows the type `i32`
 
 You must not create your own "atoi" function, use what Rust gives you!
 
-## Exercise 06: Invalid Credentials
+## Exercise 06: What Time Is It?
 
 ```txt
 turn-in directory:
@@ -239,50 +234,38 @@ turn-in directory:
 files to turn in:
     src/main.rs  Cargo.toml
 
-allowed dependencies:
-    ftkit
+allowed symbols:
+    std::str::FromStr  std::fmt::*  str::*  std::result::Result
 ```
 
-Create a type named `LoginError` which will represent a connection error (to an admin page, for
-example). It should represent any of the following errors.
+Create a type named `Time` responsible for storing, well, a time.
 
-* The server is not available. This will randomly happen once every five attempts on average.
-* The passed credentials are invalid and do not match any existing user.
-* The credentials were valid but the user do not have the required permissions to access the admin
-  page.
+```rust
+fn main() {
+    let a: Time = "12:20".parse().unwrap();
+    let b: Time = "15:14".parse().unwrap();
 
-Now that you are done with the error type, let's create the function that uses it. Create a
-function named `admin_login`, taking a `login` and a `password`.
+    println!("{a}");
+    println!("{b}");
 
-```Rust
-type Secret = u32;
-
-fn admin_login(login: &str, password: &str) -> Result<Secret, LoginError>;
+    let err1: TimeParseError = "12.20".parse::<Time>().unwrap_err();
+    let err2: TimeParseError = "12:2".parse::<Time>().unwrap_err();
+    let err3: TimeParseError = "12:2a".parse::<Time>().unwrap_err();
+    println!("error: {err1}");
+    println!("error: {err2}");
+    println!("error: {err3}");
+}
 ```
 
-If the function succeeds, a secret number is returned by the function. If an error occurs, the
-right `LoginError` variant should be returned.
-
-Now that you have built your awesome web server, you can create a `main` function!
-
-* If the number of arguments passed to the function is not `2`, an error is displayed and the
-  program stops.
-* Otherwise, the first argument is the login, and the second one is the password. Those values are
-  passed to the `admin_login` function.
-
-Example:
+Implement the right traits such that the above code produces the following output.
 
 ```txt
->_ cargo run -- xXdarkXx chien123
-internal server error
->_ cargo run -- xXdarkXx chien123
-invalid credentials
->_ cargo run -- xXdarkXx chien23
-not an admin
->_ cargo run -- marvin mynameismarvin
-internal server error
->_ cargo run -- marvin mynameismarvin
-secret code: 42
+>_ cargo run
+12 hours, 20 minutes
+15 hours, 14 minutes
+error: missing ':'
+error: invalid length
+error: invalid number
 ```
 
 ## Exercise 07: Comma-Separated Values
