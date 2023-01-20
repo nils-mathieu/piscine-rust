@@ -300,9 +300,6 @@ impl<T> Tableau<T> {
     fn pop(&mut self) -> Option<T>;
 
     fn clear(&mut self);
-
-    fn into_iter() -> IntoIter<T>;
-    // You will have to write our own `IntoIter` iterator.
 }
 ```
 
@@ -348,10 +345,48 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed dependencies:
-    libc
+    libc  cstr
+
+allowed symbols:
+    libc::free  std::cstr::CStr  cstr::cstr  std::ops::Index
 ```
 
-// TODO
+Rust is cool and all, but not everything was written in Rust (to my greatest despair). Being able
+to speak C is a huge part of any programming language.
+
+Find your `ft_split.c` function you had written during your piscine, and turn it into a static
+`ft_split.a` library. Try to get Cargo to link against your library and call that function within
+your Rust code.
+
+With that out of the way, create a *safe* wrapper for this *wildly* unsafe C function.
+
+```rust
+impl Splits {
+    /// Calls C's `ft_split`. Panics on memory errors.
+    fn perform(s: &CStr, c: u8) -> Self;
+
+    /// Returns number of splits.
+    fn len(&self) -> usize;
+    /// Returns whether there is no splits.
+    fn is_empty(&self) -> bool;
+}
+```
+
+Note the `Splits` type. It needs to properly manage the allocation returned by C `ft_split` to
+prevent memory leaks.
+
+It must be possible to use this type in this way (you must implement the correct traits for
+this to work).
+
+```rust
+let splits = Splits::new(cstr::cstr!("a b c"), b' ');
+
+assert_eq!(&splits[0], cstr::cstr!("a"));
+assert_eq!(&splits[1], cstr::cstr!("b"));
+assert_eq!(&splits[2], cstr::cstr!("c"));
+```
+
+You must write extensive tests to verify that you haven't cheated your libft. 👀
 
 ## Exercise 07: `ft_putchar`
 
@@ -371,6 +406,6 @@ fn ft_putchar(c: u8);
 
 You can't use any function or symbol from the standard library apart from the `std::arch::asm!`
 macro. If you want to make sure nothing gets into your sacred namespace, you can use the
-`#![no_implicit_prelude]`  global attribute.
+`#![no_implicit_prelude]` global attribute.
 
 You can optionally provide a `main` function to showcase your work of art.
