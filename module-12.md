@@ -95,7 +95,7 @@ let val = unsafe { get_unchecked(slice, 2) };
 unsafe impl Zeroable for u64 {}
 ```
 
-To summerize:
+To summarise:
 
 * `unsafe fn` means "know what you are doing before calling this function".
 * `unsafe trait` means "know what you are doing before implementing this trait".
