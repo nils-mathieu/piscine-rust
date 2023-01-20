@@ -8,7 +8,7 @@ inheritance-driven languages usually use (think Java, C# or C++ without template
 In Rust, we tend to use static dispatch by default. The idea is pretty simple: re-compile the
 function for every possible type that needs it. This allows more optimized code, but longer compile
 times and potentially larger binary sizes. In practice, the binary size can be easily managed. As
-for compilation times, this is still a work in progress issue.
+for compilation times, this is still [a work in progress issue](https://perf.rust-lang.org/).
 
 ## General Rules
 
@@ -30,10 +30,13 @@ turn-in directory:
     ex00/
 
 files to turn in:
-    src/lib.rs  Cargo.toml
+    src/main.rs  Cargo.toml
 
 allowed dependencies:
     ftkit
+
+allowed symbols:
+    <[T]>::len  std::println
 ```
 
 Create a **function** that randomly chooses a value among an input slice.
@@ -42,7 +45,7 @@ Create a **function** that randomly chooses a value among an input slice.
 fn choose<T>(values: &[T]) -> &T;
 ```
 
-Add tests to show this function works as expected.
+You can write a `main` function to show that the function works as expected.
 
 ## Exercise 01: Print Yourself, I'll Greet You
 
@@ -53,12 +56,9 @@ turn-in directory:
 file to turn in:
     src/main.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::{print, println}
 ```
-
-Creating simple generic functions isn't very useful: you know nothing about the input type! Knowing
-what types can and cannot do is specifically what traits are for!
 
 Copy the following trait into your `main.rs` file.
 
@@ -88,8 +88,8 @@ turn-in directory:
 file to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::fmt::*  std::cmp::PartialEq  std::{assert*}
 ```
 
 Structures too, can be generic over some other type.
@@ -121,8 +121,10 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::fmt::*  std::cmp::*  std::ops::*  std::{assert*}
+    std::clone::Clone  std::marker::Copy  f32::sqrt
+    f64::sqrt
 ```
 
 Copy the previous exercise here (the `Vector<T>` type). This simple vector type, by itself, isn't
@@ -136,11 +138,7 @@ Not every type has support for the square root operation. In fact, only `f32` an
 associated `sqrt` function.
 
 Implement specifically for both `Vector<f32>` and `Vector<f64>` a `length` function that computes
-its length (you can use the [`f32::sqrt`](https://doc.rust-lang.org/std/primitive.f32.html#method.sqrt)
-and [`f64::sqrt`](https://doc.rust-lang.org/std/primitive.f64.html#method.sqrt) functions for
-that).
-
-The length of a vector can be computed using this formula: `‖(x, y)‖ = sqrt(x² + y²)`.
+its length. The length of a vector can be computed using this formula: `‖(x, y)‖ = sqrt(x² + y²)`.
 
 You have to provide more tests for that.
 
@@ -153,8 +151,8 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::cmp::PartialOrd  std::{assert*}
 ```
 
 Again? Yes. Another `min` function! But I promise, this one's the last one.
@@ -170,7 +168,7 @@ assert_eq!(min("abc", "def"), "abc");
 
 You must provide tests for your function.
 
-## Exercise 05: Generic Traits
+## Exercise 05: Saturating Convertion
 
 ```txt
 turn-in directory:
@@ -179,38 +177,37 @@ turn-in directory:
 files to turn in:
     src/main.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::{assert*}
 ```
 
-Traits too can be generic! For example, the [`Add`](https://doc.rust-lang.org/std/ops/trait.Add.html)
-trait is generic over the type of the second operand.
-
-Create a generic trait named `Convert` with one method. This trait should be generic over a `T`. It
-should require one method named `convert` whose prototype is:
+Create a generic trait named `StaturateInto` with one method. This trait should be generic
+over a `T`. It should require one method named `saturate_into` whose prototype is:
 
 ```Rust
-fn convert(self) -> T;
+fn saturate_into(self) -> T;
 ```
 
 Where `T` is the output of the convertion. If the convertion isn't possible (such as trying to
-convert `260u32` into an `u8`), the function should panic with an appropriate message.
+convert `260u32` into an `u8`), the function should use the maximum or minimum value of the target
+type (depending on whether the input value is too large or too small).
 
 Example:
 
 ```Rust
-assert_eq!(10u32.convert(), 10u8);
-assert_eq!(-16i8.convert(), -16i16);
+assert_eq!(10u32.saturate_into(), 10u8);
+assert_eq!(-16i8.saturate_into(), -16i16);
+assert_eq!(-200i32.saturate_into(), 0u32);
 ```
 
-Implement the `Convert` trait for some types. Don't bother implementing it for every possible
+Implement the `SaturateInto` trait for some types. Don't bother implementing it for every possible
 combinaison of primitive types (unless you want to use this exercise as a way to learn
-[`macro_rules!`](https://doc.rust-lang.org/rust-by-example/macros.html)). You'll simply have to
-provide *some* implementations to showcase how the trait is used.
+[`macro_rules!`]). You'll simply have to provide *some* implementations to showcase how the trait
+is used.
 
 Anything can be converted into itself. Formally, for any given type `T`, it's possible to implement
-the `Convert<T>` trait. Create a *blacket implementation* of the `Convert<T>` trait for every `T`.
-In that case, the `convert` method simply returns its input.
+the `SaturateInto<T>` trait. Create a *blacket implementation* of the `SaturateInto<T>` trait for
+every `T`. In that case, the `saturate_into` method simply returns its input.
 
 You must provide tests for the trait implementations.
 
@@ -223,8 +220,8 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::{assert*}
 ```
 
 The Rust standard library already provides traits to convert values [`From`] and [`Into`] other
@@ -259,24 +256,52 @@ fn odd_into_even() {
 Why does the `u32` type suddenly has the `into()` method?? You only implemented the `From<u32>`
 trait...
 
-## Exercise 07: Comma-Separated Values
+## Exercise 07: Pseudo-Random
 
 ```txt
 turn-in directory:
     ex07/
 
 files to turn in:
-    src/lib.rs  src/**/*.rs  Cargo.toml
+    src/main.rs  Cargo.toml
 
 allowed dependencies:
+    ftkit
 
+allowed symbols:
+    ftkit::random_number  std::println  std::maker::Sized
+    {u8, u16, ..}::{from_ne_bytes, to_ne_bytes}
+```
+
+Create a `Generate` trait with a single associated method:
+
+```rust
+fn generate() -> Self;
+```
+
+The `generate` method should generate a random instance of the implementator.
+
+Implement this trait for several types, such as `u8` or `u64` and showcase this trait being used
+in a `main` function.
+
+## Exercise 08: Comma-Separated Values
+
+```txt
+turn-in directory:
+    ex08/
+
+files to turn in:
+    src/lib.rs  src/**/*.rs  Cargo.toml
+
+allowed symbols:
+    std::str::FromStr  str::parse  std::result::Result
 ```
 
 Let's create a generic CSV Encoder & Decoder.
 
 A CSV file is defined like this:
 
-```csv
+```txt
 value1,value1,value1,value1
 value2,value2,value2,value2
 value3,value3,value3,value3
@@ -291,7 +316,7 @@ a string into a concrete instance of the type. Error type may be as simple as un
 
 Example:
 
-```Rust
+```rust
 struct EncodingError;
 struct DecodingError;
 
@@ -309,7 +334,7 @@ With that out of the way, let's create a `Record` trait, which provides a way to
 
 **Hint:** you might want to use dynamic dispatch (`dyn Field`) for that.
 
-```Rust
+```rust
 trait Record {
     /* ... */
 }
@@ -317,19 +342,20 @@ trait Record {
 
 Now, you have everything you need to create `decode_csv` and `encode_csv` functions.
 
-```Rust
+```rust
 fn encode_csv<R: Record>(records: &[R]) -> Result<String, EncodingError>;
 fn decode_csv<R: Record>(contents: &str) -> Result<Vec<R>, DecodingError>;
 ```
 
 Optionally, you can try to create a macro to implement the `Record` trait automatically:
 
-```Rust
+```rust
 struct MyType<'a> {
     id: u32,
     name: &'a str,
 }
 
+// Example:
 impl_record!(MyType<'a>(u32, &'a str));
 ```
 
