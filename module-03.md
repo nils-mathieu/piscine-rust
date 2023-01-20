@@ -19,8 +19,8 @@ This module will teach what traits are, how they work, and why they are so impor
 Any program you turn in should compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
 in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
-section are allowed. Every exercise you turn in that uses the `cargo` package manager must be part
-of the `workspace.members` table declared for the whole module.
+section are allowed. Every exercise that uses the `cargo` package manager must be part of a single
+virtual Cargo workspace, a single `workspace.members` table must be declared for the whole module.
 
 Any program you turn in should compile *without warnings* using the `rustc` compiler available on
 the school's machines without additional options. You are allowed to use attributes to modify lint

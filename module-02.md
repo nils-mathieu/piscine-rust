@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Using primitive types will only get so far. Composing those types into larger types is the way to
-go! Rust makes good use of encapsulation, product and sum types, and more generally, algebraic data
-types to enpower developpers into constructing powerful abstractions without losing any bit of
+Using primitive types will only get you so far. Composing those types into larger types is the way
+to go! Rust makes good use of encapsulation, product and sum types, and more generally, algebraic
+data types to enpower developpers into constructing powerful abstractions without losing any bit of
 performance.
 
 This module will show you how to create new types to better represent the data you manipulate. By
@@ -16,8 +16,8 @@ them.
 Any program you turn in should compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
 in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
-section are allowed. Every exercise you turn in that uses the `cargo` package manager must be part
-of the `workspace.members` table declared for the whole module.
+section are allowed. Every exercise that uses the `cargo` package manager must be part of a single
+virtual Cargo workspace, a single `workspace.members` table must be declared for the whole module.
 
 Any program you turn in should compile *without warnings* using the `rustc` compiler available on
 the school's machines without additional options. You are allowed to use attributes to modify lint
