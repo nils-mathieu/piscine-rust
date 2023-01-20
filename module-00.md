@@ -96,7 +96,7 @@ files to turn in:
     yes.rs  collatz.rs  print_bytes.rs
 
 allowed symbols:
-    std::{println, print} str::bytes
+    std::{println, print}  str::bytes
 ```
 
 Imperative programming languages usually have some kind of statement to loop. Rust has several.
@@ -224,11 +224,13 @@ turn-in directory:
 
 files to turn in:
     dont_panic.rs
+
+allowed symbols:
+    std::panic
 ```
 
 Unexpected events are to be expected in any computer application. Rust makes no *exception* to
-that rule, and provides a way to "cleanly" crash a Rust program in case something unrecoverable
-occurs (such as memory failing to allocate).
+that rule, and provides a way to "cleanly" crash a Rust program.
 
 Create a Rust **program** that `panic!`s with the message `"I DON'T KNOW WHAT IS GOING ON!!"`.
 
@@ -301,8 +303,8 @@ The first two terms of the sequence are `F0 = 0` and `F1 = 1`.
 * The `is_prime` function returns whether `n` is a prime number.
 
 In case of an error, the test should panic with an appropriate error message, but you are *not*
-allowed to use the `panic!` macro. Instead, you can [`assert!`](https://doc.rust-lang.org/std/macro.assert.html)
-that a specific value has been properly returned.
+allowed to use the `panic!` macro. Instead, you can `assert!` that a specific value has been
+properly returned.
 
 ```txt
 >_ cargo test
