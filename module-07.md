@@ -2,15 +2,14 @@
 
 ## Introduction
 
-The Rust standard library may not be as large as C++'s, but it does contain some very useful
-data-structures.
+Manipulating memory directly is a very involved process and Rust cannot give you the power to do it
+without, at the same time, giving you ways to shoot yourself in the foot. For example, in Rust,
+functions like `malloc` and `free` cannot be used directly, because the lifetime of the memory they
+create does not behave like normal references created to values living on the stack. Instead, such
+reference lives "until it is `free`d", which can be hard to keep track for the Borrow Checker.
 
-Specifically, manipulating memory directly is a very involved process and Rust cannot give you the
-power to do it without, at the same time, giving you ways to shoot yourself in the foot. For
-example, functions like `malloc` and `free` cannot be used directly, because the lifetime of the
-memory they create does not behave like normal references created to values living on the stack.
-
-This module will teach you how to use a few of those data-structures.
+The Rust Standard Library hence provides some structures to safely access allocated memory
+addresses. This module will teach you how to use a few of those data-structures.
 
 ## General Rules
 
@@ -34,23 +33,19 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::boxed::Box
 ```
 
-The simplest kind of container is the [`Box<T>`]. A [`Box<T>`] is just a pointer to a `malloc`ed
-instance of `T`. It is called a "smart" pointer because it automatically `free`s its pointer when
-it is [`Drop`](https://doc.rust-lang.org/std/ops/trait.Drop.html)ed.
-
-Let's create a simple linked-list using [`Box<T>`]s.
+Let's create a simple linked-list. As said in the introduction, you can't directly allocate memory
+on the heap using something like `malloc`.
 
 Create a `Node<T>` type, respondible for storing an instance of `T`, as well as an optional `next`
-    
 `Node<T>`.
 
-With that, create a `List<T>` tpye which simply contains an optional `Node<T>`.
+With that, create a `List<T>` tpye which simply contains an optional first `Node<T>`.
 
-```Rust
+```rust
 struct List<T> {
     head: Option<Node<T>>
 }
@@ -64,9 +59,9 @@ impl<T> List<T> {
     /// Adds an element at the front of the list.
     fn push_front(&mut self, elem: T);
 
-    /// Removes the last element of the list.
+    /// Removes the last element of the list and returns it.
     fn remove_back(&mut self) -> Option<T>;
-    /// Removes the first element of the list.
+    /// Removes the first element of the list and returns it.
     fn remove_front(&mut self) -> Option<T>;
 
     /// Removes all elements from the list.
@@ -75,8 +70,6 @@ impl<T> List<T> {
 ```
 
 In any case, you must write tests for mandatory functions.
-
-[`Box<T>`]: https://doc.rust-lang.org/std/boxed/struct.Box.html
 
 ## Exercise 01: List Of Indexes
 
@@ -87,19 +80,14 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::vec::Vec  str::char_indices
 ```
-
-Storing values on the stack is cool and all. But sometimes, it's not possible to know in advance
-the number of things you will have to store. Rust gives you several abstractions over collections
-of elements, available under the [`collections`](https://doc.rust-lang.org/std/collections/index.html)
-module of the Standard Library.
 
 Create a **function** that takes a string as input, and returns the index of every occurence of a
 character `c` in that string. The function should be prototyped as follows:
 
-```Rust
+```rust
 fn indexes_of(s: &str, c: char) -> Vec<usize>;
 ```
 
@@ -108,14 +96,14 @@ bellow shows that behaviour.
 
 Example:
 
-```Rust
+```rust
 let indexes = indexes_of("les élèves s'élèvent", 'e');
 assert_eq!(indexes, [1, 10, 21]);
 ```
 
 You must write tests!
 
-## Exercise 02: `ft_split`
+## Exercise 02: Cumulative Sum
 
 ```txt
 turn-in directory:
@@ -124,30 +112,26 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::vec::Vec
 ```
 
-Create a **function** that splits a string `s` using every character in `sep` as a separator. It
-should be prototyped like so:
+Create a **function** named `cumulative_sum` which takes a slice as an input, and computes its
+cumulative sum.
 
-```Rust
-fn ft_split(s: &str, sep: &str) -> Vec<&str>;
+```rust
+fn cumulative_sum(series: &[u32]) -> Vec<u32>;
 ```
-
-You may have to add *lifetime annotations* to the function ;). Try to make those as general as
-possible: the `sep` reference shouldn't be bound to `s`'s lifetime.
 
 Example:
 
-```Rust
-let substrings = ft_split("Hello\tWorld \t Test  ", "\t ");
-assert_eq!(substrings, ["Hello", "World", "Test"]);
+```rust
+assert_eq!(cumulative_sum(&[1, 2, 2, 3]), [1, 3, 5, 8]);
 ```
 
-You must write tests for the function! More tests! More tests! More tests!
+You must write proper tests for your function.
 
-## Exercise 03: For Each Move
+## Exercise 03: For Each Move, For Each Reference
 
 ```txt
 turn-in directory:
@@ -156,24 +140,30 @@ turn-in directory:
 files to turn in:
     src/lib.rs
 
-allowed dependencies:
-
+alowed symbols:
+    std::string::String::len
 ```
 
-The elements stored in a `Vec<T>` are owned. Dropping the vector will automatically drop its
-elements. One way to access the content of a vector is using `for` loops.
-
-Create a function that looks for a `String` of length `len` in its provided vector. If found, the
+Create a **function** that looks for a `String` of length `len` in its provided vector. If found, the
 `String` is returned. Otherwise, `None` is returned. If multiple strings of the same length are
 found in the vector, only the first one is returned.
 
-```Rust
-fn find_str_of_len(v: Vec<String>, len: usize) -> Option<String>;
+```rust
+fn ind_str_of_len(v: Vec<String>, len: usize) -> Option<String>;
 ```
 
 You must write tests for your function!
 
-## Exercise 04: For Each Reference
+With that out of the way, create a new **function** that returns a reference to the first string of
+length `len`.
+
+```rust
+fn find_str_of_len_ref(v: &Vec<String>, len: usize) -> Option<&String>;
+```
+
+You must write tests for those two functions.
+
+## Exercise 04: `Vec<T>` And `[T]`
 
 ```txt
 turn-in directory:
@@ -182,40 +172,15 @@ turn-in directory:
 files to turn in:
     sec/lib.rs
 
-allowed dependencies:
-
-```
-
-Sometimes you might want to avoid losing a whole vector every time you're looking for something
-inside of it. In other words, instead of *moving* it, you just want to *borrow* it.
-
-Create a **function** that returns a reference to the first string of length `len`.
-
-```Rust
-fn find_str_of_len(v: &Vec<String>, len: usize) -> Option<&String>;
-```
-
-Note that, this time, the ownership of the vector is not transfered to the `find_str_of_len`
-function.
-
-## Exercise 05: `Vec<T>` And `[T]`
-
-```txt
-turn-in directory:
-    ex05/
-
-files to turn in:
-    sec/lib.rs
-
-allowed dependencies:
-
+allowed symbols:
+    <[T]>::swap  std::vec::Vec::{push, pop}
 ```
 
 Taking a constant reference to a `Vec<T>` does not make much sense since you can't really do
-anything more than what you'd be able to with a regular `&[String]` slice. However, mutable
+anything more than what you'd be able to with a regular `&[T]` slice. However, mutable
 reference are very much different.
 
-```Rust
+```rust
 fn reverse<T>(list: /* ??? */);
 fn resize<T: Default>(list: /* ??? */, new_size: usize);
 ```
@@ -230,10 +195,6 @@ the list. Otherwise, the values simply removed.
 Implement both of these functions, replacing the `/* ??? */` comment with an appropriate storage
 type (either `&mut Vec<T>` or `&mut [T]`). You will have to explain your choice during defense.
 
-You are allowed to use the [`Vec::push`](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.push),
-[`Vec::pop`](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.pop), and
-[`std::mem::swap`](https://doc.rust-lang.org/std/mem/fn.swap.html) functions.
-
 Write tests for both functions.
 
 ## Exercise 06: Dictionary
@@ -245,11 +206,11 @@ turn-in directory:
 files to turn in:
     sec/main.rs
 
-allowed dependencies:
-
+allowed symbols:
+    std::collection::HashMap  std::env::args
 ```
 
-Create a dictionary program. It should include *some* definitions and can be used as specified in
+Create a dictionary program. It should include some definitions and can be used as specified in
 this example:
 
 ```txt
@@ -265,8 +226,8 @@ error: I do not know anything about that...
 >_ cargo run -- a b c
 error: Woah, I can't look up more than one word! Who do you take me for?
 A computer?
->_ cargo run --
-error: Yes? What do you want?
+>_ cargo run
+error: Yes? What do you want? I think you forgot how to speak...
 ```
 
 The defnitions can be modified, words can be added, error messages can be edited.
