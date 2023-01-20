@@ -18,8 +18,8 @@ determine whether a program is valid or not.
 Any program you turn in should compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
 in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
-section are allowed. Every exercise that uses the `cargo` package manager must be part of the
-`workspace.members` table declared for the whole module.
+section are allowed. Every exercise that uses the `cargo` package manager must be part of a single
+virtual Cargo workspace, a single `workspace.members` table must be declared for the whole module.
 
 Any program you turn in should compile *without warnings* using the `rustc` compiler available on
 the school's machines without additional options. You are allowed to use attributes to modify lint
@@ -34,6 +34,9 @@ turn-in directory:
 
 files to turn-in:
     src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::{assert*}
 ```
 
 Creating a reference isn't exactly an involved process. Using those references properly can be
@@ -88,7 +91,8 @@ This exercise simply requires you to understand why above code does not compile 
 *shouldn't* compile). Don't try to fix it, and just be prepared to being asked what happened here
 during defense.
 
-Copy this flawed `main` into your project and move on to the next exercise.
+Copy this flawed `main` into your project, comment it so that the project still compiles and move
+on to the next exercise.
 
 ## Exercise 02: Point Of No Return (v2)
 
@@ -98,6 +102,9 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::{assert*}
 ```
 
 Do you remember the point of the exercise 01 from the first module? You had to create a function
@@ -130,13 +137,12 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::{assert*}
 ```
 
-What about arrays? Contiguous arrays are a core component of most languages out there, and Rust has
-them in two flavors.
-
-The first flavor is *"arrays"*. Those are compile-time sized and can be created on the stack. Your
-assignment is to create a **function** that adds two instances of `[i32; 3]` index-wise.
+Your assignment is to create a **function** that adds two instances of `[i32; 3]` index-wise.
 
 ```Rust
 fn add_vectors(a: [i32; 3], b: [i32; 3]) -> [i32; 3];
@@ -162,12 +168,8 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    <[u32]>::len
+    std::{assert*}  <[u32]>::len
 ```
-
-The second array flavor in Rust is *"slices"*. Slices are just like regular arrays, except their
-size is not known at compile time. Instead, each reference to a *slice* stores the number of
-elements they point to *with* their pointer, allowing the developper to easily create sub-slices.
 
 Create a **function** that computes the smallest subslice whose sum is above a given treshold. When
 multiple sub-slices of the same length are above the treshold, the first one is returned. If no
@@ -215,7 +217,7 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    <[i32]>::len
+    std::{assert*}  <[i32]>::{len, swap}
 ```
 
 Iterating over an array is fine, but doing that while modifying it is better!
@@ -228,7 +230,7 @@ fn sort_slice(slice: &mut [i32]);
 
 You must provide tests!
 
-## Exercise 06: String Slices
+## Exercise 06: Is That A `\0` Is My String??
 
 ```txt
 turn-in directory:
@@ -238,7 +240,7 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    str::as_bytes
+    std::{assert*}  str::as_bytes
 ```
 
 Create a **function** that finds the first `\0` character of a given string, and splits it into
@@ -257,7 +259,8 @@ Example:
 assert_eq!(split_once_at_null("Hello\0World"), ("Hello\0", "World"));
 ```
 
-You must write tests for this function!
+You must write tests for this function! Specifically, there must be a test that verifies the
+function properly panics when given a string with no `\0`.
 
 ## Exercise 07: Static References
 
@@ -272,7 +275,7 @@ allowed dependencies:
     ftkit
 
 allowed symbols:
-    ftkit::random_number
+    std::{println, print, panic, assert*}  ftkit::random_number
 ```
 
 Create a **function** that returns a string associated to a given key. If the key is invalid, the
