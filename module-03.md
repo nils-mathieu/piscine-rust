@@ -4,7 +4,7 @@
 
 If the C programming language had only one flaw, it would be its poorly reusable code. This
 language makes it very difficult to write code that may be used in multiple similar situations,
-especially when the only thing that changes is a bunch of types. If wasn't an issue at first
+especially when the only thing that changes is a bunch of types. It wasn't an issue at first
 because everything was basically an `int`. Things have changed a bit.
 
 Rust fixes this by providing a way to encode what types have in common - their traits. In fact, the
@@ -12,7 +12,7 @@ Rust type system wouldn't be very useful without traits. If you are comming from
 object-oriented language, you may already be familliar with them: those are basically interfaces on
 steroids.
 
-This module will teach what traits are, how they work, and why they are so important.
+This module will teach you what traits are, how they work, and why they are so important.
 
 ## General Rules
 
@@ -35,6 +35,9 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::println
 ```
 
 Create a `PrintMyself` trait with a `print_myself` associated method. That function should be
@@ -75,6 +78,9 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::{assert*}
 ```
 
 Create the trait `InfallibleOps` with the following associated methods:
@@ -103,13 +109,9 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::ops::*  std::cmp::*  std::{assert*}
 ```
-
-In Rust, common operators such as `+` or `/` are just fancy function calls. The function that is
-called when writing `a + b` is the `Add::add` function (the `add` associated function of the `Add`
-trait).
 
 Create a `Vector2` type, with an `x` and `y` field and make it implement the `Add` trait. The
 following test should compile properly. You may have to add the `#[derive(Clone, Copy, Debug)]`
@@ -130,9 +132,6 @@ Now that you understand how to overload the `+` operator, do the same thing for 
 `-=`, and `==` operators.
 
 You must write tests for every function you write!
-
-**Tip:** you may want to check the Standard Library's [documentation](https://doc.rust-lang.org/std)
-out.
 
 ## Exercise 03: Dry Boilerplate
 
@@ -165,14 +164,16 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::{assert*}
 ```
 
 Create a trait named `Successor`. A type deriving this trait should be able to provide a
-`successor` method with the following prototype. It should inherit the [`Sized`](https://doc.rust-lang.org/std/marker/trait.Sized.html)
-trait.
+`successor` method with the following prototype.
 
 ```rust
-fn successor(self) -> Self;
+fn successor(&self) -> Self;
 ```
 
 Start by implenting this trait for basic types, like `u32`, or `i8`.
@@ -213,6 +214,9 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::println
 ```
 
 What? I thought Rust wasn't an object oriented language? You liar! Was I just learning C++ again?
@@ -314,6 +318,9 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::fmt::Display
 ```
 
 Implement the right trait for the following struct...
@@ -348,6 +355,9 @@ files to turn in:
 
 allowed dependencies:
     ftkit
+
+allowed symbols:
+    std::println
 ```
 
 In Rust, everything has to be explicit. If you're not going to use concrete types, you'll have to

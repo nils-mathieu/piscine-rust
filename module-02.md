@@ -32,6 +32,9 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::{assert, assert_eq}
 ```
 
 Let's create a simple datastructure. Create a `struct` representing a 2D point, which itself
@@ -64,6 +67,9 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::{assert, assert_eq}
 ```
 
 Here is the definition a type named `Color`. It is used to describe color using a red, a green and
@@ -110,6 +116,9 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::{assert, assert_eq}
 ```
 
 Create an `enum` that represents the sign of a number. That type should be named `Sign` and should
@@ -135,6 +144,9 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::println
 ```
 
 Create a type named `Warior`. Wariors are very strong, but they need weapons to unleash their full
@@ -153,7 +165,7 @@ The `Warior` type must store a *reference* to a `Weapon`.
 
 Create a `main` function that showcases two `Warior`s sharing the same `Weapon` instance.
 
-## Exercise 04: Literal Value
+## Exercise 04: Algebraic Data Type
 
 ```txt
 turn-in directory:
@@ -163,7 +175,7 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::matches
+    std::{matches, assert*}
 ```
 
 C-like enumerations are nice, but we can do better!
@@ -214,9 +226,6 @@ turn-in directory:
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed symbols:
-    std::{println, print}
 ```
 
 Rust allows you to create type aliases. This functionality can be used to provide more precise
@@ -250,6 +259,9 @@ turn-in directory:
 
 files to turn in:
     src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::{assert*}
 ```
 
 Here is a `struct` definition.
@@ -300,10 +312,10 @@ turn-in directory:
     ex07/
 
 files to turn in:
-    src/main.rs  Cargo.toml
+    src/main.rs src/**/*.rs  Cargo.toml
 
 allowed symbols:
-    <[T]>::len
+    std::{assert*, println}   <[T]>::len
 ```
 
 Let's simulate a simple computer using the Rust programming language. A computer is basically made

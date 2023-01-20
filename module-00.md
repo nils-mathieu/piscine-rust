@@ -96,7 +96,7 @@ files to turn in:
     yes.rs  collatz.rs  print_bytes.rs
 
 allowed symbols:
-    std::{println, print}  str::bytes
+    std::println  str::bytes
 ```
 
 Imperative programming languages usually have some kind of statement to loop. Rust has several.
@@ -179,7 +179,7 @@ files to turn in:
     fizzbuzz.rs
 
 allowed symbols:
-    std::{println, print}
+    std::println
 ```
 
 This is the final exam of the C piscine. This is YOUR moment. You *can* do it. Problem: your
