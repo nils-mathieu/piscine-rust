@@ -335,7 +335,8 @@ assert_eq!(v, [1, 2, 4]);
 
 In any case, you must write extensive tests for your type. Valgrind may be used to detect invalid
 operations (which would means that you have used `unsafe` incorrectly .\\/.). Be careful of
-`panic!`s, they can happen anytime you call a function that you didn't write.
+`panic!`s, they can happen anytime you call a function that you didn't write. Remember the
+`DropDetector`? No?
 
 ## Exercise 06: Foreign Function Interface
 

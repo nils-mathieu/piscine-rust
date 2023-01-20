@@ -1,4 +1,4 @@
-# Module 11: Interior Mutability And Smart Pointers
+# Module 11: Interior Mutability
 
 ## Introduction
 
@@ -9,8 +9,8 @@ at the same time is *required*.
 
 The Rust language provides some escape hatches to account for those cases: interior mutability.
 
-You already have encountered a case for interior mutability: [`Mutex<T>`](https://doc.rust-lang.org/std/sync/struct.Mutex.html).
-This module will explore this topic more thoroughly.
+You already have encountered a case for interior mutability: `Mutex<T>`. This module will explore
+this topic more thoroughly.
 
 ## General Rules
 
@@ -34,11 +34,11 @@ turn-in directory:
 files to turn in:
     src/main.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::cell::Cell::{get, set, replace, take}
 ```
 
-The standard library provides the [`Cell<T>`] type. This type wraps a value of type `T` allows
+The standard library provides the `Cell<T>` type. This type wraps a value of type `T` allows
 mutation through simple shared references. In other words, if you have a `&Cell<T>`, you can modify
 the `T`.
 
@@ -50,7 +50,7 @@ Create a **function** that swaps the content two `Cell<i32>`s.
 fn swap_cells(a: &Cell<i32>, b: &Cell<i32>);
 ```
 
-Note that the [`Cell<T>`] type does not let you directly access its underlying value. This is
+Note that the `Cell<T>` type does not let you directly access its underlying value. This is
 because you are *still* not allowed to have two `&mut T` pointing to the same value at the same
 time, or a `&T` to a value that can be modified.
 
@@ -60,9 +60,6 @@ the cells.
 ```rust
 fn swap_cells_string(a: &Cell<String>, b: &Cell<String>);
 ```
-
-You can't use [`Cell::swap`](https://doc.rust-lang.org/std/cell/struct.Cell.html#method.swap) for
-any of those two functions! That would obviously be too easy.
 
 You must write tests for those two functions!
 
@@ -75,8 +72,8 @@ turn-in directory:
 files to turn in:
     src/main.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::cell::Cell
 ```
 
 First, let's create a `Weapon` `enum`. This type may have the variants you wish, but at least two.
@@ -98,17 +95,17 @@ interior mutability.
 With that done, write a **program** that showcases two `Wariors` sharing the same weapon. Modify
 that weapon and verify that the weapon of both wariors properly changed.
 
-## Exercise 04: Errno
+## Exercise 02: Errno
 
 ```txt
 turn-in directory:
-    ex04/
+    ex02/
 
 files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::thread_local
+    std::thread_local  std::cell::Cell
 ```
 
 The `errno` global variable available in `#include <errno.h>` is "thread-local; setting it in one
@@ -131,51 +128,46 @@ The `Error::make_last_error` function must set the calling thread's last `Error`
 
 Write tests to verify that the two function are indeed thread-local.
 
-## Exercise 02: `Rc<T>`
+## Exercise 03: Drop Detector
 
 ```txt
 turn-in directory:
-    ex02/
+    ex04/
 
 files to turn in:
-    src/lib.rs  Cargo.toml
+    src/main.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::ops::Drop  std::println  std::rc::Rc  std::cell::Cell  std::{assert*}
 ```
 
-You've already seen [`Arc<T>`](https://doc.rust-lang.org/std/sync/struct.Arc.html), the Atomically
-Reference Counter pointer. [`Rc<T>`](https://doc.rust-lang.org/std/rc/struct.Rc.html) is its
-non-[`Send`](https://doc.rust-lang.org/std/marker/trait.Send.html) counterpart.
+Create a type that detects when it is dropped. Specifically, every time an instance of this type
+is dropped, it must update a value. That value must obiously be stored *outside* of itself so that
+you can check it afterwards.
 
-## Exercise 03: `RefCell<T>`
+The type should roughly work like that:
 
-```txt
-turn-in directory:
-    ex03/
+```rust
+let count = /* ... */;
 
-files to turn in:
-    src/lib.rs  Cargo.toml
+let checked_drop = vec![
+    DropDetector::new(count.clone()),
+    DropDetector::new(count.clone()),
+    DropDetector::new(count.clone()),
+    DropDetector::new(count.clone()),
+    DropDetector::new(count.clone()),
+];
 
-allowed dependencies:
-
+assert_eq!(count.get(), 0);
+drop(DropDetector::new(count));
+assert_eq!(count.get(), 1);
+drop(checked_drop);
+assert_eq!(count.get(), 6);
 ```
 
-As you have may have seen in the previous exercise, `Cell<T>` can be a bit hard to use with types
-that do not implement the [`Copy`](https://doc.rust-lang.org/std/marker/trait.Copy.html) trait.
-Sometimes, you *need* to have a mutable reference to the underlying value. For this reason, the
-standard library has the [`RefCell<T>`] type.
+Write more tests for your type. Try multiple containers, and ways to store the `DropDetector`s.
 
-// TODO
-
-One downside of both [`RefCell<T>`] and [`Cell<T>`] is that neither of those types are
-[`Sync`](https://doc.rust-lang.org/std/marker/trait.Sync.html), meaning that they cannot be used
-on multiple threads at the same time. This is because the mechanism they use to provide interior
-mutable access assumes that no other thread can break any of their invariants. If you need an
-thread-safe equivalent of [`RefCell<T>`], you are looking for a [`Mutex<T>`](https://doc.rust-lang.org/std/sync/struct.Mutex.html)
-or a [`RwLock<T>`](https://doc.rust-lang.org/std/sync/struct.RwLock.html).
-
-## Exercise 04: Traversing A Graph
+## Exercise 04: Internet
 
 ```txt
 turn-in directory:
@@ -184,12 +176,96 @@ turn-in directory:
 files to turn in:
     src/lib.rs  Cargo.toml
 
-allowed dependencies:
-
+allowed symbols:
+    std::cell::RefCell  std::iter::*  std::rc::Rc  std::{assert*}
+    std::string::String
 ```
 
-// TODO
+Create a type named `Internet`. This type must have an associated `send_message` which stores a
+message inside of internet. It must also have a `messages_of` method that returns an iterator over
+someone's messages.
 
-[`Cell<T>`]: https://doc.rust-lang.org/std/cell/struct.Cell.html
-[`RefCell<T>`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html
-[`Rc<T>`]: https://doc.rust-lang.org/std/rc/struct.Rc.html
+```rust
+impl Internet {
+    fn send_message(&self, author: &str, message: &str);
+    fn messages_of(&self, author: &str) -> impl Iterator<Item = Ref<&str>>;
+}
+```
+
+Next, let's create a `Phone` type. Each `Phone` is logged in as a specific user, and every message
+sent by the `Phone` will use that name.
+
+```rust
+impl Phone {
+    fn new(connection: &Internet, name: &str) -> Self;
+    fn send(&self, message: &str);
+}
+```
+
+Create tests to showcase multiple phones communicating through "internet", as well as messages
+being retrieved using `messages_of`.
+
+## Exercise 05: A Double-Linked List
+
+```txt
+turn-in directory:
+    ex05/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::cell::{RefCell, Ref, Mut}  std::{assert*}  std::rc::{Rc, Weak}
+```
+
+You previously created a singly-linked list using `Box<T>`. Creating a doubly-linked list that way
+is not possible in Rust.
+
+Create a doubly-linked list.
+
+```rust
+struct NodeCursor<'list, T> { /* ... */ }
+struct List<T> { /* ... */ }
+
+impl<T> List<T> {
+    /// Creates a new, empty, [`List<T>`].
+    fn new() -> Self;
+
+    /// Returns a cursor to the head of the list if it is not empty.
+    fn cursor<'a>(&'a self) -> Option<NodeCursor<'a, T>>;
+
+    /// Clears the list, removing any existing element.
+    fn clear(&mut self);
+}
+
+impl<'a, T> NodeCursor<'a, T> {
+    /// Tries to advance the cursor by one.
+    ///
+    /// If the function lands on a node, a reference to the value of that node
+    /// is returned. Otherwise, `None` is returned.
+    fn move_next(&mut self) -> Option<Mut<T>>;
+
+    /// Tries to advance the cursor back by one.
+    ///
+    /// If the function lands on a node, a reference to the value of that node
+    /// is returned. Otherwise, `None` is returned.
+    fn move_prev(&mut self) -> Option<Mut<T>>;
+
+    /// Tries to borrow the value beneath the cursor.
+    fn value(&self) -> Ref<T>;
+    /// Tries to mutably borrow the value beneath the cursor.
+    fn value_mut(&self) -> Mut<T>
+
+    /// Removes the current node, consuming the cursor.
+    fn remove(self);
+
+    /// Inserts a new node *after* the current one.
+    fn insert_after(&self, value: T);
+    /// Inserts a new node *before* the current one.
+    fn insert_before(&self, value: T);
+}
+```
+
+You must write extensive tests for your functions and types. Specifically, you must never leak
+memory. You can check that with Valgrind.
+

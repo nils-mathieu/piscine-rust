@@ -34,7 +34,7 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::boxed::Box
+    std::boxed::Box  std::option::Option
 ```
 
 Let's create a simple linked-list. As said in the introduction, you can't directly allocate memory
