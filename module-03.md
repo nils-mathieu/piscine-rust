@@ -16,7 +16,7 @@ This module will teach you what traits are, how they work, and why they are so i
 
 ## General Rules
 
-Any exercise you turn in should compile using the `cargo` package manager, either with `cargo run`
+Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
 in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
 section are allowed. Every exercise that uses the `cargo` package manager must be part of a single
@@ -97,8 +97,8 @@ any possible result of the operation `self + other` (or `self * other`).
 For example, the result of `250u8 + 10u8` cannot be represented by the `u8` type, but it fits in
 the `u16` type!
 
-Implement the `InfallibleOps` trait for common types, such as `i8`, `u8`, or `u32`. Provide tests
-to show the functions are working as expected.
+Implement the `InfallibleOps` trait for some common types, such as `i8`, `u8`, or `u32`. Provide
+tests to show the functions are working as expected.
 
 ## Exercise 02: Operator Overloading
 
@@ -110,11 +110,12 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::ops::*  std::cmp::*  std::{assert*}
+    std::ops::{Add, AddAssign, Sub, SubAssign}
+    std::{assert*}
 ```
 
 Create a `Vector2` type, with an `x` and `y` field and make it implement the `Add` trait. The
-following test should compile properly. You may have to add the `#[derive(Clone, Copy, Debug)]`
+following test must compile properly. You may have to add the `#[derive(PartialEq, Debug)]`
 attribute to your type, though.
 
 ```rust
@@ -128,8 +129,8 @@ fn basic_vector2_add() {
 }
 ```
 
-Now that you understand how to overload the `+` operator, do the same thing for the `+=`, `-`,
-`-=`, and `==` operators.
+Now that you understand how to overload the `+` operator, do the same thing for the `+=`, `-` and
+`-=` operators.
 
 You must write tests for every function you write!
 
@@ -150,7 +151,11 @@ fn main() {
     let instance = MyType::default();
 
     println!("the default value of MyType is {instance:?}");
-    assert_eq!(instance, MyType::default(), "the default value isn't always the same :/");
+    assert_eq!(
+        instance,
+        MyType::default(),
+        "the default value isn't always the same :/"
+    );
 }
 ```
 
@@ -166,14 +171,14 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::{assert*}
+    std::{assert*}  std::marker::Sized
 ```
 
-Create a trait named `Successor`. A type deriving this trait should be able to provide a
-`successor` method with the following prototype.
+Create a trait named `Successor` (it must derive the `Sized` trait). A type deriving this trait
+must be able to provide a `successor` method with the following prototype.
 
 ```rust
-fn successor(&self) -> Self;
+fn successor(self) -> Self;
 ```
 
 Start by implenting this trait for basic types, like `u32`, or `i8`.
@@ -188,7 +193,7 @@ assert_eq!(12u32, 10u32.successor().successor());
 And that would work! But wouldn't it be easier to simply provide a way to call the `successor`
 method multiple times with only one function call?
 
-Add the `nth_successor` method to the `Successor` trait. That method should be automatically
+Add the `nth_successor` method to the `Successor` trait. That method must be automatically
 implemented for every type currently implementing that trait. In other words, the new method you
 just added must not break any of the existing implementations.
 
@@ -213,7 +218,8 @@ turn-in directory:
     ex05/
 
 files to turn in:
-    src/main.rs  Cargo.toml
+    src/main.rs  src/clap_trap.rs  src/scav_trap.rs
+    src/frag_trap.rs  src/diamond_trap.rs  Cargo.toml
 
 allowed symbols:
     std::println
@@ -243,15 +249,12 @@ fn take_damage(&mut self, amount: u32);
 fn be_repaired(&mut self, amount: u32);
 ```
 
-The *provided methods* should be implemented by default and use the required getters. The messages
-they print must include the name of the ClapTrap, and shouldn't work when the ClapTrap is either
-dead, or exhausted.
+The *provided methods* must be implemented by default and use the required getters. They must print
+a message indicating what effect they had on the ClapTrap.
 
-* The `attack` method must print a message indicating that the ClapTrap has dealt a certain amount
-  of damages to a target.
-* The `take_damage` method must print a message indicating that the ClapTrap has taken a certain
-  amount of damages.
-* The `be_repaired` method must indicate that the ClapTrap has gained a certain amount of health.
+* The `attack` method indicates that the ClapTrap has attacked some target, using one energy point.
+* The `take_damage` method deals some damages to the ClapTrap.
+* The `be_repaired` method recorvers some of the ClapTrap's health, using one energy point.
 
 Now that you have your trait, we can create a type that implements it. Create a `BasicClapTrap`
 type that implenents the `ClapTrap` trait.
@@ -277,7 +280,7 @@ When the `high_five_guys` method is called, a message indicates that the FragTra
 high-five its friends.
 
 Both actions consume one energy point. The behaviour is the same as with `ClapTrap`, once the
-energy reaches 0, the ScavTrap/FragTrap cannot do anything more.
+energy reaches 0, the ScavTrap/FragTrap can't do anything no more.
 
 Let's now create two additional types : a `BasicScavTrap` and a `BasicFragTrap`. The
 `BasicScavTrap` type must derive the `ScavTrap` trait, and the `BasicFragTrap` must derive the
@@ -289,13 +292,13 @@ Let's now create a `DiamondTrap` trait. That trait must inherit from both `ScavT
 `FragTrap`. It must have one additional required method.
 
 ```rust
-fn name(&self);
+fn name(&self) -> &'static str';
 
-fn who_am_i(&self);
+fn who_am_i(&self); // this must be implemented by default
 ```
 
-The `who_am_i` method must print a name different from the one used for the other `ClapTrap`,
-`FragTrap` and `ScavTrap` traits.
+The `who_am_i` method must print both the name defined for the `DiamonTrap` and the name defined
+for `ClapTrap`.
 
 Let's now create a `BasicDiamondTrap` type, deriving the `DiamondTrap` trait.
 
@@ -320,28 +323,27 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::fmt::Display
+    std::fmt::{Display, Formatter, Result}
 ```
 
 Implement the right trait for the following struct...
 
 ```rust
-struct Greet;
+struct Greet<'a>(&'a str);
 ```
 
 ... so that this `main` function compiles to display the text "Hey! How are you?".
 
 ```rust
 fn main() {
-    let greet = Greet;
-
+    let greet = Greet("Victor");
     println!("{greet}");
 }
 ```
 
 ```txt
 >_ cargo run
-Hey! How are you?
+Hey, Victor! How are you?
 ```
 
 ## Exercise 07: Dynamic Dispatch
@@ -351,7 +353,7 @@ turn-in directory:
     ex07/
 
 files to turn in:
-    src/main.rs  src/**/*.rs  Cargo.toml
+    src/main.rs  Cargo.toml
 
 allowed dependencies:
     ftkit
@@ -359,9 +361,6 @@ allowed dependencies:
 allowed symbols:
     std::println
 ```
-
-In Rust, everything has to be explicit. If you're not going to use concrete types, you'll have to
-write it explicitly.
 
 Here is a Rust trait:
 
@@ -374,8 +373,8 @@ trait AllowValue {
 The `allow_value` method either returns `true` or `false` depending on whether a given `value` is
 allowed or not.
 
-Create four types, each of those types should implement the `AllowValue` trait. Their `allow_value`
-method should behave in the following ways:
+Create four types, each of those types must implement the `AllowValue` trait. Their `allow_value`
+method must behave in the following ways:
 
 * `Even` - Returns whether `value` is even.
 * `Odd` - Returns whether `value` is odd.
@@ -390,6 +389,3 @@ use *generics* for this function. You have to use *trait objects* instead.
 
 Create a `main` function that generates a random number, creates an instance of one of the created
 types, and gives it to the `find_original` function.
-
-What you just used is called "dynamic dispatch". One of the next module's subject is "static
-dispatch" - a process that's both more interesting, and way more powerful.
