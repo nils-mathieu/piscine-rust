@@ -19,7 +19,7 @@ they must follow.
 
 ## General Rules
 
-Any exercise you turn in should compile using the `cargo` package manager, either with `cargo run`
+Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
 in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
 section are allowed. Every exercise must be part of a virtual Cargo workspace, a single
@@ -30,7 +30,7 @@ machines without additional options. You are allowed to use attributes to modify
 you must be able to explain why you did so. You are *not* allowed to use `unsafe` code anywere in
 your code.
 
-## Exercise 00: Dropping The Mic
+## Exercise 00: Drop The Mic
 
 ```txt
 turn-in directory:
@@ -58,7 +58,7 @@ the code print the following lines (in the same order).
 ```txt
 >_ cargo run
 Blah!
-Drop The Mic!
+The mic has been dropped.
 ```
 
 ## Exercise 01: The Case Of String
@@ -130,7 +130,7 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::string::String
+    std::println  std::string::String
 ```
 
 Create a **function** that takes ownership of a `String` instance and prints it.
@@ -149,7 +149,7 @@ this new function multiple times with the same string.
 Add some calls to `borrow_and_print` to the `main` function you previously wrote. Can you put those
 calls *after* the call to `move_and_print`? Why?
 
-## Exercise 04: Clone Trooper
+## Exercise 04: Duplicating Ownership
 
 ```txt
 turn-in directory:
@@ -159,7 +159,7 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::clone::Clone
+    std::clone::Clone  std::string::String  std::println
 ```
 
 Create a function that takes ownership of a `String` and does nothing with it.
@@ -172,13 +172,13 @@ Copy the provided `main` function and makes it compile.
 
 ```rust
 fn main() {
-    let trooper = String::from("Well, I've known no other way.");
+    let s = String::from("Well, I've known no other way.");
 
-    eat_string(trooper);
-    eat_string(trooper);
-    eat_string(trooper);
+    eat_string(s);
+    eat_string(s);
+    eat_string(s);
 
-    println!("{trooper}");
+    println!("{s}");
 }
 ```
 
@@ -186,7 +186,7 @@ You have to create copies (or rather, `clone`s, in that case) of the string, not
 with the same name/value. You can check with Valgrind that new memory allocations have been
 created.
 
-## Exercise 05: The `Clone` Trait
+## Exercise 05: Clone Trooper
 
 ```txt
 turn-in directory:
@@ -196,31 +196,27 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::clone::Clone  std::{assert*}
+    std::clone::Clone  std::{assert*}  std::string::String
 ```
 
 Cloning value is a common pattern in Rust. That behavior is therefor encoded by a trait. The
 `Clone` trait.
 
-Create a type named `BlogPost`.
+Create a type named `Trooper`.
 
 ```rust
-type Id = u64;
-
-struct BlogPost {
+struct Trooper {
     name: String,
-    content: String,
-    author: Id,
-    id: Id,
+    serial: u64,
 }
 ```
 
-Implement the `Clone` trait for the `BlogPost` type manually (you cannot use the `#[derive(...)]`
-attribute).
+Implement the `Clone` trait for the `Trooper` type. The serial number of any cloned `Trooper` is
+one more than that of its original.
 
 You must provide tests.
 
-## Exercise 06: The `Copy` Trait
+## Exercise 06: Owner Not Found
 
 ```txt
 turn-in directory:
@@ -246,12 +242,18 @@ struct Foo {
 fn eat_foo(_foo: Foo) {}
 
 fn main() {
-    let foo = Foo { bar: 1, baz: 2, xyzzy: "Hello" };
+    let foo = Foo {
+        bar: 1.0,
+        baz: 2,
+        xyzzy: "Hello",
+    };
 
     eat_foo(foo);
     eat_foo(foo);
     eat_foo(foo);
     eat_foo(foo);
     eat_foo(foo);
+
+    println!("{}", foo.xyzzy);
 }
 ```
