@@ -17,12 +17,16 @@ Internet can provide lots of resources to learn the Rust programming language, b
 you to primarily focus on the official documentation. It contains the most up-to-date information
 about this rapidly evolving language.
 
-The general rules allow you to modify lint levels. Specifically, you should probably allow dead
-code. The Rust compiler often tries to warn you about unused functions, and you will probably have
-some of those during this Piscine.
+The general rules allow you to modify lint levels. Specifically, you may need to allow dead code.
+The Rust compiler often tries to warn you about unused functions, and you will probably have some
+of those during this Piscine.
 
 ```rust
-// Add this at the begining of your files to silence all warnings ...
+// When it makes sense, you may add the `pub` modifier.
+pub fn my_useful_function() {}
+
+// Otherwise, you may add this at the begining of your
+// files to silence those warnings ...
 #![allow(dead_code)]
 
 // ... or simply before any unused functions.
@@ -72,11 +76,14 @@ turn-in directory:
 
 files to turn in:
     min.rs
+
+allowed symbols:
+    std::println
 ```
 
 Create a `min` **function** that takes two integers, and returns the smaller one. To make the file
-compile and for it to be testable, you are allowed to add an optional `main` function to prove your
-function is indeed correct. During the defense, you will have to write one anyway.
+compile and for it to be testable, you must add a  `main` function to showing that your function is
+indeed correct.
 
 The function should be prototyped like this:
 
@@ -166,8 +173,7 @@ Output:
 10
 ```
 
-Once again, you are allowed to add `main` functions to prove that your functions are correct.
-You'll have to demonstrate the functions to your evaluator during defense.
+Once again, you must add `main` functions to prove that your functions are correct.
 
 ## Exercise 03: FizzBuzz
 
@@ -179,7 +185,7 @@ files to turn in:
     fizzbuzz.rs
 
 allowed symbols:
-    std::println
+    std::{println, print}
 ```
 
 This is the final exam of the C piscine. This is YOUR moment. You *can* do it. Problem: your
@@ -338,7 +344,7 @@ allowed dependencies:
     ftkit
 
 allowed symbols:
-    ftkit::*  std::{print, println}  std::cmp::*
+    ftkit::*  std::println  std::cmp::Ordering  i32::cmp
 ```
 
 To end this first module, why not try to create a simple game?
