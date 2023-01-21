@@ -16,16 +16,16 @@ This module will teach you what traits are, how they work, and why they are so i
 
 ## General Rules
 
-Any program you turn in should compile using the `cargo` package manager, either with `cargo run`
+Any exercise you turn in should compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
 in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
 section are allowed. Every exercise that uses the `cargo` package manager must be part of a single
 virtual Cargo workspace, a single `workspace.members` table must be declared for the whole module.
 
-Any program you turn in should compile *without warnings* using the `rustc` compiler available on
-the school's machines without additional options. You are allowed to use attributes to modify lint
-levels, but you must be able to explain why you did so. You are *not* allowed to use `unsafe` code
-anywere in your code.
+Everything must compile *without warnings* with the `rustc` compiler available on the school's
+machines without additional options. You are allowed to use attributes to modify lint levels, but
+you must be able to explain why you did so. You are *not* allowed to use `unsafe` code anywere in
+your code.
 
 ## Exercise 00: Every Type Has A Name
 
@@ -40,7 +40,7 @@ allowed symbols:
     std::println
 ```
 
-Create a `PrintMyself` trait with a `print_myself` associated method. That function should be
+Create a `PrintMyself` trait with a `print_myself` associated method. That function must be
 prototyped like this:
 
 ```rust
@@ -91,7 +91,7 @@ fn infallible_mul(self, other: Self) -> /* ... */;
 ```
 
 The `/* ... */` comment must be replaced with the return-type of the functions. You will have to
-define an *associated type* for the trait and use it there. That type should be able to represent
+define an *associated type* for the trait and use it there. That type must be able to represent
 any possible result of the operation `self + other` (or `self * other`).
 
 For example, the result of `250u8 + 10u8` cannot be represented by the `u8` type, but it fits in

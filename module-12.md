@@ -17,15 +17,15 @@ SET YOUR MIND ADRIFT IN THE UNKNOWABLY INFINITE COSMOS.
 
 ## General Rules
 
-Any program you turn in should compile using the `cargo` package manager, either with `cargo run`
+Any exercise you turn in should compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
 in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
-section are allowed. Every exercise that uses the `cargo` package manager must be part of a single
-virtual Cargo workspace, a single `workspace.members` table must be declared for the whole module.
+section are allowed. Every exercise must be part of a virtual Cargo workspace, a single
+`workspace.members` table must be declared for the whole module.
 
-Any program you turn in should compile *without warnings* using the `rustc` compiler available on
-the school's machines without additional options. You are allowed to use attributes to modify lint
-levels, but you must be able to explain why you did so.
+Everything must compile *without warnings* using the `rustc` compiler available on the school's
+machines without additional options. You are allowed to use attributes to modify lint levels, but
+you must be able to explain why you did so.
 
 You *are* allowed to use `unsafe` code in this module! However, some rules must be followed.
 
