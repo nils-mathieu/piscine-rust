@@ -34,7 +34,7 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::{assert, assert_eq}
+    std::{assert, assert_eq}  f32::sqrt
 ```
 
 Let's create a simple datastructure. Create a `struct` representing a 2D point, which itself
@@ -85,7 +85,7 @@ prototype of that function must be:
 
 ```rust
 impl Color {
-    fn name(&self) -> &str;
+    fn name(&self) -> &'static str;
 }
 ```
 
@@ -118,7 +118,8 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::{assert, assert_eq}
+    std::{assert, assert_eq}  std::cmp::Ordering
+    i32::cmp
 ```
 
 Create an `enum` that represents the sign of a number. That type should be named `Sign` and should
@@ -175,7 +176,7 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::{matches, assert*}
+    std::{matches, assert*, println}
 ```
 
 C-like enumerations are nice, but we can do better!
@@ -188,6 +189,8 @@ values:
 * A floating-point number (example: `14.2`)
 * A boolean (example: `true`)
 * Nothing
+
+**Warning:** The `String` type is not in allowed symbols!
 
 The `Literal` type should implement a method to print its content as if it were written in a code
 file. It should also have functions to determine the type currently represented.
@@ -227,9 +230,6 @@ turn-in directory:
 files to turn in:
     src/main.rs  Cargo.toml
 ```
-
-Rust allows you to create type aliases. This functionality can be used to provide more precise
-type-documentation to existing functions.
 
 Copy/Past the following code and make it compile by adding type alias definitions.
 
