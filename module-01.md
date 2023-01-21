@@ -125,9 +125,9 @@ The above function returns the reference to the smallest integer among `a` and `
 may have to add some *lifetime annotations* to the function in order to make it compile.
 
 In addition to the usual tests you have to write to prove the function you wrote is actually valid,
-you must create a `"spike"` test that showcases how *not* having those annotations would be an
-issue. You must comment that non-compiling test out before pushing. You will have to explain that
-fairly difficult concept to your evaluators!
+you must create a `"spike"` test that showcases how *not* having those annotations could lead to
+dangling references. You must comment that non-compiling test out before pushing. You will have to
+explain that fairly difficult concept to your evaluators!
 
 ## Exericse 03: Array Addition
 
@@ -173,7 +173,7 @@ allowed symbols:
 
 Create a **function** that computes the smallest subslice whose sum is above a given treshold. When
 multiple sub-slices of the same length are above the treshold, the first one is returned. If no
-such slice is found, the empty slice is returned.
+such slice is found, the function panics.
 
 ```rust
 fn smallest_subslice(slice: &[u32], threshold: &u32) -> &[u32];
@@ -185,7 +185,7 @@ Example:
 smallest_subslice([10, 1, 11], 11) => [11]
 smallest_subslice([10, 1, 11], 12) => [1, 11]
 smallest_subslice([10, 1, 11], 13) => [10, 1, 11]
-smallest_subslice([10, 1, 11], 23) => []
+smallest_subslice([10, 1, 11], 23) => panic!("no subslice found...")
 ```
 
 Once again, you may need to specify some *lifetime annotations* for the function. To check whether
@@ -206,6 +206,9 @@ fn test_lifetimes() {
     assert_eq!(result, &[]);
 }
 ```
+
+Other than that, you must provide tests. One of those tests must show that the function panics
+properly when no subslice is found.
 
 ## Exercise 05: Sorting A Slice
 
