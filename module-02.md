@@ -13,7 +13,7 @@ them.
 
 ## General Rules
 
-Any exercise you turn in should compile using the `cargo` package manager, either with `cargo run`
+Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
 in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
 section are allowed. Every exercise must be part of a virtual Cargo workspace, a single
@@ -38,7 +38,7 @@ allowed symbols:
 ```
 
 Let's create a simple datastructure. Create a `struct` representing a 2D point, which itself
-describes the position of an object in 2D space. The created type should be named `Point`. The
+describes the position of an object in 2D space. The created type must be named `Point`. The
 fields of `Point` must be accessible using the `.x`/`.y` syntax.
 
 Your type has to implement the following associated functions:
@@ -90,7 +90,7 @@ impl Color {
 ```
 
 The name of a color is determined using the following rules, applied in order. The first rule that
-`match`es the input color should be selected.
+`match`es the input color must be selected.
 
 * The color `Color(0, 0, 0)` is "pure black".
 * The color `Color(255, 255, 255)` is "pure white".
@@ -122,7 +122,7 @@ allowed symbols:
     i32::cmp
 ```
 
-Create an `enum` that represents the sign of a number. That type should be named `Sign` and should
+Create an `enum` that represents the sign of a number. That type must be named `Sign` and must
 be able to represent three separate states: one for when the value is zero, one for when the value
 is negative, and one for when the value is positive.
 
@@ -181,7 +181,7 @@ allowed symbols:
 
 C-like enumerations are nice, but we can do better!
 
-Create an `enum` named `Literal`. That type should be able to represent the following literal
+Create an `enum` named `Literal`. That type must be able to represent the following literal
 values:
 
 * A string (example: `"Hello, World!"`)
@@ -192,8 +192,8 @@ values:
 
 **Warning:** The `String` type is not in allowed symbols!
 
-The `Literal` type should implement a method to print its content as if it were written in a code
-file. It should also have functions to determine the type currently represented.
+The `Literal` type must implement a method to print its content. It must also have functions to
+determine the type currently represented.
 
 ```rust
 impl Literal {
@@ -335,7 +335,7 @@ It is able to execute the following operations.
 * **Set r1 to v:** sets register **r1** to the value **v**.
 * **Increment r:** increments the value of register **r** by 1 (the operation must wrap on
   overflow).
-* **Decrement r:** decrements the value of register **r** by 1 (the operation should wrap on
+* **Decrement r:** decrements the value of register **r** by 1 (the operation must wrap on
   overflow).
 * **Jump to i:** makes the CPU jump to the specific instruction index **i**.
 * **JumpIfZero to i:** if the register **A** has the value `0`, then makes the CPU jump to the
@@ -349,7 +349,7 @@ The operations supported by the CPU must be implemented as an `enum` named `Inst
 A program is simply an ordered list of instructions. It executes those instructions in order,
 starting from the first one in the list. The `NanoCpu` type have to implement an associated method
 to execute a specific program. The function ends as soon as the instruction index reaches the end
-of the instruction list. You should also add a `new` function to easily create new instances of the
+of the instruction list. You may also add a `new` function to easily create new instances of the
 type.
 
 ```rust

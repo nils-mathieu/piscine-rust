@@ -36,7 +36,7 @@ fn unused_function() {}
 
 ## General Rules
 
-Any program you turn in should compile *without warnings* using the `rustc` compiler available on
+Any program you turn in must compile *without warnings* using the `rustc` compiler available on
 the school's machines without additional options. You are allowed to use attributes to modify lint
 levels, but you must be able to explain why you did so. You are *not* allowed to use `unsafe` code
 anywhere in your code (not until the last module ;p).
@@ -85,7 +85,7 @@ Create a `min` **function** that takes two integers, and returns the smaller one
 compile and for it to be testable, you must add a  `main` function to showing that your function is
 indeed correct.
 
-The function should be prototyped like this:
+The function must be prototyped like this:
 
 ```rust
 fn min(a: i32, b: i32) -> i32;
@@ -111,7 +111,7 @@ Imperative programming languages usually have some kind of statement to loop. Ru
 Create three **functions**. Each function must use one kind of loop supported by Rust, and you
 cannot use the same loop kind twice.
 
-The functions should be prototyped as follows:
+The functions must be prototyped as follows:
 
 ```rust
 fn yes() -> !;
@@ -119,7 +119,7 @@ fn collatz(start: u32);
 fn print_bytes(s: &str);
 ```
 
-The `yes` function should print the message `y`, followed by a line feed. It should do it
+The `yes` function must print the message `y`, followed by a line feed. It must do it
 indefinitely.
 
 ```txt
@@ -133,13 +133,13 @@ y
 ...
 ```
 
-The `collatz` function should execute the following algorithm...
+The `collatz` function must execute the following algorithm...
 
 * Let *n* be any natural number.
 * If *n* is even, then *n* becomes *n*/2
 * If *n* is odd, then *n* becomes 3*n* + 1
 
-...until *n* equals 1. On each iteration, *n* should be displayed on the standard output, followed
+...until *n* equals 1. On each iteration, *n* must be displayed on the standard output, followed
 by a line feed.
 
 ```txt
@@ -157,7 +157,7 @@ Output:
 1
 ```
 
-The `print_bytes` function should print every byte of the provided string.
+The `print_bytes` function must print every byte of the provided string.
 
 ```txt
 Input:
@@ -287,7 +287,7 @@ allowed symbols:
 ```
 
 Testing a program is probably at least half the work of a developer. Every single function of any
-digital system should be carefully tested to avoid as many crashes and unexpected behaviors as
+digital system must be carefully tested to avoid as many crashes and unexpected behaviors as
 possible.
 
 ```rust

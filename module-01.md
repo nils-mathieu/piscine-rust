@@ -15,7 +15,7 @@ determine whether a program is valid or not.
 
 ## General Rules
 
-Any exercise you turn in should compile using the `cargo` package manager, either with `cargo run`
+Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
 in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
 section are allowed. Every exercise must be part of a virtual Cargo workspace, a single
@@ -42,13 +42,13 @@ allowed symbols:
 Creating a reference isn't exactly an involved process. Using those references properly can be
 quite a bit harder, however.
 
-Create a **function** that adds two integers together. It should be prototyped as follows:
+Create a **function** that adds two integers together. It must be prototyped as follows:
 
 ```rust
 fn add(a: &i32, b: i32) -> i32;
 ```
 
-Now, create another function, but this time, it should store the result of the operation in the
+Now, create another function, but this time, it must store the result of the operation in the
 first number.
 
 ```rust
