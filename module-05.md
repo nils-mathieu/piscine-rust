@@ -265,31 +265,3 @@ fn odd_into_even() {
 
 Why does the `u32` type suddenly has the `into()` method?? You only implemented the `From<u32>`
 trait...
-
-## Exercise 07: Pseudo-Random
-
-```txt
-turn-in directory:
-    ex07/
-
-files to turn in:
-    src/main.rs  Cargo.toml
-
-allowed dependencies:
-    ftkit
-
-allowed symbols:
-    ftkit::random_number  std::println  std::maker::Sized
-    {u8, u16, ..}::{from_ne_bytes, to_ne_bytes}
-```
-
-Create a `Generate` trait with a single associated method:
-
-```rust
-fn generate() -> Self;
-```
-
-The `generate` method should generate a random instance of the implementator.
-
-Implement this trait for several types, such as `u8` or `u64` and showcase this trait being used
-in a `main` function.
