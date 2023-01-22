@@ -2,16 +2,16 @@
 
 ## Introduction
 
-This module is the first that'll actually look at the Rust Standard Library's types. The standard
-library is a separate crate automatically included in every Rust project. There is ways to disable
-it, but this is beyond the scope of this piscine.
+This module is the first that'll actually look at the Rust Standard Library's constructs. The
+standard library is a separate crate automatically included in every Rust project. There is ways to
+disable it, but this is beyond the scope of this piscine.
 
 The Rust standard library, while not as large as C++'s, exports lots of useful types and constructs
 to help you create efficient software. This module will introduce you to some of them.
 
 ## General Rules
 
-Any exercise you turn in should compile using the `cargo` package manager, either with `cargo run`
+Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
 if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
 in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
 section are allowed. Every exercise must be part of a virtual Cargo workspace, a single
@@ -36,12 +36,12 @@ allowed symbols:
 ```
 
 The Rust type system can be used to represent optional values. Create an `enum` that can either
-contain `Something(T)`, or `Nothing`. That type should be named `Maybe<T>`.
+contain `Something(T)`, or `Nothing`. That type must be named `Maybe<T>`.
 
-You type should implement a method called `get_or_panic`. That function should either return the
+You type must implement a method called `get_or_panic`. That function must either return the
 value stored in the input `Maybe<T>` instance, or panic if it contains nothing.
 
-You should also provide two methods to quickly test whether a `Maybe<T>` instance contains
+You must also provide two methods to quickly test whether a `Maybe<T>` instance contains
 something or not.
 
 ```rust
@@ -66,7 +66,7 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::option::Option  std::{assert*}
+    std::option::Option  std::{assert*}  u32::checked_mul
 ```
 
 Because it is such a common pattern, the Rust Standard Library already defines the `Maybe<T>` type
@@ -89,30 +89,7 @@ assert_eq!(int_sqrt(15), None);
 
 You must provide tests to prove the function you wrote is indeed correct.
 
-## Exercise 02: Index Of
-
-```txt
-turn-in directory:
-    ex02/
-
-files to turn in:
-    src/lib.rs  Cargo.toml
-
-allowed symbols:
-    <[T]>::len  std::option::Option
-```
-
-Create a generic function `index_of` that returns the index of the first element of a slice that
-matches another element. If no such element is found, `None` is returned. The function should be
-prototyped as follows:
-
-```rust
-fn index_of<T: PartialEq>(slice: &[T], elem: &T) -> Option<usize>;
-```
-
-You must provide tests for this function.
-
-## Exercise 03: Niche Optimization
+## Exercise 02: Niche Optimization
 
 ```txt
 turn-in directory:
@@ -136,64 +113,11 @@ fn main() {
 Can you explain why `Option<usize>` takes more space than `usize` whereas `Option<&u8>` takes as
 much memory as a regular `&u8`? You will be asked during defense.
 
-## Exercise 04: Binds & Maps
+## Exercise 03: Handling Errors
 
 ```txt
 turn-in directory:
-    ex04/
-
-files to turn in:
-    src/lib.rs  Cargo.toml
-
-allowed symbols:
-    u32::{checked_*}  str::parse  std::result::Result  std::{assert*}
-```
-
-Something has gone wrong, return the error. Otherwise continue. Something has gone wrong, return
-the error. Otherwise continue. Something has gone wrong, return the error. Otherwise continue.
-Something has gone wrong, return the error. Otherwise continue. Something has gone wrong, return
-the error. Otherwise continue. Something has gone wrong, return the error. Otherwise continue.
-
-```rust
-#[derive(Debug, PartialEq)]
-enum MyError {
-    CantParse,
-    CantMultiply,
-    CantAdd,
-}
-```
-
-Write a **function** that:
-
-* Takes a string as an input.
-* Parses the string into an `u32`.
-* Multiplies the result by `42`.
-* Adds `100`.
-* Returns the result.
-
-The function is *never* allowed to panic, nor is it allowed to return an incorrect value. You must
-write write this whole function without using a single semicolon ";".
-
-The function should be prototyped like so:
-
-```rust
-fn my_function(input: &str) -> Result<u32, MyError>;
-```
-
-Example:
-
-```rust
-assert_eq!(my_function("12"), Ok(12 * 42 + 100));
-assert_eq!(my_function("1000000000"), Err(MyError::CantMultiply));
-```
-
-*You have you write tests. ~*
-
-## Exercise 05: Handling Errors: The Normal Way
-
-```txt
-turn-in directory:
-    ex05/
+    ex03/
 
 files to turn in:
     src/main.rs  Cargo.toml
@@ -201,6 +125,7 @@ files to turn in:
 allowed symbols:
     std::println  std::eprintln  str::parse  std::result::Result
     std::num::{ParseIntError, IntErrorKind}  std::env::args
+    std::process::ExitCode
 ```
 
 Create a **program** that takes exactly one argument. If no arguments (or more than one) are
@@ -225,17 +150,69 @@ positive overflow: the provided value overflows the type `i32`
 
 You must not create your own "atoi" function, use what Rust gives you!
 
-## Exercise 06: What Time Is It?
+## Exercise 04: `Option<T>` To `Result<T>`
 
 ```txt
 turn-in directory:
-    ex06/
+    ex04/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    u32::{checked_add, checked_mul}  std::result::Result  std::{assert*}
+```
+
+Something has gone wrong, return the error. Otherwise continue. Something has gone wrong, return
+the error. Otherwise continue. Something has gone wrong, return the error. Otherwise continue.
+Something has gone wrong, return the error. Otherwise continue. Something has gone wrong, return
+the error. Otherwise continue. Something has gone wrong, return the error. Otherwise continue.
+
+```rust
+#[derive(Debug, PartialEq)]
+enum ComputeError {
+    CantMultiply,
+    CantAdd,
+}
+```
+
+Write a **function** that:
+
+* Takes a number as an input.
+* Multiplies that number by `42`.
+* Adds `100`.
+* Returns the result.
+
+The function is *never* allowed to panic, nor is it allowed to return an incorrect value. You must
+write write this whole function without using a single semicolon `";"`.
+
+The function must be prototyped like so:
+
+```rust
+fn compute(input: u32) -> Result<u32, ComputeError>;
+```
+
+Example:
+
+```rust
+assert_eq!(parse_and_compute(12), Ok(12 * 42 + 100));
+assert_eq!(parse_and_compute(1000000000), Err(ComputeError::CantMultiply));
+```
+
+*You have you write tests. ~*
+
+## Exercise 05: What Time Is It?
+
+```txt
+turn-in directory:
+    ex05/
 
 files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::str::FromStr  std::fmt::*  str::*  std::result::Result
+    std::str::FromStr  std::fmt::{Display, Debug, Formatter}
+    str::*  std::result::Result  std::{write, println}
 ```
 
 Create a type named `Time` responsible for storing, well, a time.
@@ -268,18 +245,20 @@ error: invalid length
 error: invalid number
 ```
 
-## Exercise 07: Comma-Separated Values
+## Exercise 06: Comma-Separated Values
 
 ```txt
 turn-in directory:
-    ex07/
+    ex06/
 
 files to turn in:
     src/lib.rs  src/**/*.rs  Cargo.toml
 
 allowed symbols:
     std::str::FromStr  str::*  std::result::Result
-    std::vec::Vec
+    std::vec::Vec  std::string::String  std::write
+    std::fmt::{Debug, Display, Formatter, Write}
+    std::cmp::PartialEq
 ```
 
 Let's create a generic CSV Encoder & Decoder.
@@ -296,7 +275,7 @@ value3,value3,value3,value3
 Each line corresponds to a *record*, and each column corresponds to a *field*.
 
 First, let's create a trait for types which may be encoded and decoded into a field value. This
-trait should define a way to write an ASCII representation of the value, as well as a way to parse
+trait must define a way to write an ASCII representation of the value, as well as a way to parse
 a string into a concrete instance of the type. Error type may be as simple as unit structs.
 
 Example:
@@ -310,14 +289,12 @@ trait Field {
 }
 ```
 
-You should implement the `Field` type for common types, such as `&str`, `u32` or `char`. Errors
-(such as invalid characters in a `&str`, or a numeric literal being too large) should return an
+You must implement the `Field` type for common types, such as `String` or `u32`. Errors
+(such as invalid characters in a `&str`, or a numeric literal being too large) must return an
 error instead of panicking.
 
 With that out of the way, let's create a `Record` trait, which provides a way to access all of its
 `Field`s, as well as a way to construct an instance of itself from a list of strings.
-
-**Hint:** you might want to use dynamic dispatch (`dyn Field`) for that.
 
 ```rust
 trait Record {
@@ -335,13 +312,13 @@ fn decode_csv<R: Record>(contents: &str) -> Result<Vec<R>, DecodingError>;
 Optionally, you can try to create a macro to implement the `Record` trait automatically:
 
 ```rust
-struct MyType<'a> {
+struct MyType {
     id: u32,
-    name: &'a str,
+    name: String,
 }
 
 // Example:
-impl_record!(MyType<'a>(u32, &'a str));
+impl_record!(MyType(id, name));
 ```
 
 Write extensive tests for the two functions.
