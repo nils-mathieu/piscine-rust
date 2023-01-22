@@ -39,7 +39,8 @@ allowed symbols:
     <[T]>::len  std::println
 ```
 
-Create a **function** that randomly chooses a value among an input slice.
+Create a **function** that randomly chooses a value among an input slice. If the provided list is
+empty, the function is allowed to panic.
 
 ```rust
 fn choose<T>(values: &[T]) -> &T;
@@ -64,18 +65,19 @@ Copy the following trait into your `main.rs` file.
 
 ```rust
 impl PrintMyself {
-    fn print_myself(&self);
+    fn print_myself();
 }
 ```
 
 And implement it for some basic types (such as `u32` or `i8`).
 
-Create a `greet` function, which takes any value as an input, as long as the type of that value
-derives the `PrintMyself` trait. When called, this function must print the following message:
+Create a `greet` function, which takes nothing as an input, but with one generic type parameter, as
+long as the type of that value derives the `PrintMyself` trait. When called, this function must
+print the following message:
 
 > Hey, **name**! How are you?
 
-Where **name** can be replaced by the text displayed by the `print_myself` function.
+Where **name** is replaced by the text displayed by the `print_myself` function.
 
 Create a `main` function that showcases this function being called with different types as input.
 
@@ -89,7 +91,8 @@ file to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::fmt::*  std::cmp::PartialEq  std::{assert*}
+    std::fmt::Debug  std::cmp::{Eq, PartialEq} std::marker::Copy
+    std::{assert*}  std::clone::Clone
 ```
 
 Structures too, can be generic over some other type.
@@ -99,8 +102,8 @@ Create a `Vector` type.
 * It must be generic over some type `T`.
 * It must have two fields `x` and `y`, both of type `T`.
 
-The `Vector` type must have a `new` associated function to create an instance of `Vector`. The
-prototype of that function should be:
+The `Vector<T>` type must have a `new` associated function to create an instance of `Vector<T>`.
+The prototype of that function should be:
 
 ```rust
 impl<T> Vector<T> {
@@ -108,9 +111,9 @@ impl<T> Vector<T> {
 }
 ```
 
-Use the `#[derive(...)]` attribute to derive the `Debug` and `PartialEq` traits for `Vector<T>`
-and write a simple tests to make sure the `new` function and those trait implementations do work
-as expected.
+Use the `#[derive(...)]` attribute to derive the `Debug`, `Clone`, `Copy`, `PartialEq`, and `Eq`
+traits for `Vector<T>` and write a simple tests to make sure the `new` function and those trait
+implementations do work as expected.
 
 ## Exercise 03: A Useful Generic Vector
 
@@ -122,9 +125,11 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::fmt::*  std::cmp::*  std::ops::*  std::{assert*}
-    std::clone::Clone  std::marker::Copy  f32::sqrt
-    f64::sqrt
+    std::fmt::Debug  std::cmp::{PartialEq, Eq}
+    std::ops::{Add, Sub, AddAssign, SubAssign}
+    std::ops::{Mul, MullAssign, Div, DivAssign}
+    std::{assert*} std::clone::Clone
+    std::marker::Copy  f32::sqrt f64::sqrt
 ```
 
 Copy the previous exercise here (the `Vector<T>` type). This simple vector type, by itself, isn't
@@ -133,6 +138,11 @@ very useful: you cannot do anything with it.
 Overload the `+`, `-`, `+=` and `-=` operators for `Vector<T>`, for any `T` that itself has support
 for the `+`, `-`, `+=` and `-=` operators (respectively). You must provide additional tests for
 those new functions.
+
+Overload the `*`, `*=`, `/` and `/=` operators for `Vector<T>`, for any `T` that itself has support
+for those operators. The second operand of those operations *must not* be `Vector<T>`, but `T`
+itself, meaning that you must be able to compute `Vector::new(1, 2) * 3` but not
+`Vector::new(1, 2) * Vector::new(2, 3)`.
 
 Not every type has support for the square root operation. In fact, only `f32` and `f64` have an
 associated `sqrt` function.
@@ -153,6 +163,7 @@ files to turn in:
 
 allowed symbols:
     std::cmp::PartialOrd  std::{assert*}
+    std::marker::Sized
 ```
 
 Again? Yes. Another `min` function! But I promise, this one's the last one.
@@ -175,7 +186,7 @@ turn-in directory:
     ex05/
 
 files to turn in:
-    src/main.rs  Cargo.toml
+    src/lib.rs  Cargo.toml
 
 allowed symbols:
     std::{assert*}
@@ -201,9 +212,8 @@ assert_eq!(-200i32.saturate_into(), 0u32);
 ```
 
 Implement the `SaturateInto` trait for some types. Don't bother implementing it for every possible
-combinaison of primitive types (unless you want to use this exercise as a way to learn
-[`macro_rules!`]). You'll simply have to provide *some* implementations to showcase how the trait
-is used.
+combinaison of primitive types. You'll simply have to provide *some* implementations to showcase
+how the trait is used.
 
 Anything can be converted into itself. Formally, for any given type `T`, it's possible to implement
 the `SaturateInto<T>` trait. Create a *blacket implementation* of the `SaturateInto<T>` trait for
@@ -221,7 +231,7 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::{assert*}
+    std::{assert*}  std::convert::{From, Into}
 ```
 
 The Rust standard library already provides traits to convert values [`From`] and [`Into`] other
