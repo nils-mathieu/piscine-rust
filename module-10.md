@@ -1,4 +1,4 @@
-# Module 10: Threads And Concurency
+# Module 10: Threads And Concurrency
 
 ## Introduction
 
