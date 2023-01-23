@@ -121,47 +121,11 @@ Example:
 [1, 2, 4, 0, 3, 5, 6, 7, 8, 9]
 ```
 
-## Exercise 03: `Arc` And Arrows
+## Exercise 03: SOMEBODY TOUCHA MY SPAGHET??
 
 ```txt
 turn-in directory:
     ex03/
-
-files to turn in:
-    src/main.rs  Cargo.toml
-
-allowed dependencies:
-    ftkit
-
-allowed symbols:
-    std::thread::spawn  std::sync::Arc  std::println
-    ftkit::random_number
-```
-
-Create a **program** that follows the following steps:
-
-1. First a thread is spawned. The thread increments a number by one.
-2. After that, the thread has 1/2 chance to create two new threads doing the exact same thing.
-3. Once *every* thread has returned, the final number is written to the standard output.
-
-Example:
-
-```txt
->_ cargo run
-1 threads
->_ cargo run
-121 threads
->_ cargo run
-17 threads
->_ cargo run
-21 threads
-```
-
-## Exercise 04: SOMEBODY TOUCHA MY SPAGHET??
-
-```txt
-turn-in directory:
-    ex04/
 
 files to turn in:
     src/main.rs  Cargo.toml
@@ -216,11 +180,11 @@ still alive: [1, 3]
 You can modify the *panic hook* and/or the thread's name to make panic messages display the name
 of the philosopher instead.
 
-## Exercise 05: PI * Rayon * Rayon
+## Exercise 04: PI * Rayon * Rayon
 
 ```txt
 turn-in directory:
-    ex05/
+    ex04/
 
 files to turn in:
     src/main.rs  Cargo.toml
