@@ -74,11 +74,80 @@ fn min(a: &i32, b: &i32) -> &i32;
 Note that you may have to add some *lifetime annotations* to the function in order to make it
 compile.
 
-## Exercise 02: Find Group
+
+## Exercise 02: Matching Colors
 
 ```txt
 turn-in directory:
     ex02/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+```
+
+Create a **function** that maps three color components to a name.
+
+The name of a color is determined using the following rules, applied in order. The first rule that
+`match`es the input color must be selected.
+
+* The color `Color(0, 0, 0)` is "pure black".
+* The color `Color(255, 255, 255)` is "pure white".
+* The color `Color(255, 0, 0)` is "pure red".
+* The color `Color(0, 255, 0)` is "pure green".
+* The color `Color(0, 0, 255)` is "pure blue".
+* The color `Color(128, 128, 128)` is "perfect grey".
+* Any color whose components are all bellow 31 is "almost black".
+* Any color whose red component is above 128, whose green and blue components are between 0 and 127
+is "redish".
+* Any color whose green component is above 128, whose red and blue components are between 0 and 127
+is "greenish".
+* Any color whose blue component is above 128, whose red and green components are between 0 and 127
+is "blueish".
+* Any other color is named "unknown".
+
+```rust
+const fn color_name(color: &[u8; 3]) -> &str;
+```
+
+You might need to add *lifetime* annotations to the function to make it compile. Specifially, the
+following test must compile and run:
+
+```rust
+#[cfg(test)]
+#[test]
+fn test_lifetimes() {
+    static NAME_OF_THE_BEST_COLOR: &str = color_name(&[42, 42, 42]);
+    assert_eq!(NAME_OF_THE_BEST_COLOR, "unknown");
+}
+```
+
+## Exercise 03: Living A Long Time
+
+```txt
+turn-in directory:
+    ex03/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+```
+
+Create a **function** with this signature. It must return a reference to the integer 42.
+
+```rust
+fn lives_a_long_time() -> &'static i32;
+```
+
+Example:
+
+```rust
+assert_eq!(lives_a_long_time(), &42);
+```
+
+## Exercise 04: Find Group
+
+```txt
+turn-in directory:
+    ex04/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -126,11 +195,11 @@ fn test_lifetimes() {
 }
 ```
 
-## Exercise 03: Boxes Into Boxes
+## Exercise 05: Boxes Into Boxes
 
 ```txt
 turn-in directory:
-    ex03/
+    ex05/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -170,11 +239,11 @@ assert_eq!(
 );
 ```
 
-## Exercise 04: Deduplication
+## Exercise 06: Deduplication
 
 ```txt
 turn-in directory:
-    ex04/
+    ex06/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -197,11 +266,11 @@ deduplicate(&mut v);
 assert_eq!(v, [1, 2, 3, 4]);
 ```
 
-## Exercise 05: LIS
+## Exercise 07: LIS
 
 ```txt
 turn-in directory:
-    ex05/
+    ex07/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -227,33 +296,11 @@ assert_eq!(&[2, 1, 3], [2, 3]);
 assert_eq!(&[2, 1, 4, 2, 4], [1, 2, 4]);
 ```
 
-## Exercise 06: Living For A Long Time
+## Exercise 08: HTML Tag Validator
 
 ```txt
 turn-in directory:
-    ex06/
-
-files to turn in:
-    src/lib.rs  Cargo.toml
-```
-
-Create a **function** with this signature. It must return a reference to the integer 42.
-
-```rust
-fn lives_a_long_time() -> &'static i32;
-```
-
-Example:
-
-```rust
-assert_eq!(lives_a_long_time(), &42);
-```
-
-## Exercise 07: HTML Tag Validator
-
-```txt
-turn-in directory:
-    ex07/
+    ex08/
 
 files to turn in:
     src/main.rs  Cargo.toml
