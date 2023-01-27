@@ -298,10 +298,10 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::{assert, assert_eq}  std::{panic, unreachable}  std::{print, println}
+    std::{assert, assert_eq}  std::panic  std::{print, println}
 ```
 
-Write a **program** which prints *every sunday* since the first day of year 1.
+Write a **program** which prints *every sunday* since the first day of year 1 (it was a monday).
 
 To complete this task, you must write and use the following function:
 
@@ -338,9 +338,9 @@ work as expected. Specifically, you must show that:
 * 2004 is leap year.
 * 2003 is a common year.
 * February has 29 days on leap years, but 28 on common years.
-* Other month have the correct number of days on both leap and common years.
+* Other months have the correct number of days on both leap and common years.
 
-## Exercise 06: String Pattern Match
+## Exercise 06: String Pattern Compare
 
 ```txt
 turn-in directory:
@@ -353,13 +353,13 @@ allowed symbols:
     std::{assert*}  str::len
 ```
 
-Create a **library** that exposes the function `glob_matches`.
+Create a **library** that exposes the function `strpcmp`.
 
 ```rust
 fn strpcmp(query: &str, pattern: &str) -> bool;
 ```
 
-* `global_matches` determines whether `query` matches the given `pattern`.
+* `strpcmp` determines whether `query` matches the given `pattern`.
 * `pattern` may optionally contain `"*"` characters, which can match any number of any character in
 the query string.
 
@@ -372,7 +372,7 @@ Example:
 * `` (the empty string) matches `****`.
 
 You must write thorough unit tests for this function, ensuring that at least every example
-specified here passes the tests.
+specified here passes the tests. You are strongly encouraged to write more, however.
 
 ```
 >_ cargo test
