@@ -1,4 +1,4 @@
-# Module 01
+# Module 01: More Values
 
 ## Introduction
 
@@ -136,14 +136,14 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::{assert*}  <[i32]>::{len, swap}
+    <[i32]>::{len, swap}
 ```
 
 You are given a list of boxes (`[width, height]`). Sort that list of boxes in a way for every box
 to be *contained* in the previous one. If the operation is not possible, the function must panic.
 
 ```rust
-fn sort_boxes(boxes: &mut [u32; 2]);
+fn sort_boxes(boxes: &mut [[u32; 2]]);
 ```
 
 Example:
@@ -168,4 +168,145 @@ assert_eq!(
         [1, 0],
     ],
 );
+```
+
+## Exercise 04: Deduplication
+
+```txt
+turn-in directory:
+    ex04/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::vec::Vec::{swap_remove}
+```
+
+Write a **function** that removes all repeated elements of a list, preserving its initial ordering.
+
+```rust
+fn deduplicate(list: &mut Vec<i32>);
+```
+
+Example:
+
+```rust
+let mut v = vec![1, 2, 2, 3, 2, 4, 3];
+deduplicate(&mut v);
+assert_eq!(v, [1, 2, 3, 4]);
+```
+
+## Exercise 05: LIS
+
+```txt
+turn-in directory:
+    ex05/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    <[i32]>::len  std::vec::Vec
+```
+
+Write a **function** that finds the Longest Increasing Sequence in a given array.
+
+```rust
+fn lis(slice: &[i32]) -> Vec<i32>;
+```
+
+* The sequence itself is returned in a list.
+* The returned sequence must be *strictly* increasing.
+* When multiple largest sequence are found, any of those sequences can be selected.
+
+Example:
+
+```rust
+assert_eq!(&[2, 1, 3], [2, 3]);
+assert_eq!(&[2, 1, 4, 2, 4], [1, 2, 4]);
+```
+
+## Exercise 06: Living For A Long Time
+
+```txt
+turn-in directory:
+    ex06/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+```
+
+Create a **function** with this signature. It must return a reference to the integer 42.
+
+```rust
+fn lives_a_long_time() -> &'static i32;
+```
+
+Example:
+
+```rust
+assert_eq!(lives_a_long_time(), &42);
+```
+
+## Exercise 07: HTML Tag Validator
+
+```txt
+turn-in directory:
+    ex07/
+
+files to turn in:
+    src/main.rs  Cargo.toml
+
+allowed dependencies:
+    ftkit
+
+allowed symbols:
+    ftkit::ARGS  ftkit::read_line
+    std::process::ExitCode  std::eprintln
+```
+
+Create a **program** that reads the standard input to determine whether it contains valid HTML-like
+tags. As soon as an error is found, the program stops with an appropriate error message.
+
+* When the given HTML tags are valid, the program exists with the value 0. Otherwise, the error is
+displayed to the standard error output.
+
+
+```txt
+>_ cargo run
+<Hello>
+    <a>Lorem</a>
+</Hello>
+>_ echo $?
+0
+```
+
+* Tags can only contain ASCII letters:
+
+```txt
+>_ cargo run
+<He-llo>
+error: line 1: invalid tag character '-'
+>_ cargo run
+<He
+error: line 1: invalid tag character '\n'
+>_ echo $?
+1
+```
+
+* Every tag must have a corresponding closing tag.
+
+```txt
+>_ cargo run
+<MyTag>some text
+error: line 1: missing closing tag for `<MyTag>`
+```
+
+* Tags cannot be interspersed.
+
+```txt
+>_ cargo run
+<a>hello<b>world</a></b>
+error: line 1: '<b>' is never closed.
 ```
