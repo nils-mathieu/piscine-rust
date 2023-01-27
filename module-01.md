@@ -75,7 +75,7 @@ Note that you may have to add some *lifetime annotations* to the function in ord
 compile.
 
 
-## Exercise 02: Matching Colors
+## Exercise 02: The Name Of Colors
 
 ```txt
 turn-in directory:
@@ -90,12 +90,12 @@ Create a **function** that maps three color components to a name.
 The name of a color is determined using the following rules, applied in order. The first rule that
 `match`es the input color must be selected.
 
-* The color `Color(0, 0, 0)` is "pure black".
-* The color `Color(255, 255, 255)` is "pure white".
-* The color `Color(255, 0, 0)` is "pure red".
-* The color `Color(0, 255, 0)` is "pure green".
-* The color `Color(0, 0, 255)` is "pure blue".
-* The color `Color(128, 128, 128)` is "perfect grey".
+* The color `[0, 0, 0]` is "pure black".
+* The color `[255, 255, 255]` is "pure white".
+* The color `[255, 0, 0]` is "pure red".
+* The color `[0, 255, 0]` is "pure green".
+* The color `[0, 0, 255]` is "pure blue".
+* The color `[128, 128, 128]` is "perfect grey".
 * Any color whose components are all bellow 31 is "almost black".
 * Any color whose red component is above 128, whose green and blue components are between 0 and 127
 is "redish".
