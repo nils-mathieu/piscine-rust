@@ -30,8 +30,8 @@ exercise.
 
 You are generally *not* authorized to modify lint levels - either using `#\[attributes\]`,
 `#!\[global_attributes\]` or with command-line arguments. You must use the `#![forbid(unsafe_code)]`
-attribute in every project you turn in. You may optionally allow the `dead_code` lint to silence
-warnings about unused variables, functions, etc.
+attribute in every project you turn in (may it use Cargo or not). You may optionally allow the
+`dead_code` lint to silence warnings about unused variables, functions, etc.
 
 ```rust
 // Either globally:

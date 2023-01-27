@@ -22,9 +22,13 @@ section are allowed. Every exercise must be part of a virtual Cargo workspace, a
 `workspace.members` table must be declared for the whole module.
 
 Everything must compile *without warnings* with the `rustc` compiler available on the school's
-machines without additional options. You are allowed to use attributes to modify lint levels, but
-you must be able to explain why you did so. You are *not* allowed to use `unsafe` code anywere in
-your code.
+machines without additional options.  You are *not* allowed to use `unsafe` code anywere in your
+code.
+
+You are generally *not* authorized to modify lint levels - either using `#\[attributes\]`,
+`#!\[global_attributes\]` or with command-line arguments. You must use the `#![forbid(unsafe_code)]`
+attribute in every project you turn in. You may optionally allow the `dead_code` lint to silence
+warnings about unused variables, functions, etc.
 
 ## Exercise 00: Creating References
 
@@ -54,10 +58,6 @@ first number.
 ```rust
 fn add_assign(a: &mut i32, b: i32);
 ```
-
-How does using a `&mut` or a `&` change the semantics of the function? Would it be possible to
-crates an `add_assign` function using a regular `&i32` reference (without the `mut`)? You should
-be able to answer those questions during the defense.
 
 You must provide some tests to prove every function behaves as expected.
 
