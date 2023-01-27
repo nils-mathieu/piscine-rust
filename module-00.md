@@ -225,62 +225,74 @@ Example:
 
 For this exercise, you can only use one `for` loop, and one `match` statement. Nothing more.
 
-## Exercise 04: Don't Panic
+## Exercise 04: Shipping With Cargo
 
 ```txt
 turn-in directory:
     ex04/
 
 files to turn in:
-    dont_panic.rs
-
-allowed symbols:
-    std::panic
-```
-
-Unexpected events are to be expected in any computer application. Rust makes no *exception* to
-that rule, and provides a way to "cleanly" crash a Rust program.
-
-Create a Rust **program** that `panic!`s with the message `"I DON'T KNOW WHAT IS GOING ON!!"`.
-
-```txt
->_ ./dont_panic
-thread 'main' panicked at 'I DON'T KNOW WHAT IS GOING ON!!', dont_panic.rs:2:5
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
-```
-
-You can check with Valgrind that no memory has been lost (even though Rust allocates some blocks
-before calling the `main` function).
-
-## Exercise 05: Shipping With Cargo
-
-```txt
-turn-in directory:
-    ex05/
-
-files to turn in:
-    src/main.rs  Cargo.toml
+    src/default.rs  str/overflow.rs  str/other.rs  Cargo.toml
 
 allowed symbols:
     std::println
 ```
 
-The Rust ecosystem relies heavily on its package manager, Cargo. Cargo is a program that is
-responsible for managing the dependencies of a Rust application. It has many capabilities, but
-these modules will only make use of a few of them.
+Create a Cargo project.
 
-Create a Rust **program** that prints the string `Hello, Cargo!`, followed by a line feed.
+* Its name must be "module00-ex04"
+* It must use Rust edition 2021
+* Its author must be you.
+* Its description must be "my answer to the fifth exercise of the first module of 42's Rust Piscine"
+* It must not be possible to publish the package, even when using `cargo publish`.
+
+* The following commands must give this output:
 
 ```txt
 >_ cargo run
 Hello, Cargo!
+>_ cargo run --bin other
+Hey! I'm the other bin target!
+>_ cargo run --release --bin other
+Hey! I'm the other bin target!
+I'm in release mode!
 ```
 
-## Exercise 06: Unit Tests
+* In `release` mode, the final binary must not have any visible symbols in its binary.
+
+```txt
+>_ cargo build
+>_ nm <output> | head
+000000000004d008 V DW.ref.rust_eh_personality
+0000000000049acc r GCC_except_table0
+0000000000049ad8 r GCC_except_table1
+00000000000493e0 r GCC_except_table1049
+00000000000493f8 r GCC_except_table1051
+0000000000049410 r GCC_except_table1060
+0000000000049430 r GCC_except_table1072
+0000000000049440 r GCC_except_table1073
+000000000004945c r GCC_except_table1075
+0000000000049470 r GCC_except_table1076
+>_ cargo build --release
+>_ nm <output>
+nm: <output>: no symbols
+```
+
+* It must have a custom profile inheritint from the "dev" profile, which disablse integer
+overflow.
+
+```txt
+>_ cargo run --bin test-overflows
+thread 'main' panicked at 'attempt to add with overflow', src/overflow.rs:3:5
+>_ cargo run --profile no-overflows --bin test-overflows
+255u8 + 1u8 == 0
+```
+
+## Exercise 05: Unit Tests
 
 ```txt
 turn-in directory:
-    ex06/
+    ex05/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -334,11 +346,11 @@ test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 Note that the above is just an example. You are allowed to do the tests you want, but they must
 properly check that those functions are actually correct.
 
-## Exercise 07: The Price Is Right
+## Exercise 06: The Price Is Right
 
 ```txt
 turn-in directory:
-    ex07/
+    ex06/
 
 files to turn in:
     src/main.rs  Cargo.toml
