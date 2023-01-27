@@ -17,34 +17,30 @@ Internet can provide lots of resources to learn the Rust programming language, b
 you to primarily focus on the official documentation. It contains the most up-to-date information
 about this rapidly evolving language.
 
-The general rules allow you to modify lint levels. Specifically, you may need to allow dead code.
-The Rust compiler often tries to warn you about unused functions, and you will probably have some
-of those during this Piscine.
-
-```rust
-// When it makes sense, you may add the `pub` modifier.
-pub fn my_useful_function() {}
-
-// Otherwise, you may add this at the begining of your
-// files to silence those warnings ...
-#![allow(dead_code)]
-
-// ... or simply before any unused functions.
-#[allow(dead_code)]
-fn unused_function() {}
-```
-
 ## General Rules
 
 Any program you turn in must compile *without warnings* using the `rustc` compiler available on
-the school's machines without additional options. You are allowed to use attributes to modify lint
-levels, but you must be able to explain why you did so. You are *not* allowed to use `unsafe` code
-anywhere in your code (not until the last module ;p).
+the school's machines without additional options. You are *not* allowed to use `unsafe` code
+anywhere in your code (not until the last module :p).
 
 For exercises using the `cargo` package manager, the same rule applies. In that case, only the
 crates specified in the `allowed dependencies` section are allowed. Any other dependency is
 forbidden. More generally, only the symbols specified in `allowed symbols` are authorized within an
 exercise.
+
+You are generally *not* authorized to modify lint levels - either using `#\[attributes\]`,
+`#!\[global_attributes\]` or with command-line arguments. You must use the `#![forbid(unsafe_code)]`
+attribute in every project you turn in. You may optionally allow the `dead_code` lint to silence
+warnings about unused variables, functions, etc.
+
+```rust
+// Either globally:
+#![allow(dead_code)] 
+
+// Or locally, for a simple item:
+#[allow(dead_code)]
+fn my_unused_function() {}
+```
 
 ## Exercise 00: Hello, World!
 
@@ -106,8 +102,6 @@ allowed symbols:
     std::println  str::bytes
 ```
 
-Imperative programming languages usually have some kind of statement to loop. Rust has several.
-
 Create three **functions**. Each function must use one kind of loop supported by Rust, and you
 cannot use the same loop kind twice.
 
@@ -161,15 +155,18 @@ The `print_bytes` function must print every byte of the provided string.
 
 ```txt
 Input:
-"Hello!\n"
+"Déjà Vu\n"
 
 Output:
-72
-101
-108
-108
-111
-33
+68
+195
+169
+106
+195
+160
+32
+86
+117
 10
 ```
 
@@ -185,42 +182,48 @@ files to turn in:
     fizzbuzz.rs
 
 allowed symbols:
-    std::{println, print}
+    std::println
 ```
 
-This is the final exam of the C piscine. This is YOUR moment. You *can* do it. Problem: your
-current subject is *FizzBuzz* and you're under so much stress right now that you forgot how to use
-loops.
+Create a **program** that plays the popular (and loved!) game "fizz buzz" from 1 to 100.
 
-Create a Rust **program** that prints a C program on the standard output. That C program must play
-the popular game *FizzBuzz* by itself without using any loop (for, while, do, etc.) statement. The
-only allowed function is `write`.
+The rules have changed a bit, however. They must be followed in order.
 
-The subject reads as follows:
+* When the number is both a multiple of 3 and 5, "fizzbuzz" must be displayed.
+* When the number is a multiple of 3, "fizz" must be displayed.
+* When the number is a multiple of 5, "buzz" must be displayed.
+* When the number is congruent to 3 modulo 11 "FIZZ" is displayed.
+* When the number is congruent to 5 modulo 11 "BUZZ" is displayed.
+* Otherwise, the number itself is written.
 
-> Write a program that prints the numbers from 1 to 100, each separated by a newline.
->
-> If the number is a multiple of 3, it prints 'fizz' instead.
->
-> If the number is a multiple of 5, it prints 'buzz' instead.
->
-> If the number is both a multiple of 3 and a multiple of 5, it prints 'fizzbuzz' instead.
+Example:
 
 ```txt
->_ ./fizzbuzz > fizzbuzz.c
->_ gcc -Wall -Wextra -Werror fizzbuzz.c
->_ ./a.out
-1
-2
-fizz
-4
-buzz
+>_ ./fizzbuzz
+  1: 1
+  2: 2
+  3: fizz
+  4: 4
+  5: buzz
+  6: fizz
+  7: 7
+  8: 8
+  9: fizz
+ 10: buzz
+ 11: 11
+ 12: fizz
+ 13: 13
+ 14: FIZZ
+ 15: fizzbuzz
+ 16: BUZZ
+ 17: 17
+ 18: fizz
+ 19: 19
+ 20: buzz
 ...
 ```
 
-If you feel like taking a little challenge, try to solve this execise wihthout using the regular
-C-like `if`/`if else`/`else` statement. Rust provides other constructs to do just that without
-having to go through that hassle.
+For this exercise, you can only use one `for` loop, and one `match` statement. Nothing more.
 
 ## Exercise 04: Don't Panic
 
