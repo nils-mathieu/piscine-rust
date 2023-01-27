@@ -351,13 +351,13 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::{assert*}  str::len
+    std::{assert, assert_eq}  str::len
 ```
 
 Create a **library** that exposes the function `strpcmp`.
 
 ```rust
-fn strpcmp(query: &str, pattern: &str) -> bool;
+fn strpcmp(query: &[u8], pattern: &[u8]) -> bool;
 ```
 
 * `strpcmp` determines whether `query` matches the given `pattern`.
@@ -366,11 +366,22 @@ the query string.
 
 Example:
 
-* `abc` matches `abc`.
-* `ab`, `abc`, `abcd` all match `ab*`, but `cab` do not.
-* `ab`, `cab`, `dcab` all match ` *ab`, but `abc` do not.
-* `ab000cd` and `abcd` both match `ab*cd`.
-* `` (the empty string) matches `****`.
+```rust
+assert!(strpcmp(b"abc", b"abc"));
+
+assert!(strpcmp(b"abcd", b"ab*"));
+assert!(!strpcmp(b"cab", b"ab*"));
+
+assert!(strpcmp(b"dcab", b"*ab"));
+assert!(!strpcmp(b"abc", b"*ab"));
+
+assert!(strpcmp(b"ab000cd", b"ab*cd"));
+assert!(strpcmp(b"abcd", b"ab*cd"));
+
+assert!(strpcmp(b"", b"****"));
+```
+
+When in doupt, do what **Bash** does.
 
 You must write thorough unit tests for this function, ensuring that at least every example
 specified here passes the tests. You are strongly encouraged to write more, however.
