@@ -288,7 +288,7 @@ thread 'main' panicked at 'attempt to add with overflow', src/overflow.rs:3:5
 255u8 + 1u8 == 0
 ```
 
-## Exercise 05: You like sunday? NaMe AlL tHe SuNdAyS.
+## Exercise 05: Friday The 13th
 
 ```txt
 turn-in directory:
@@ -301,7 +301,8 @@ allowed symbols:
     std::{assert, assert_eq}  std::panic  std::{print, println}
 ```
 
-Write a **program** which prints *every sunday* since the first day of year 1 (it was a monday).
+Write a **program** which prints every Friday that falls on the 13th of the month, since the first
+day of year 1 (it was a monday).
 
 To complete this task, you must write and use the following function:
 
@@ -317,16 +318,16 @@ Example:
 
 ```
 >_ cargo run
-Sunday, January 7, 1
-Sunday, January 14, 1
-Sunday, January 21, 1
-Sunday, January 28, 1
-Sunday, February 4, 1
-Sunday, February 11, 1
-Sunday, February 18, 1
-Sunday, February 25, 1
-Sunday, March 4, 1
-Sunday, March 11, 1
+Friday, April 13, 1
+Friday, July 13, 1
+Friday, September 13, 2
+Friday, December 13, 2
+Friday, June 13, 3
+Friday, February 13, 4
+Friday, August 13, 4
+Friday, May 13, 5
+Friday, January 13, 6
+Friday, October 13, 6
 ...
 ```
 
