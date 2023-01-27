@@ -341,11 +341,43 @@ work as expected. Specifically, you must show that:
 * February has 29 days on leap years, but 28 on common years.
 * Other months have the correct number of days on both leap and common years.
 
-## Exercise 06: String Pattern Compare
+## Exercise 06: Guessing Game
 
 ```txt
 turn-in directory:
     ex06/
+
+files to turn in:
+    src/main.rs  Cargo.toml
+
+allowed dependencies;
+    ftkit
+
+allowed symbols:
+    ftkit::read_number  ftkit::random_number
+    i32::cmp  std::cmp::Ordering
+```
+
+Create a **program** that plays the guessing game.
+
+```txt
+>_ cargo run
+Me and my infinite wisdom have found an appropriate secret that you shall guess.
+12
+This student might not be as smart as I was told. This answer is obviously too weak.
+25
+Sometimes I wonder whether I should retire. I would have guessed higher.
+19
+That is right! The secret was indeed the number 19, which you have brilliantly discovered!
+```
+
+You can't use the `<`, `>`, `<=`, `>=` and `==` operators!
+
+## Exercise 07: String Pattern Compare
+
+```txt
+turn-in directory:
+    ex07/
 
 files to turn in:
     src/lib.rs  Cargo.toml
