@@ -380,10 +380,14 @@ turn-in directory:
     ex07/
 
 files to turn in:
-    src/lib.rs  Cargo.toml
+    src/lib.rs  src/main.rs  Cargo.toml
+
+allowed dependencies:
+    ftkit
 
 allowed symbols:
     std::{assert, assert_eq}  str::len
+    ftkit::ARGS
 ```
 
 Create a **library** that exposes the function `strpcmp`.
@@ -415,18 +419,12 @@ assert!(strpcmp(b"", b"****"));
 
 When in doupt, do what **Bash** does.
 
-You must write thorough unit tests for this function, ensuring that at least every example
-specified here passes the tests. You are strongly encouraged to write more, however.
+Your crate must also include a bin-target which may be used to test the library easily. Note that
+the `strpcmp` function must still be in the *library*!
 
-```
->_ cargo test
-
-running 34 tests
-test exact_match_without_glob_op ... OK
-test empty_string ... OK
-test basic_email ... OK
-
-...
-
-test result: ok. 34 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02
+```txt
+>_ cargo run -- 'abcde' 'ab*'
+yes
+>_ cargo run -- 'abcde' 'ab*ef'
+no
 ```
