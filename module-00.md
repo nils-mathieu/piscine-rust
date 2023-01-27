@@ -278,8 +278,8 @@ I'm in release mode!
 nm: <output>: no symbols
 ```
 
-* It must have a custom profile inheritint from the "dev" profile, which disablse integer
-overflow.
+* It must have a custom profile inheriting the "dev" profile. That profile must simply disable
+integer overflow checks.
 
 ```txt
 >_ cargo run --bin test-overflows
@@ -288,103 +288,101 @@ thread 'main' panicked at 'attempt to add with overflow', src/overflow.rs:3:5
 255u8 + 1u8 == 0
 ```
 
-## Exercise 05: Unit Tests
+## Exercise 05: You like sunday? NaMe AlL tHe SuNdAyS.
 
 ```txt
 turn-in directory:
     ex05/
 
 files to turn in:
-    src/lib.rs  Cargo.toml
+    src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::{assert, assert_eq}
+    std::{assert, assert_eq}  std::{panic, unreachable}  std::{print, println}
 ```
 
-Testing a program is probably at least half the work of a developer. Every single function of any
-digital system must be carefully tested to avoid as many crashes and unexpected behaviors as
-possible.
+Write a **program** which prints *every sunday* since the first day of year 1.
+
+To complete this task, you must write and use the following function:
 
 ```rust
-fn fibs(n: u32) -> u32 {
-    (0..n).fold((0, 1), |(a, b), _| (b, a + b)).0
-}
-
-fn is_prime(n: u32) -> bool {
-    n >= 2 && !(2..n).any(|d| n % d == 0)
-}
+fn is_leap_year(year: u32) -> bool;
+fn num_days_in_month(year: u32, month: u32) -> u32;
 ```
 
-Copy the above functions, and write unit tests to determine whether those functions do work as
-expected.
+* `is_leap_year` must determine whether a given year is a leap year or not.
+* `num_days_in_month` must compute how many days a given month of a given year has.
 
-* The `fibs` function must compute the `n`-th term of the [fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_number).
-The first two terms of the sequence are `F0 = 0` and `F1 = 1`.
+Example:
 
-* The `is_prime` function returns whether `n` is a prime number.
-
-In case of an error, the test should panic with an appropriate error message, but you are *not*
-allowed to use the `panic!` macro. Instead, you can `assert!` that a specific value has been
-properly returned.
-
-```txt
->_ cargo test
-running 7 tests
-test zero_is_not_prime ... ok
-test one_is_not_prime ... ok
-test tree_is_prime ... ok
-test four_is_not_prime ... ok
-test first_fib_is_0 ... ok
-test fifth_fib_is_3 ... ok
-test seventeenth_fib_is_987 ... ok
-
-test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
+```
+>_ cargo run
+Sunday, January 7, 1
+Sunday, January 14, 1
+Sunday, January 21, 1
+Sunday, January 28, 1
+Sunday, February 4, 1
+Sunday, February 11, 1
+Sunday, February 18, 1
+Sunday, February 25, 1
+Sunday, March 4, 1
+Sunday, March 11, 1
 ...
 ```
 
-Note that the above is just an example. You are allowed to do the tests you want, but they must
-properly check that those functions are actually correct.
+You must add tests to your Cargo project to verify that `is_leap_year` and `num_days_in_month` both
+work as expected. Specifically, you must show that:
 
-## Exercise 06: The Price Is Right
+* 1600 is a leap year.
+* 1500 is a common year.
+* 2004 is leap year.
+* 2003 is a common year.
+* February has 29 days on leap years, but 28 on common years.
+* Other month have the correct number of days on both leap and common years.
+
+## Exercise 06: String Pattern Match
 
 ```txt
 turn-in directory:
     ex06/
 
 files to turn in:
-    src/main.rs  Cargo.toml
-
-allowed dependencies:
-    ftkit
+    src/lib.rs  Cargo.toml
 
 allowed symbols:
-    ftkit::*  std::println  std::cmp::Ordering  i32::cmp
+    std::{assert*}  str::len
 ```
 
-To end this first module, why not try to create a simple game?
+Create a **library** that exposes the function `glob_matches`.
 
-Create a **program** that allows its user to play the popular game show "The Price Is Right". The
-game plays as follows:
+```rust
+fn strpcmp(query: &str, pattern: &str) -> bool;
+```
 
-1. The program randomly chooses an object whose price is unknown to the user. The name of the
-object is displayed.
-2. The user is prompted to bid the price of said object.
-3. If the user is correct, the program ends with a message congratulating them.
-4. Otherwise, a message indicates whether they overbid or underbid and the program is back to step 2.
+* `global_matches` determines whether `query` matches the given `pattern`.
+* `pattern` may optionally contain `"*"` characters, which can match any number of any character in
+the query string.
 
 Example:
 
-```txt
->_ cargo run
-Here is a fabulous 'cool ring'.
-23
-A 'cool ring' costs more than that!
-57
-A 'cool ring' isn't worth that much money!
-34
-Congrats! That 'cool ring' is worth $34.
-```
+* `abc` matches `abc`.
+* `ab`, `abc`, `abcd` all match `ab*`, but `cab` do not.
+* `ab`, `cab`, `dcab` all match ` *ab`, but `abc` do not.
+* `ab000cd` and `abcd` both match `ab*cd`.
+* `` (the empty string) matches `****`.
 
-To help you with that task, you are allowed to depend on the `ftkit` crate, which provides some
-basic utility functions. Documentation for that library is available [here](https://docs.rs/ftkit).
+You must write thorough unit tests for this function, ensuring that at least every example
+specified here passes the tests.
+
+```
+>_ cargo test
+
+running 34 tests
+test exact_match_without_glob_op ... OK
+test empty_string ... OK
+test basic_email ... OK
+
+...
+
+test result: ok. 34 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02
+```
