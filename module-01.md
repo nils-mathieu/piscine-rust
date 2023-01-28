@@ -1,4 +1,4 @@
-# Module 01: More Values
+# Module 01: References And Slices
 
 ## Introduction
 
