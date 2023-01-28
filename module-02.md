@@ -20,9 +20,18 @@ section are allowed. Every exercise must be part of a virtual Cargo workspace, a
 `workspace.members` table must be declared for the whole module.
 
 Everything must compile *without warnings* with the `rustc` compiler available on the school's
-machines without additional options. You are allowed to use attributes to modify lint levels, but
-you must be able to explain why you did so. You are *not* allowed to use `unsafe` code anywere in
-your code.
+machines without additional options. You are *not* allowed to use `unsafe` code anywere in your
+code.
+
+You are generally *not* authorized to modify lint levels - either using `#\[attributes\]`,
+`#!\[global_attributes\]` or with command-line arguments. You must use the `#![forbid(unsafe_code)]`
+attribute in every project you turn in. You may optionally allow the `dead_code` lint to silence
+warnings about unused variables, functions, etc.
+
+You are *strongly* encouraged to write extensive tests for the functions and systems you turn in.
+Correcting an already well-tested exercise is easier and faster than having to write them during
+defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
+they are not specified in the `allowed symbols` section.
 
 ## Exercise 00: A Point In Space
 
@@ -34,14 +43,19 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::{assert, assert_eq}  f32::sqrt
+    f32::sqrt
 ```
 
-Let's create a simple datastructure. Create a `struct` representing a 2D point, which itself
-describes the position of an object in 2D space. The created type must be named `Point`. The
-fields of `Point` must be accessible using the `.x`/`.y` syntax.
+Defines the following type:
 
-Your type has to implement the following associated functions:
+```rust
+struct Point {
+    x: f32,
+    y: f32,
+}
+```
+
+Implement the following inherent functions:
 
 * `new`, which creates a new `Point` instance with specific coordinates.
 * `zero`, which creates a new `Point` at coordinates `(0, 0)`.
@@ -57,175 +71,11 @@ impl Point {
 }
 ```
 
-Add tests to your crate to prove that each function is working as expected.
-
-## Exercise 01: Matching Colors
+## Exercise 01: Dimensional Analysis
 
 ```txt
 turn-in directory:
     ex01/
-
-files to turn in:
-    src/lib.rs  Cargo.toml
-
-allowed symbols:
-    std::{assert, assert_eq}
-```
-
-Here is the definition a type named `Color`. It is used to describe color using a red, a green and
-a blue component.
-
-```rust
-struct Color(u8, u8, u8);
-```
-
-You assignment is to create a `name` function that computes a string representation of any instance
-of the `Color` type. That function cannot be implemented using a forest of `if` statements. The
-prototype of that function must be:
-
-```rust
-impl Color {
-    fn name(&self) -> &'static str;
-}
-```
-
-The name of a color is determined using the following rules, applied in order. The first rule that
-`match`es the input color must be selected.
-
-* The color `Color(0, 0, 0)` is "pure black".
-* The color `Color(255, 255, 255)` is "pure white".
-* The color `Color(255, 0, 0)` is "pure red".
-* The color `Color(0, 255, 0)` is "pure green".
-* The color `Color(0, 0, 255)` is "pure blue".
-* The color `Color(128, 128, 128)` is "perfect grey".
-* Any color whose components are all bellow 31 is "almost black".
-* Any color whose red component is above 128, whose green and blue components are between 0 and 127
-  is "redish".
-* Any color whose green component is above 128, whose red and blue components are between 0 and 127
-  is "greenish".
-* Any color whose blue component is above 128, whose red and green components are between 0 and 127 is "blueish".
-* Any other color is named "unknown".
-
-You must include unit tests to prove the `name` function works as expected.
-
-## Exercise 02: Signing Numbers
-
-```txt
-turn-in directory:
-    ex02/
-
-files to turn in:
-    src/lib.rs  Cargo.toml
-
-allowed symbols:
-    std::{assert, assert_eq}  std::cmp::Ordering
-    i32::cmp
-```
-
-Create an `enum` that represents the sign of a number. That type must be named `Sign` and must
-be able to represent three separate states: one for when the value is zero, one for when the value
-is negative, and one for when the value is positive.
-
-The sign type must implement a method to create itself from an existing integer.
-
-```rust
-impl Sign {
-    fn of(i: i32) -> Self;
-}
-```
-
-Add tests to show that the `Sign::of` function works as expected. Note that you may need to add the
-`#[derive(Debug, PartialEq)]` attribute to your type in order to use `assert_eq!` properly.
-
-## Exercise 03: Sharing Is Caring
-
-```txt
-turn-in directory:
-    ex03/
-
-files to turn in:
-    src/main.rs  Cargo.toml
-
-allowed symbols:
-    std::println
-```
-
-Create a type named `Warior`. Wariors are very strong, but they need weapons to unleash their full
-potential. Create a `Weapon` type.
-
-The `Weapon` type must be an `enum`. Each variant of that `enum` must be a weapon type. Add at
-least two weapon types. This type can have an associated `print` method to display its name.
-
-```rust
-impl Weapon {
-    fn print(&self);
-}
-```
-
-The `Warior` type must store a *reference* to a `Weapon`.
-
-Create a `main` function that showcases two `Warior`s sharing the same `Weapon` instance.
-
-## Exercise 04: Algebraic Data Type
-
-```txt
-turn-in directory:
-    ex04/
-
-files to turn in:
-    src/main.rs  Cargo.toml
-
-allowed symbols:
-    std::{matches, assert*, println}
-```
-
-C-like enumerations are nice, but we can do better!
-
-Create an `enum` named `Literal`. That type must be able to represent the following literal
-values:
-
-* A string (example: `"Hello, World!"`)
-* An integer (example: `-1543`)
-* A floating-point number (example: `14.2`)
-* A boolean (example: `true`)
-* Nothing
-
-**Warning:** The `String` type is not in allowed symbols!
-
-The `Literal` type must implement a method to print its content. It must also have functions to
-determine the type currently represented.
-
-```rust
-impl Literal {
-    fn display(&self);
-
-    fn is_string(&self) -> bool;
-    fn is_int(&self) -> bool;
-    fn is_float(&self) -> bool;
-    fn is_bool(&self) -> bool;
-    fn is_nothing(&self) -> bool;
-}
-```
-
-You have to include tests to prove the functions you wrote are indeed correct. For the `display`
-function, you have to include a `main`.
-
-```txt
->_ cargo run
-12.3
-"Hello, World!"
-false
-true
-1
--14
-Nothing
-```
-
-## Exercise 05: Dimensional Analysis
-
-```txt
-turn-in directory:
-    ex05/
 
 files to turn in:
     src/main.rs  Cargo.toml
@@ -251,59 +101,156 @@ fn main() {
 120 seconds is 2 minutes
 ```
 
-## Exercise 06: Update Syntax
+## Exercise 02: Dry Boilerplates
+
+```txt
+turn-in directory:
+    ex02/
+
+files to turn in:
+    src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::clone::Clone  std::cmp::{PartialOrd, PartialEq}
+    std::default::Default  std::fmt::Debug
+```
+
+Create a `struct`. You simply have to name it `MyType`.
+
+```rust
+fn main() {
+    let instance = MyType::default();
+
+    let other_instance = instance.clone();
+
+    println!("the default value of MyType is {instance:?}");
+    println!("the clone of `instance` is {instance:#?}");
+    assert_eq!(
+        instance,
+        MyType::default(),
+        "the default value isn't always the same :/"
+    );
+    assert_eq!(
+        instance,
+        other_instance,
+        "the clone isn't the same :/"
+    );
+    assert!(
+        instance >= other_instance && instance <= other_instance,
+        "why would the clone be less or greater than the original?",
+    );
+}
+```
+
+Copy the above `main` function and make it compile and run. You are not allowed to use the `impl`
+keyword!
+
+## Exercise 03: All Over Me
+
+```txt
+turn-in directory:
+    ex03/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::clone::Clone  std::maker::Copy  std::cmp::PartialEq
+```
+
+```rust
+struct Color {
+    red: u8,
+    green: u8,
+    blue: u8,
+}
+
+impl Color {
+    fn new(r: u8, g: u8, b: u8) -> Self; // optional
+    fn mix(self, other: Self, opacity: u8) -> Self;
+}
+```
+
+Implement the mix **function**, which must mix `self` and `other` assuming that `self` is completly
+opaque and that `other` has an opacity of `(100*opacity/255)%`. We're computing "other over self".
+
+The formula to apply on every color component `C` is the following:
+
+```
+C = Cother * opacity + Cself * (1 - opacity)
+```
+
+Kudos if you manage to perform the operation without using `f32` convertions.
+
+It must be possible to call this function in this way:
+
+```rust
+let color = Color::new(255, 0, 0);
+assert_eq!(color, color.mix(color));
+```
+
+## Exercise 04: TODO
+
+TODO: C-like Enums
+
+## Exercise 05: TODO
+
+TODO: Enum with fields
+
+## Exercise 06: Todo List
 
 ```txt
 turn-in directory:
     ex06/
 
 files to turn in:
-    src/lib.rs  Cargo.toml
+    src/main.rs  Cargo.toml
+
+allowed dependencies:
+    ftkit
 
 allowed symbols:
-    std::{assert*}
+    std::{print, println}  std::vec::Vec  std::string::String
+    ftkit::{read_line, read_number}
 ```
 
-Here is a `struct` definition.
+Create a simple TODO-List application.
 
-```rust
-struct User {
-    id: u64,
-    first_name: &'static str,
-    last_name: &'static str,
-    email: &'static str,
-    phone_number: &'static str,
-    password: &'static str,
-}
-```
+When the user starts the program, the program asks them what to do. Available commands are the
+following:
 
-Copy this definition in your `lib.rs` file, and create a function to create the following
-functions.
+* **TODO <text>** adds a task to the TODO-List.
+* **DONE <index>** marks a task as "done".
+* **PURGE** removes all "done" tasks from the application.
+* **QUIT** or end-of-file both stop the program.
 
-```rust
-impl User {
-    fn basic() -> Self;
-    fn new(id: u64, first_name: &'static str) -> Self;
-}
-```
+Before prompting the user for a command, registered tasks are displayed to the user.
 
-The `User::basic` method must create a new `User` with default parameters. The fields of the
-returned instance must be initialized to the following values.
+You may design the interface you want to this exercise. Here is an example.
 
 ```txt
-id              : 0
-first_name      : "Jean"
-last_name       : "Dupont"
-email           : "jean.dupont@example.net"
-phone_number    : "00 00 00 00 00"
-password        : "11223344"
+>_ cargo run
+
+TODO go shopping
+
+    0 [ ] go shopping
+
+TODO do my homeworks
+
+    0 [ ] go shopping
+    1 [ ] do my homeworks
+
+DONE 0
+
+    0 [ ] do my homeworks
+      [x] go shopping
+
+PURGE
+
+    0 [ ] do my homework
+
+QUIT
 ```
-
-The `User::new` method must create a new `User` with the exact same values as the value returned by
-`User::basic`, but with `id` and `first_name` set to specific values. You must implement this
-function using Rust's *update syntax*.
-
-You have to write tests to prove the functions you wrote are working as expected.
 
 ## Exercise 07: Nano Cpu
 
@@ -340,6 +287,7 @@ It is able to execute the following operations.
 * **Jump to i:** makes the CPU jump to the specific instruction index **i**.
 * **JumpIfZero to i:** if the register **A** has the value `0`, then makes the CPU jump to the
   specific instruction index **i**.
+* **Print r** must print the content of a register to the standard output.
 
 For example, if the register **B** contains the value `124`, using the **Read B into C**
 instruction will read the value in the RAM at address `124` and put that value into register **C**.
@@ -371,6 +319,5 @@ in your `main` function as an example.
 02  JumpIfZero to 05 ;
 03  Increment B      ; '\0' not found, add 1 to B and retry
 04  Jump to 01       ;
-05  Set C to 255     ; write the result at address 255
-06  Write B at C     ;
+06  Print B          ; print the result
 ```
