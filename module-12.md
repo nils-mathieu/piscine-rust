@@ -379,7 +379,7 @@ It must be possible to use this type in this way (you must implement the correct
 this to work).
 
 ```rust
-let splits = Splits::new(cstr::cstr!("a b c"), b' ');
+let splits = Splits::perform(cstr::cstr!("a b c"), b' ');
 
 assert_eq!(&splits[0], cstr::cstr!("a"));
 assert_eq!(&splits[1], cstr::cstr!("b"));

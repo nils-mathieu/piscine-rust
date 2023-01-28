@@ -142,27 +142,26 @@ allowed symbols:
 ```
 
 Create a type that detects when it is dropped. Specifically, every time an instance of this type
-is dropped, it must update a value. That value must obiously be stored *outside* of itself so that
-you can check it afterwards.
+is dropped, it must increment a "drop count".
 
 The type should roughly work like that:
 
 ```rust
-let count = /* ... */;
+let original = DropDetector::new();
 
 let checked_drop = vec![
-    DropDetector::new(count.clone()),
-    DropDetector::new(count.clone()),
-    DropDetector::new(count.clone()),
-    DropDetector::new(count.clone()),
-    DropDetector::new(count.clone()),
+    original.clone(),
+    original.clone(),
+    original.clone(),
+    original.clone(),
+    original.clone(),
 ];
 
-assert_eq!(count.get(), 0);
-drop(DropDetector::new(count));
-assert_eq!(count.get(), 1);
+assert_eq!(original.get_count(), 0);
+drop(original.clone());
+assert_eq!(original.get_count(), 1);
 drop(checked_drop);
-assert_eq!(count.get(), 6);
+assert_eq!(original.get_count(), 6);
 ```
 
 Write more tests for your type. Try multiple containers, and ways to store the `DropDetector`s.
