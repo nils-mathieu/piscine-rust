@@ -101,11 +101,51 @@ fn main() {
 120 seconds is 2 minutes
 ```
 
-## Exercise 02: Dry Boilerplates
+## Exercise 02: Where's My Pizza?
+
 
 ```txt
 turn-in directory:
     ex02/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+```
+
+* Once a pizza has been ordered, it takes two days before the cook start working on it.
+* Making a pizza takes roughly 5 days.
+* Once the pizza is ready, the only delivery man must pick it up. It takes 3 days on average.
+* Delivering the pizza always take a whole week.
+
+Define the following type:
+
+```rust
+enum PizzaStatus {
+    Ordered,
+    Cooking,
+    Cooked,
+    Delivering,
+    Delivered,
+}
+```
+
+It must have the following inherent methods.
+
+```rust
+impl PizzaStatus {
+    fn from_delivery_time(ordered_days_ago: u32) -> Self;
+    fn get_delivery_time_in_days(&self) -> u32;
+}
+```
+
+* `from_delivery_time` predicts the status of a pizza that was ordered `ordered_days_ago` days ago.
+* `get_delivery_time_in_days` returns the estimated time before the pizza is delivered, in days.
+
+## Exercise 03: Dry Boilerplates
+
+```txt
+turn-in directory:
+    ex03/
 
 files to turn in:
     src/main.rs  Cargo.toml
@@ -115,7 +155,7 @@ allowed symbols:
     std::default::Default  std::fmt::Debug
 ```
 
-Create a `struct`. You simply have to name it `MyType`.
+Create a type, may it be a `struct` or an `enum`. You simply have to name it `MyType`.
 
 ```rust
 fn main() {
@@ -145,11 +185,11 @@ fn main() {
 Copy the above `main` function and make it compile and run. You are not allowed to use the `impl`
 keyword!
 
-## Exercise 03: All Over Me
+## Exercise 04: All Over Me
 
 ```txt
 turn-in directory:
-    ex03/
+    ex04/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -189,19 +229,11 @@ let color = Color::new(255, 0, 0);
 assert_eq!(color, color.mix(color));
 ```
 
-## Exercise 04: TODO
-
-TODO: C-like Enums
-
-## Exercise 05: TODO
-
-TODO: Enum with fields
-
-## Exercise 06: Todo List
+## Exercise 05: Todo List
 
 ```txt
 turn-in directory:
-    ex06/
+    ex05/
 
 files to turn in:
     src/main.rs  Cargo.toml
@@ -252,11 +284,11 @@ PURGE
 QUIT
 ```
 
-## Exercise 07: The Game Of Life
+## Exercise 06: Lexial Analysis
 
 ```txt
 turn-in directory:
-    ex07/
+    ex06/
 
 files to turn in:
     src/main.rs  Cargo.toml
@@ -265,34 +297,120 @@ allowed dependencies:
     ftkit
 
 allowed symbols:
-    ftkit::random_number  std::{println, print}
-    std::thread::sleep  std::time::Duration
-    std::vec::Vec
+    ftkit::ARGS  std::option::Option  str::*  <[u8]>::*
 ```
 
-Create a **program** that plays [Conway's Game Of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
+Create a simple token parser. It must be able to take an input string, and turn it into a list
+of tokens.
 
-Your program must generate a random board, when it starts, and then simulate the Game Of Life. Each
-time a new "step" of simulation is computed, the previous step should be erased from the terminal
-and replaced by the new one.
+Each token must be represented using the following `enum`:
 
-**Hint:** you might want to look at ANSI escape codes if you don't know where to start.
+```rust
+enum Token<'a> {
+    Word(&'a str),
+    RedirectStdout,
+    RedirectStdin,
+    Pipe,
+}
+```
 
-Example (keep in mind that you may use any characters you want for this!):
+* The character `>` produces a `RedirectStdout` token.
+* The character `<` produces a `RedirectStdin` token.
+* The character `|` produces a `Pipe` token.
+* Any other character is part of a `Word`, unless it's a whitespace.
+* Whitespaces are ignored.
+
+```rust
+fn next_token(s: &mut &str) -> Option<Token>;
+```
+
+* You may need to add some *lifetime annotations* to make the function compile properly.
+* The `next_token` function either produce *Some(_)* value if a token is available, or nothing when
+the input string contains no tokens.
+
+**Note:** You do not have to handle single or double quotes, nor do you have to care about escaping with `\\`!
+
+It must be possible to use the `next_token` function and the `Token` type in this way:
+
+```rust
+fn print_all_tokens(mut s: &str) {
+    while let Some(token) = next_token(&mut s) {
+        println!("{token:?}");
+    }
+}
+```
+
+Finish your program to make it behave in this way:
 
 ```txt
+>_ cargo run -- a b
+error: exacltly one argument expected
+>_ cargo run -- "echo hello | cat -e > file.txt"
+Word("echo")
+Word("hello")
+Pipe
+Word("cat")
+Word("-e")
+RedirectStdout
+Word("file.txt")
+```
+
+## Exercise 07: Justify Yourself!
+
+```txt
+turn-in directory:
+    ex06/
+
+files to turn in:
+    src/main.rs  Cargo.toml
+
+allowed dependencies:
+    ftkit
+
+allowed symbols:
+    ftkit::ARGS  ftkit::read_line  str::parse
+    std::vec::Vec  std::string::String
+```
+
+Create a **program** that takes a number of columns as an input, and tries to justify the text it
+is given in the standard input as best as it can to that number of columns.
+
+* The input is separated into "paragraphs". Each "paragraph" is separated by at least two line feeds
+`'\n'`. The last line of each paragraph is *not* justified.
+* In the final output, multiple spaces are replaced by a single one.
+* In the final output, paragraphs are always separated by a single empty line.
+* If a word do not fit on a single line, it gets its own line and ignores the column requirement.
+
+Example:
+
+```txt
+>_ << EOF cargo run -- 20
+Hey,         how   are
+you?      Can
+you hear me     screaming in your ears?
+
+
+
+I        don't!
+EOF
+Hey,  how  are  you?
+Can   you   hear  me
+screaming   in  your
+ears?
+
+I don't!
+>_ << EOF cargo run -- 10
+a
+b
+00000000000000000000000000000000000000000
+c
+d
+EOF
+a        b
+00000000000000000000000000000000000000000
+c d
 >_ cargo run
-. . . . # . . . . . . . . . . # . . . . . #
-. . . # # . . . . . . . . . . . . . . . # .
-. . # . . # . . # . . . . . # . . . # . # #
-. . . . . . . . . . . . . # . . . . . # . .
-. . . # # . . # # # # . . . . . . . . . # .
-# . . . # . . # . . # . . . . # . . # # . .
-. . # # # # . # # . # # . . . . . . . . . .
-. . # . . # . . # . . . . # # . . . . . # #
-. # # . . # # . . . . . # # . . . . . . # .
-. # . . . # . . . . # . . . . . # . . . . .
-. . . # # . . . # . . . . . # # # # . . . .
-^C
->_
+error: missing argument
+>_ cargo run -- abc
+error: invalid argument
 ```
