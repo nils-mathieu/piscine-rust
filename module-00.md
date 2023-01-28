@@ -5,17 +5,18 @@
 The Rust programming language is still fairly new: its 1.0 release is younger than 42 itself! For
 this reason, please understand that the knowledge acquired here may become obsolete at some point.
 Though this is true for most programming languages, Rust is still updated quite regularly (almost
-on a three-month basis) and you should be aware of that. Never stop learning.
+on a monthly basis) and you should be aware of that. Never stop learning.
 
 At times, Rust might feel a bit hard to get into, may it be its syntax, the borrow checker, or
 more generally, the number of details it requires the developer to think about when writing code.
 Trust the compiler. It is always (in 99% of cases) right - even when it complains for apparently
 nothing. Plus it is pretty well known to provide really good error messages. Read the errors,
-correct your code, and get over it!
+correct your code, and get over it! And trust me: it's worth it. The languages will pay you back for
+this.
 
-Internet can provide lots of resources to learn the Rust programming language, but I must advice
-you to primarily focus on the official documentation. It contains the most up-to-date information
-about this rapidly evolving language.
+Along you journey, do not fear the Internet. It can provide lots of resources to learn the Rust
+programming language. I will, however, advise you to to primarily focus on the official
+documentation. It contains the most up-to-date information about this rapidly evolving language.
 
 ## General Rules
 
