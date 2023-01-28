@@ -368,34 +368,80 @@ allowed dependencies:
     ftkit
 
 allowed symbols:
-    ftkit::random_number  std::{println, print}
+    ftkit::ARGS ftkit::random_number
+    std::{println, print}
     std::thread::sleep  std::time::Duration
-    std::vec::Vec
+    std::vec::Vec  std::result::Result
 ```
 
 Create a **program** that plays [Conway's Game Of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 
-Your program must generate a random board, when it starts, and then simulate the Game Of Life. Each
-time a new "step" of simulation is computed, the previous step should be erased from the terminal
-and replaced by the new one.
+* You must use an `enum` to represent a cell of the board.
 
-**Hint:** you might want to look at ANSI escape codes if you don't know where to start.
+```rust
+struct Cell {
+    Dead,
+    Alive,
+}
+```
 
-Example (keep in mind that you may use any characters and board size you want for this!):
+* The board must be represented using a `struct`.
+
+```rust
+enum ParseError {
+    InvalidWidth(&'static str),
+    InvalidHeight(&'static str'),
+    InvalidPercentage(&'static str),
+    TooManyArguments,
+    NotEnoughArguments,
+}
+
+struct Board {
+    width: usize,
+    height: usize,
+    cells: Vec<Cell>,
+}
+
+impl Board {
+    fn new(width: usize, height: usize, percentage: u32) -> Self;
+    fn from_args() -> Result<Self, ParseError>;
+    fn step(&mut self);
+    fn print(&self, clear: bool);
+}
+```
+
+* `new` must generate a random board of size (`width` by `height`), with approximatly
+`percentage`% live cells in it.
+* `from_args` must parse the command-line arguments passed to the application and use them to
+create a `Board` instance. Errors are communicated through the `ParseError` enumeration.
+* `step` must simulate an entier step of the simulation.
+* `print` must print the board to the terminal. When `clear` is `true`, the function must also
+clear a previously displayed board.
+
+**Hint:** you might want to look at *ANSI Escape Codes* if you don't know where to start!
+
+* Finally, write a **main** function that uses above function to simulate the game of line. At each
+simulation step, the previous board must be replaced by the one in the terminal.
+
+Example:
 
 ```txt
->_ cargo run
-. . . . # . . . . . . . . . . # . . . . . #
-. . . # # . . . . . . . . . . . . . . . # .
-. . # . . # . . # . . . . . # . . . # . # #
-. . . . . . . . . . . . . # . . . . . # . .
-. . . # # . . # # # # . . . . . . . . . # .
-# . . . # . . # . . # . . . . # . . # # . .
-. . # # # # . # # . # # . . . . . . . . . .
-. . # . . # . . # . . . . # # . . . . . # #
-. # # . . # # . . . . . # # . . . . . . # .
-. # . . . # . . . . # . . . . . # . . . . .
-. . . # # . . . # . . . . . # # # # . . . .
+>_ cargo run -- 20 10 40
+. . . . # . . . . . . . . . . # . . . .
+. . . # # . . . . . . . . . . . . . . .
+. . # . . # . . # . . . . . # . . . # .
+. . . . . . . . . . . . . # . . . . . #
+. . . # # . . # # # # . . . . . . . . .
+# . . . # . . # . . # . . . . # . . # #
+. . # # # # . # # . # # . . . . . . . .
+. . # . . # . . # . . . . # # . . . . .
+. # # . . # # . . . . . # # . . . . . .
+. # . . . # . . . . # . . . . . # . . .
 ^C
->_
+>_ cargo run -- 
+error: not enough arguments
+>_ cargo run -- a b c
+error: `a` is not a valid width
 ```
+
+Keep in mind that this is only an example. You may use any characters and messages you wish.
