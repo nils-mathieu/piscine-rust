@@ -1,4 +1,4 @@
-# Module 05: Generics
+# Module 03: Polymorphism
 
 ## Introduction
 

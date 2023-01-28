@@ -3,9 +3,9 @@
 ## Modified
 
 * [Module 00: Hello World](module-00.md)
-* [Module 01: References And Slices](module-01.md)
+* [Module 01: I Want To Talk To The Owner](module-01.md)
 * [Module 02: Structs n' Co](module-02.md)
-* [Module 03: Generics](module-03.md)
+* [Module 03: Polymorphism](module-03.md)
 
 ## Old Modules
 
@@ -15,8 +15,3 @@
 * [Module 10: Threads And Concurrency](module-10.md)
 * [Module 11: Interior Mutability](module-11.md)
 * [Module 12: Feeling Unsafe](module-12.md)
-
-## To Be Sorted
-
-* [Module ??: Traits](module-traits.md)
-* [Module ??: Monads](module-03.md)
