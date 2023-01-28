@@ -2,10 +2,10 @@
 
 ## Introduction
 
-The Rust programming language is still fairly new: its `1.0` release is younger than 42 itself! For
+The Rust programming language is still fairly new: its 1.0 release is younger than 42 itself! For
 this reason, please understand that the knowledge acquired here may become obsolete at some point.
 Though this is true for most programming languages, Rust is still updated quite regularly (almost
-on a monthly basis) and you should be aware of that. Never stop learning.
+on a three-month basis) and you should be aware of that. Never stop learning.
 
 At times, Rust might feel a bit hard to get into, may it be its syntax, the borrow checker, or
 more generally, the number of details it requires the developer to think about when writing code.
@@ -19,9 +19,9 @@ about this rapidly evolving language.
 
 ## General Rules
 
-Any program you turn in must compile *without warnings* using the `rustc` compiler available on
-the school's machines without additional options. You are *not* allowed to use `unsafe` code
-anywhere in your code (not until the last module :p).
+Any code you turn in must compile *without warnings* using the `rustc` compiler available on the
+school's machines without additional options. You are *not* allowed to use `unsafe` code anywhere in
+your code (not until the last module :p).
 
 For exercises using the `cargo` package manager, the same rule applies. In that case, only the
 crates specified in the `allowed dependencies` section are allowed. Any other dependency is
@@ -200,26 +200,26 @@ Example:
 
 ```txt
 >_ ./fizzbuzz
-  1: 1
-  2: 2
-  3: fizz
-  4: 4
-  5: buzz
-  6: fizz
-  7: 7
-  8: 8
-  9: fizz
- 10: buzz
- 11: 11
- 12: fizz
- 13: 13
- 14: FIZZ
- 15: fizzbuzz
- 16: BUZZ
- 17: 17
- 18: fizz
- 19: 19
- 20: buzz
+1
+2
+fizz
+4
+buzz
+fizz
+7
+8
+fizz
+buzz
+11
+fizz
+13
+FIZZ
+fizzbuzz
+BUZZ
+17
+fizz
+19
+buzz
 ...
 ```
 
@@ -232,7 +232,7 @@ turn-in directory:
     ex04/
 
 files to turn in:
-    src/default.rs  str/overflow.rs  str/other.rs  Cargo.toml
+    src/default.rs  src/overflow.rs  src/other.rs  Cargo.toml
 
 allowed symbols:
     std::println
@@ -262,7 +262,7 @@ I'm in release mode!
 
 ```txt
 >_ cargo build
->_ nm <output> | head
+>_ nm <target-dir>/debug/module00-ex04 | head
 000000000004d008 V DW.ref.rust_eh_personality
 0000000000049acc r GCC_except_table0
 0000000000049ad8 r GCC_except_table1
@@ -274,12 +274,12 @@ I'm in release mode!
 000000000004945c r GCC_except_table1075
 0000000000049470 r GCC_except_table1076
 >_ cargo build --release
->_ nm <output>
-nm: <output>: no symbols
+>_ nm <target-dir>/release/module00-ex04
+nm: <target-dir>/release/module00-ex04: no symbols
 ```
 
 * It must have a custom profile inheriting the "dev" profile. That profile must simply disable
-integer overflow checks.
+integer overflow checks. For this reason, you will name it `no-overflows`.
 
 ```txt
 >_ cargo run --bin test-overflows
@@ -298,7 +298,7 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::{assert, assert_eq}  std::panic  std::{print, println}
+    std::{assert, assert_eq, assert_ne}  std::panic  std::{print, println}
 ```
 
 Write a **program** which prints every Friday that falls on the 13th of the month, since the first
@@ -340,6 +340,8 @@ work as expected. Specifically, you must show that:
 * 2003 is a common year.
 * February has 29 days on leap years, but 28 on common years.
 * Other months have the correct number of days on both leap and common years.
+* Passing an invalid month to `num_days_in_month` must make the function panic.
+* Passing an year `0` to `is_leap_year` must make the function panic.
 
 ## Exercise 06: Guessing Game
 
@@ -362,7 +364,7 @@ Create a **program** that plays the guessing game.
 
 ```txt
 >_ cargo run
-Me and my infinite wisdom have found an appropriate secret that you shall guess.
+Me and my infinite wisdom have found an appropriate secret you shall yearn for.
 12
 This student might not be as smart as I was told. This answer is obviously too weak.
 25
@@ -386,8 +388,8 @@ allowed dependencies:
     ftkit
 
 allowed symbols:
-    std::{assert, assert_eq}  str::len
-    ftkit::ARGS
+    std::{assert, assert_eq}  <[u8]>::{len, is_empty}
+    str::as_bytes  ftkit::ARGS
 ```
 
 Create a **library** that exposes the function `strpcmp`.
