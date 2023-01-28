@@ -242,8 +242,12 @@ allowed dependencies:
     ftkit
 
 allowed symbols:
-    std::{print, println}  std::vec::Vec  std::string::String
+    std::{print, println}
+    std::vec::Vec::{new, push, remove, clear}
+    std::string::String::as_str
+    str::{to_string, parse, len, is_empty}
     ftkit::{read_line, read_number}
+    std::result::Result
 ```
 
 Create a simple TODO-List application.
@@ -251,12 +255,44 @@ Create a simple TODO-List application.
 When the user starts the program, the program asks them what to do. Available commands are the
 following:
 
-* **TODO <text>** adds a task to the TODO-List.
-* **DONE <index>** marks a task as "done".
-* **PURGE** removes all "done" tasks from the application.
-* **QUIT** or end-of-file both stop the program.
+```rust
+enum Command {
+    Todo(String),
+    Done(usize),
+    Purge,
+    Quit,
+}
 
-Before prompting the user for a command, registered tasks are displayed to the user.
+impl Command {
+    fn prompt() -> Self;
+}
+```
+
+* The `prompt` function must ask the user to write a command. End-Of-File generates the `Quit`
+command. On error, the function must simply ask the user again. See the final example for the
+required format.
+
+```rust
+struct TodoList {
+    todos: Vec<String>,
+    dones: Vec<String>,
+}
+
+impl TodoList {
+    fn display(&self);
+    fn add(&mut self, todo: String);
+    fn done(&mut self, index: usize);
+    fn purge(&mut self);
+}
+```
+
+* `display` must print the content of the todolist to the user.
+* `add` must add an item to be done.
+* `done` must mark an item as being done. Invalid indices should do nothing.
+* `purge` must purge any "done" task.
+
+Write a `main` function, respondible for using both `TodoList` and `Command`. The content of the
+todolist must be displayed to the user before each prompt.
 
 You may design the interface you want to this exercise. Here is an example.
 
