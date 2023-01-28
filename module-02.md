@@ -372,20 +372,13 @@ allowed symbols:
     std::{println, print}
     std::thread::sleep  std::time::Duration
     std::vec::Vec  std::result::Result
+    std::marker::Copy  std::clone::Clone
+    std::cmp::PartialEq
 ```
 
 Create a **program** that plays [Conway's Game Of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 
-* You must use an `enum` to represent a cell of the board.
-
-```rust
-struct Cell {
-    Dead,
-    Alive,
-}
-```
-
-* The board must be represented using a `struct`.
+* The board must be represented using a `struct`, and each cell with an `enum`.
 
 ```rust
 enum ParseError {
@@ -394,6 +387,11 @@ enum ParseError {
     InvalidPercentage(&'static str),
     TooManyArguments,
     NotEnoughArguments,
+}
+
+enum Cell {
+    Dead,
+    Alive,
 }
 
 struct Board {
