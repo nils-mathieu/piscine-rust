@@ -355,11 +355,11 @@ RedirectStdout
 Word("file.txt")
 ```
 
-## Exercise 07: Justify Yourself!
+## Exercise 07: The Game Of Life
 
 ```txt
 turn-in directory:
-    ex06/
+    ex07/
 
 files to turn in:
     src/main.rs  Cargo.toml
@@ -368,49 +368,34 @@ allowed dependencies:
     ftkit
 
 allowed symbols:
-    ftkit::ARGS  ftkit::read_line  str::parse
-    std::vec::Vec  std::string::String
+    ftkit::random_number  std::{println, print}
+    std::thread::sleep  std::time::Duration
+    std::vec::Vec
 ```
 
-Create a **program** that takes a number of columns as an input, and tries to justify the text it
-is given in the standard input as best as it can to that number of columns.
+Create a **program** that plays [Conway's Game Of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 
-* The input is separated into "paragraphs". Each "paragraph" is separated by at least two line feeds
-`'\n'`. The last line of each paragraph is *not* justified.
-* In the final output, multiple spaces are replaced by a single one.
-* In the final output, paragraphs are always separated by a single empty line.
-* If a word do not fit on a single line, it gets its own line and ignores the column requirement.
+Your program must generate a random board, when it starts, and then simulate the Game Of Life. Each
+time a new "step" of simulation is computed, the previous step should be erased from the terminal
+and replaced by the new one.
 
-Example:
+**Hint:** you might want to look at ANSI escape codes if you don't know where to start.
+
+Example (keep in mind that you may use any characters and board size you want for this!):
 
 ```txt
->_ << EOF cargo run -- 20
-Hey,         how   are
-you?      Can
-you hear me     screaming in your ears?
-
-
-
-I        don't!
-EOF
-Hey,  how  are  you?
-Can   you   hear  me
-screaming   in  your
-ears?
-
-I don't!
->_ << EOF cargo run -- 10
-a
-b
-00000000000000000000000000000000000000000
-c
-d
-EOF
-a        b
-00000000000000000000000000000000000000000
-c d
 >_ cargo run
-error: missing argument
->_ cargo run -- abc
-error: invalid argument
+. . . . # . . . . . . . . . . # . . . . . #
+. . . # # . . . . . . . . . . . . . . . # .
+. . # . . # . . # . . . . . # . . . # . # #
+. . . . . . . . . . . . . # . . . . . # . .
+. . . # # . . # # # # . . . . . . . . . # .
+# . . . # . . # . . # . . . . # . . # # . .
+. . # # # # . # # . # # . . . . . . . . . .
+. . # . . # . . # . . . . # # . . . . . # #
+. # # . . # # . . . . . # # . . . . . . # .
+. # . . . # . . . . # . . . . . # . . . . .
+. . . # # . . . # . . . . . # # # # . . . .
+^C
+>_
 ```
