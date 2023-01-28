@@ -8,7 +8,7 @@ invalid pointers. When using that language, the compiler *ensures* statically th
 you create won't ever be invalidated while you are using it. To provide this guarentee, Rust uses
 a system known as the *Borrow Checker*.
 
-Rust's Borrow Checker can be a bit hard to get used to, but remember that 99% of the program it
+Rust's Borrow Checker can be a bit hard to get used to, but remember that 99% of the programs it
 rules out are actually invalid and could potentially lead to memory unsafety and undefined
 behavior. This module will introduce you to how it works, and what information it uses to
 determine whether a program is valid or not.
@@ -74,7 +74,6 @@ fn min(a: &i32, b: &i32) -> &i32;
 Note that you may have to add some *lifetime annotations* to the function in order to make it
 compile.
 
-
 ## Exercise 02: The Name Of Colors
 
 ```txt
@@ -116,38 +115,22 @@ following test must compile and run:
 #[cfg(test)]
 #[test]
 fn test_lifetimes() {
-    static NAME_OF_THE_BEST_COLOR: &str = color_name(&[42, 42, 42]);
-    assert_eq!(NAME_OF_THE_BEST_COLOR, "unknown");
+    let name_of_the_best_color;
+
+    {
+        let the_best_color = [42, 42, 42];
+        name_of_the_best_color = color_name(&the_best_color);
+    }
+
+    assert_eq!(name_of_the_best_color, "unknown");
 }
 ```
 
-## Exercise 03: Living A Long Time
+## Exercise 03: Find Group
 
 ```txt
 turn-in directory:
     ex03/
-
-files to turn in:
-    src/lib.rs  Cargo.toml
-```
-
-Create a **function** with this signature. It must return a reference to the integer 42.
-
-```rust
-fn lives_a_long_time() -> &'static i32;
-```
-
-Example:
-
-```rust
-assert_eq!(lives_a_long_time(), &42);
-```
-
-## Exercise 04: Find Group
-
-```txt
-turn-in directory:
-    ex04/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -195,11 +178,11 @@ fn test_lifetimes() {
 }
 ```
 
-## Exercise 05: Boxes Into Boxes
+## Exercise 04: Boxes Into Boxes
 
 ```txt
 turn-in directory:
-    ex05/
+    ex04/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -239,11 +222,11 @@ assert_eq!(
 );
 ```
 
-## Exercise 06: Deduplication
+## Exercise 05: Deduplication
 
 ```txt
 turn-in directory:
-    ex06/
+    ex05/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -266,11 +249,11 @@ deduplicate(&mut v);
 assert_eq!(v, [1, 2, 3, 4]);
 ```
 
-## Exercise 07: LIS
+## Exercise 06: LIS
 
 ```txt
 turn-in directory:
-    ex07/
+    ex06/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -296,11 +279,11 @@ assert_eq!(&[2, 1, 3], [2, 3]);
 assert_eq!(&[2, 1, 4, 2, 4], [1, 2, 4]);
 ```
 
-## Exercise 08: HTML Tag Validator
+## Exercise 07: HTML Tag Validator
 
 ```txt
 turn-in directory:
-    ex08/
+    ex07/
 
 files to turn in:
     src/main.rs  Cargo.toml
