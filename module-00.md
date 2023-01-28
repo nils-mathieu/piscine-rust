@@ -343,6 +343,8 @@ work as expected. Specifically, you must show that:
 * Passing an invalid month to `num_days_in_month` must make the function panic.
 * Passing an year `0` to `is_leap_year` must make the function panic.
 
+It must be possible to run those tests using `cargo test`.
+
 ## Exercise 06: Guessing Game
 
 ```txt
