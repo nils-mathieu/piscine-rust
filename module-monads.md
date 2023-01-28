@@ -1,4 +1,4 @@
-# Module 06: Standard Monads
+# Module 06: Monadic Worlds
 
 ## Introduction
 
@@ -8,6 +8,8 @@ disable it, but this is beyond the scope of this piscine.
 
 The Rust standard library, while not as large as C++'s, exports lots of useful types and constructs
 to help you create efficient software. This module will introduce you to some of them.
+
+Always remember: a monad is just a monoid in the cateogry of endofunctors.
 
 ## General Rules
 
@@ -245,80 +247,3 @@ error: invalid length
 error: invalid number
 ```
 
-## Exercise 06: Comma-Separated Values
-
-```txt
-turn-in directory:
-    ex06/
-
-files to turn in:
-    src/lib.rs  src/**/*.rs  Cargo.toml
-
-allowed symbols:
-    std::str::FromStr  str::*  std::result::Result
-    std::vec::Vec  std::string::String  std::write
-    std::fmt::{Debug, Display, Formatter, Write}
-    std::cmp::PartialEq
-```
-
-Let's create a generic CSV Encoder & Decoder.
-
-A CSV file is defined like this:
-
-```txt
-value1,value1,value1,value1
-value2,value2,value2,value2
-value3,value3,value3,value3
-...
-```
-
-Each line corresponds to a *record*, and each column corresponds to a *field*.
-
-First, let's create a trait for types which may be encoded and decoded into a field value. This
-trait must define a way to write an ASCII representation of the value, as well as a way to parse
-a string into a concrete instance of the type. Error type may be as simple as unit structs.
-
-Example:
-
-```rust
-struct EncodingError;
-struct DecodingError;
-
-trait Field {
-    /* ... */
-}
-```
-
-You must implement the `Field` type for common types, such as `String` or `u32`. Errors
-(such as invalid characters in a `&str`, or a numeric literal being too large) must return an
-error instead of panicking.
-
-With that out of the way, let's create a `Record` trait, which provides a way to access all of its
-`Field`s, as well as a way to construct an instance of itself from a list of strings.
-
-```rust
-trait Record {
-    /* ... */
-}
-```
-
-Now, you have everything you need to create `decode_csv` and `encode_csv` functions.
-
-```rust
-fn encode_csv<R: Record>(records: &[R]) -> Result<String, EncodingError>;
-fn decode_csv<R: Record>(contents: &str) -> Result<Vec<R>, DecodingError>;
-```
-
-Optionally, you can try to create a macro to implement the `Record` trait automatically:
-
-```rust
-struct MyType {
-    id: u32,
-    name: String,
-}
-
-// Example:
-impl_record!(MyType(id, name));
-```
-
-Write extensive tests for the two functions.
