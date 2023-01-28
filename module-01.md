@@ -126,7 +126,7 @@ fn test_lifetimes() {
 }
 ```
 
-## Exercise 03: Find Group
+## Exercise 03: Largest Group
 
 ```txt
 turn-in directory:
@@ -136,14 +136,14 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    <[u32]>::len
+    <[u32]>::{len, is_empty, contains}
 ```
 
 Write a **function** that returns the largest subslice of `haystack` that contains all numbers in
 `needle`.
 
 ```rust
-fn find_group(haystack: &[u32], needle: &[u32]) -> &[u32];
+fn largest_group(haystack: &[u32], needle: &[u32]) -> &[u32];
 ```
 
 * When multiple groups match the `needle`, the largest one is returned.
@@ -152,10 +152,10 @@ fn find_group(haystack: &[u32], needle: &[u32]) -> &[u32];
 Example:
 
 ```rust
-assert_eq!(find_group(&[1, 3, 4, 3, 5, 5, 4], &[5, 3]), &[3, 5, 5]);
-assert_eq!(find_group(&[1, 3, 4, 3, 5, 5, 4], &[5], &[5, 5]));
-assert_eq!(find_group(&[1, 3, 4, 3, 5, 5, 4], &[], &[]));
-assert_eq!(find_group(&[1, 3, 4, 3, 5, 5, 4], &[4, 1], &[]));
+assert_eq!(largest_group(&[1, 3, 4, 3, 5, 5, 4], &[5, 3]), &[3, 5, 5]);
+assert_eq!(largest_group(&[1, 3, 4, 3, 5, 5, 4], &[5], &[5, 5]));
+assert_eq!(largest_group(&[1, 3, 4, 3, 5, 5, 4], &[], &[]));
+assert_eq!(largest_group(&[1, 3, 4, 3, 5, 5, 4], &[4, 1], &[]));
 ```
 
 Once again, you may need to specify some *lifetime annotations* for the function. To check whether
@@ -166,12 +166,12 @@ It must compile and run.
 #[test]
 #[cfg(test)]
 fn test_lifetimes() {
-    let array = [1, 2, 3, 2, 1];
+    let haystack = [1, 2, 3, 2, 1];
     let result;
 
     {
         let needle = [2, 3];
-        result = smallest_subslice(&array, &needle);
+        result = largest_group(&haystack, &needle);
     }
 
     assert_eq!(result, &[2, 3, 2]);
@@ -188,7 +188,7 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    <[i32]>::{len, swap}
+    <[i32]>::{len, is_empty, swap}  std::{assert, assert_eq, panic}
 ```
 
 You are given a list of boxes (`[width, height]`). Sort that list of boxes in a way for every box
@@ -201,25 +201,9 @@ fn sort_boxes(boxes: &mut [[u32; 2]]);
 Example:
 
 ```rust
-let mut boxes = [
-    [3, 3],
-    [4, 3],  
-    [1, 0],
-    [5, 7],
-    [3, 3],
-];
-
+let mut boxes = [[3, 3], [4, 3], [1, 0], [5, 7], [3, 3]];
 sort_boxes(&mut boxes);
-assert_eq!(
-    boxes,
-    &[
-        [5, 7],
-        [4, 3],
-        [3, 3],
-        [3, 3],
-        [1, 0],
-    ],
-);
+assert_eq!(boxes, [[5, 7], [4, 3], [3, 3], [3, 3], [1, 0]]);
 ```
 
 ## Exercise 05: Deduplication
@@ -232,7 +216,7 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::vec::Vec::{swap_remove}
+    std::vec::Vec::{remove, len}
 ```
 
 Write a **function** that removes all repeated elements of a list, preserving its initial ordering.
@@ -259,7 +243,8 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    <[i32]>::len  std::vec::Vec
+    <[i32]>::{is_empty, len}
+    std::vec::Vec::{push, insert, len, is_empty, new}
 ```
 
 Write a **function** that finds the Longest Increasing Sequence in a given array.
@@ -268,9 +253,9 @@ Write a **function** that finds the Longest Increasing Sequence in a given array
 fn lis(slice: &[i32]) -> Vec<i32>;
 ```
 
-* The sequence itself is returned in a list.
+* The longuest sequence is returned in a list.
 * The returned sequence must be *strictly* increasing.
-* When multiple largest sequence are found, any of those sequences can be selected.
+* When multiple longuest sequences are found, any of those sequences can be selected.
 
 Example:
 
@@ -279,7 +264,7 @@ assert_eq!(&[2, 1, 3], [2, 3]);
 assert_eq!(&[2, 1, 4, 2, 4], [1, 2, 4]);
 ```
 
-## Exercise 07: HTML Tag Validator
+## Exercise 07: Justify Yourself!
 
 ```txt
 turn-in directory:
@@ -289,54 +274,57 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed dependencies:
-    ftkit
+    ftkit  unicode-width
 
 allowed symbols:
     ftkit::ARGS  ftkit::read_line
-    std::process::ExitCode  std::eprintln
+    unicode-width::UnicodeWidthStr
+    std::vec::Vec::{new, push, clear}
+    <[T]>::{len, is_empty}
+    std::string::String::{new, as_str}
+    str::{parse, trim, is_empty, len, split_whitespace, to_string}
+    std::{eprintln, print, println}
+    std::result::Result::unwrap
+    std::{assert, assert_eq, panic}
 ```
 
-Create a **program** that reads the standard input to determine whether it contains valid HTML-like
-tags. As soon as an error is found, the program stops with an appropriate error message.
+Create a **program** that takes a number of columns as an input, and tries to justify the text it
+is given in the standard input as best as it can to that number of columns.
 
-* When the given HTML tags are valid, the program exists with the value 0. Otherwise, the error is
-displayed to the standard error output.
+* The input is separated into "paragraphs". Each "paragraph" is separated by at least two line feeds
+`'\n'`. The last line of each paragraph is *not* justified.
+* In the final output, multiple spaces are replaced by a single one.
+* In the final output, paragraphs are always separated by a single empty line.
+* If a word do not fit on a single line, it gets its own line and ignores the column requirement.
+* If the user provides no arguments, or too many, or if the argument is invalid, the program is
+allowed to panic.
 
-
-```txt
->_ cargo run
-<Hello>
-    <a>Lorem</a>
-</Hello>
->_ echo $?
-0
-```
-
-* Tags can only contain ASCII letters:
+Example:
 
 ```txt
->_ cargo run
-<He-llo>
-error: line 1: invalid tag character '-'
->_ cargo run
-<He
-error: line 1: invalid tag character '\n'
->_ echo $?
-1
-```
+>_ << EOF cargo run -- 20 | cat -e
+Hey,         how   are
+you?      Can
+you hear me     screaming in your ears?
 
-* Every tag must have a corresponding closing tag.
 
-```txt
->_ cargo run
-<MyTag>some text
-error: line 1: missing closing tag for `<MyTag>`
-```
 
-* Tags cannot be interspersed.
-
-```txt
->_ cargo run
-<a>hello<b>world</a></b>
-error: line 1: '<b>' is never closed.
+I        don't!
+EOF
+Hey,  how  are  you?$
+Can   you   hear  me$
+screaming   in  your$
+ears?$
+$
+I don't!$
+>_ << EOF cargo run -- 10
+a
+b
+00000000000000000000000000000000000000000
+c
+d
+EOF
+a        b
+00000000000000000000000000000000000000000
+c d
 ```
