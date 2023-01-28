@@ -252,72 +252,47 @@ PURGE
 QUIT
 ```
 
-## Exercise 07: Nano Cpu
+## Exercise 07: The Game Of Life
 
 ```txt
 turn-in directory:
     ex07/
 
 files to turn in:
-    src/main.rs src/**/*.rs  Cargo.toml
+    src/main.rs  Cargo.toml
+
+allowed dependencies:
+    ftkit
 
 allowed symbols:
-    std::{assert*, println}   <[T]>::len
+    ftkit::random_number  std::{println, print}
+    std::thread::sleep  std::time::Duration
+    std::vec::Vec
 ```
 
-Let's simulate a simple computer using the Rust programming language. A computer is basically made
-of two things: a CPU (Central Processing Unit), and some kind of memory storage.
+Create a **program** that plays [Conway's Game Of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 
-Create a `NanoCpu` type, which stores the state of a the simulated computer's CPU as well as its
-internal RAM (it can be implemented as an array of 256 bytes). The CPU has four 8-bit registers,
-**A**, **B**, **C** and **D**. A register is a value directly baked into the CPU; registers do not
-have a memory address, but they can be used to reference memory stored in the RAM.
+Your program must generate a random board, when it starts, and then simulate the Game Of Life. Each
+time a new "step" of simulation is computed, the previous step should be erased from the terminal
+and replaced by the new one.
 
-It is able to execute the following operations.
+**Hint:** you might want to look at ANSI escape codes if you don't know where to start.
 
-* **Copy r1 into r2:** copies the content of register **r1** into register **r2**.
-* **Read r1 into r2:** reads the memory pointed by register **r1** into register **r2**.
-* **Write r1 at r2:** writes the content of register **r1** at the memory pointed by register
-  **r2**.
-* **Set r1 to v:** sets register **r1** to the value **v**.
-* **Increment r:** increments the value of register **r** by 1 (the operation must wrap on
-  overflow).
-* **Decrement r:** decrements the value of register **r** by 1 (the operation must wrap on
-  overflow).
-* **Jump to i:** makes the CPU jump to the specific instruction index **i**.
-* **JumpIfZero to i:** if the register **A** has the value `0`, then makes the CPU jump to the
-  specific instruction index **i**.
-* **Print r** must print the content of a register to the standard output.
-
-For example, if the register **B** contains the value `124`, using the **Read B into C**
-instruction will read the value in the RAM at address `124` and put that value into register **C**.
-
-The operations supported by the CPU must be implemented as an `enum` named `Instruction`.
-
-A program is simply an ordered list of instructions. It executes those instructions in order,
-starting from the first one in the list. The `NanoCpu` type have to implement an associated method
-to execute a specific program. The function ends as soon as the instruction index reaches the end
-of the instruction list. You may also add a `new` function to easily create new instances of the
-type.
-
-```rust
-impl NanoCpu {
-    fn new() -> Self; // optional
-    fn execute(&mut self, program: &[Instruction]);
-}
-```
-
-As always, you must include tests to show that the different operations do behave as they should.
-
-Here is a program that you should be able to execute on the created computer, as long as a
-null-terminated string exists at address 0x00 in the RAM of the emulated computer. You can put it
-in your `main` function as an example.
+Example (keep in mind that you may use any characters you want for this!):
 
 ```txt
-00  Set B to 0       ; address of the string
-01  Read B into A    ; check for the '\0' - if yes, go to 05
-02  JumpIfZero to 05 ;
-03  Increment B      ; '\0' not found, add 1 to B and retry
-04  Jump to 01       ;
-06  Print B          ; print the result
+>_ cargo run
+. . . . # . . . . . . . . . . # . . . . . #
+. . . # # . . . . . . . . . . . . . . . # .
+. . # . . # . . # . . . . . # . . . # . # #
+. . . . . . . . . . . . . # . . . . . # . .
+. . . # # . . # # # # . . . . . . . . . # .
+# . . . # . . # . . # . . . . # . . # # . .
+. . # # # # . # # . # # . . . . . . . . . .
+. . # . . # . . # . . . . # # . . . . . # #
+. # # . . # # . . . . . # # . . . . . . # .
+. # . . . # . . . . # . . . . . # . . . . .
+. . . # # . . . # . . . . . # # # # . . . .
+^C
+>_
 ```
