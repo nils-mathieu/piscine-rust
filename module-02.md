@@ -412,7 +412,9 @@ impl Board {
 `percentage`% live cells in it.
 * `from_args` must parse the command-line arguments passed to the application and use them to
 create a `Board` instance. Errors are communicated through the `ParseError` enumeration.
-* `step` must simulate an entier step of the simulation.
+* `step` must simulate an entier step of the simulation. We will assume that the board repeats
+itself infinitely in both directions. The cell at coordinate `width + 1` is the cell at coordinate
+`1`. Similarly, the cell at coordinate `-1` is the cell at coordinate `width - 1`.
 * `print` must print the board to the terminal. When `clear` is `true`, the function must also
 clear a previously displayed board.
 
