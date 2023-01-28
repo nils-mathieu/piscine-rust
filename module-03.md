@@ -105,7 +105,24 @@ allowed symbols:
     std::fmt::{Formatter, Display}
 ```
 
-TODO: impl Display greet in function
+* Write a **function** that greets a type.
+
+```rust
+fn greet<T: Display>(elem: &T);
+```
+
+Example:
+
+```rust
+greet(&1i32); // Hey, 1! How are you?
+greet("Marvin"); // Hey, Marvin! How are you?
+```
+
+* Create a type named `John`. Add the necessary declarations, such that:
+
+```rust
+greet(&John); // Hey, Mighty John! How are you?
+```
 
 ## Exercise 03: A Generic Vector
 
@@ -236,3 +253,161 @@ error: invalid length
 error: invalid number
 ```
 
+## Exercise 06: A Singly-Linked List
+
+```txt
+turn-in directory:
+    ex06/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::boxed::Box  std::option::Option
+```
+
+* Create a linked list type named `List<T>` defined as follows.
+
+```rust
+enum Node<T> {
+    value: T,
+    next: Option<Box<T>>,
+}
+
+struct List<T> {
+    head: Option<Node<T>>
+}
+
+impl<T> List<T> {
+    fn new() -> Self;
+
+    fn push_back(&mut self, elem: T);
+    fn push_front(&mut self, elem: T);
+
+    fn count(&self) -> usize;
+
+    fn get(&self, i: usize) -> Option<&T>;
+    fn get_mut(&mut self, i: usize) -> Option<&mut T>;
+
+    fn remove_back(&mut self) -> Option<T>;
+    fn remove_front(&mut self) -> Option<T>;
+    fn clear(&mut self);
+}
+```
+
+* `new` must create an empty list.
+* `push_back` must append an element to the list.
+* `push_front` must prepend an element to the list.
+* `count` must return the number of elements present in the list.
+* `get` must return a shared reference to the element at index `i`.
+* `get_mut` must return an exclusive reference to the element at index `i`.
+* `remove_back` must remove the last element of the list and return it.
+* `remove_front` must remove the first element of the list and return it.
+* `clear` must remove all elements of the list, leaving it empty.
+
+The following tests must compile and pass.
+
+```rust
+#[cfg(test)]
+#[test]
+fn default_list_is_empty() {
+    let mut list = List::default();
+    assert_eq!(list.count(), 0);
+}
+
+#[cfg(test)]
+#[test]
+fn cloned_list_are_equal() {
+    let mut list = List::new();
+    list.push_back(String::from("Hello"));
+    list.push_back(String::from("World"));
+
+    let mut cloned = list.clone();
+    assert_eq!(cloned.count(), list.count());
+    assert_eq!(&cloned[0], &cloned[0]);
+    assert_eq!(&cloned[1], &cloned[1]);
+}
+
+#[cfg(test)]
+#[test]
+#[should_panic(expected = "tried to access index 10, but the list contains 3 elements")]
+fn out_of_bound_access_panics() {
+    let mut list: List<u32> = List::new();
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    assert_eq!(list[10], 42);
+}
+```
+
+## Exercise 07: Comma-Separated Values
+
+```txt
+turn-in directory:
+    ex07/
+
+files to turn in:
+    src/lib.rs  src/**/*.rs  Cargo.toml
+
+allowed symbols:
+    std::str::FromStr  str::split  std::result::Result
+    std::vec::Vec  std::string::String  std::write
+    std::fmt::{Debug, Display, Formatter, Write}
+    std::cmp::PartialEq
+```
+
+Let's create a generic CSV Encoder & Decoder. A CSV file is defined like this:
+
+```txt
+value1,value1,value1,value1
+value2,value2,value2,value2
+value3,value3,value3,value3
+...
+```
+
+Each line corresponds to a *record*, and each column corresponds to a *field*.
+
+* Create a `Field` trait, which describes how to encode or decode a value.
+
+```rust
+struct EncodingError;
+struct DecodingError;
+
+trait Field {
+    fn encode(&self, target: &mut String) -> Result<(), EncodingError>;
+    fn decode(field: &str) -> Result<Self, DecodingError>;
+}
+```
+
+* Create a `Record` trait, which describes how to encode or decode a collection of `Field`s.
+
+```rust
+trait Record {
+    fn encode(&self, target: &mut String) -> Result<(), EncodingError>;
+    fn decode(line: &str) -> Result<Self, DecodingError>; 
+}
+```
+
+* Now, you have everything you need to create `decode_csv` and `encode_csv` functions.
+
+```rust
+fn encode_csv<R: Record>(records: &[R]) -> Result<String, EncodingError>;
+fn decode_csv<R: Record>(contents: &str) -> Result<Vec<R>, DecodingError>;
+```
+
+* `encode_csv` takes a list of records and encode them into a `String`.
+* `decode_csv` takes the content of a CSV file and decodes it into a list of records.
+
+You might have noticed that implementing the `Record` trait is *very* repetitive. As a bonus, you
+can create an `impl_record!` macro to implement it in a single line:
+
+```rust
+struct MyType {
+    id: u32,
+    name: String,
+}
+
+// Example:
+impl_record!(MyType(id, name));
+```
