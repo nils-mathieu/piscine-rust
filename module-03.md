@@ -1,4 +1,4 @@
-# Module 03: Polymorphism
+# Module 03: Polymorphine
 
 ## Introduction
 
