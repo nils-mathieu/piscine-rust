@@ -140,7 +140,8 @@ impl PizzaStatus {
 ```
 
 * `from_delivery_time` predicts the status of a pizza that was ordered `ordered_days_ago` days ago.
-* `get_delivery_time_in_days` returns the estimated time before the pizza is delivered, in days.
+* `get_delivery_time_in_days` returns the estimated time before the pizza is delivered, in days. The
+worst case is always returned.
 
 ## Exercise 03: Dry Boilerplates
 
@@ -165,7 +166,7 @@ fn main() {
     let other_instance = instance.clone();
 
     println!("the default value of MyType is {instance:?}");
-    println!("the clone of `instance` is {instance:#?}");
+    println!("the clone of `instance` is {other_instance:#?}");
     assert_eq!(
         instance,
         MyType::default(),
@@ -186,55 +187,11 @@ fn main() {
 Copy the above `main` function and make it compile and run. You are not allowed to use the `impl`
 keyword!
 
-## Exercise 04: All Over Me
+## Exercise 04: Todo List
 
 ```txt
 turn-in directory:
     ex04/
-
-files to turn in:
-    src/lib.rs  Cargo.toml
-
-allowed symbols:
-    std::clone::Clone  std::maker::Copy  std::cmp::PartialEq
-```
-
-```rust
-struct Color {
-    red: u8,
-    green: u8,
-    blue: u8,
-}
-
-impl Color {
-    fn new(r: u8, g: u8, b: u8) -> Self; // optional
-    fn mix(self, other: Self, opacity: u8) -> Self;
-}
-```
-
-Implement the mix **function**, which must mix `self` and `other` assuming that `self` is completly
-opaque and that `other` has an opacity of `(100*opacity/255)%`. We're computing "other over self".
-
-The formula to apply on every color component `C` is the following:
-
-```
-C = Cother * opacity + Cself * (1 - opacity)
-```
-
-Kudos if you manage to perform the operation without using `f32` convertions.
-
-It must be possible to call this function in this way:
-
-```rust
-let color = Color::new(255, 0, 0);
-assert_eq!(color, color.mix(color));
-```
-
-## Exercise 05: Todo List
-
-```txt
-turn-in directory:
-    ex05/
 
 files to turn in:
     src/main.rs  Cargo.toml
@@ -319,6 +276,85 @@ PURGE
     0 [ ] do my homework
 
 QUIT
+```
+
+## Exercise 05: All Over Me
+
+```txt
+turn-in directory:
+    ex05/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::clone::Clone  std::maker::Copy  std::fmt::Debug  std::cmp::PartialEq
+```
+
+Define a `Color` type, responsible for describing a color by its red, green and blue components.
+
+```rust
+struct Color {
+    red: u8,
+    green: u8,
+    blue: u8,
+}
+
+impl Color {
+    const WHITE: Self = /* ... */;
+    const RED: Self = /* ... */;
+    const GREEN: Self = /* ... */;
+    const BLUE: Self = /* ... */;
+
+    const fn new(red: u8, green: u8, blue: u8) -> Self; // optional
+}
+```
+
+* Fill the comments left in the above code, defining associated constants inherent to `Color`.
+* `WHITE` must return the color `#FFFFFF`.
+* `RED` must return the color `#FF0000`.
+* `GREEN` must return the color `#00FF00`.
+* `BLUE` must return the color `#0000FF`.
+
+```rust
+impl Color {
+    fn closest_mix(self, palette: &[(Self, u8)], max: u32) -> Self;
+}
+```
+
+* The `closest_mix` function must try mixing up to `max` colors taken from `palette`, as if painted
+on a white canvas. The mix function must account for their opacity (the second element of each
+tuple). The created color that's the closest to `self` is returned.
+
+The formula used to blend a color A over another color B is the following. B is assumed to be
+opaque, and A has an opacity of `alpha`. 1 means opaque, 0 means transparent.
+
+```
+C = A * alpha + B * (1 - alpha)
+```
+
+You must *not* use `f32` or `f64` when blending colors!
+
+The distance between two colors A and B must be computed like this:
+
+```
+dr = A.red - B.red
+dg = A.green - B.green
+db = A.blue - B.blue
+distance = dr * dr + dg * dg + db * db
+```
+
+Example:
+
+```rust
+assert_eq!(Color::RED.closest_mix(&[], 100), Color::WHITE);
+assert_eq!(Color::RED.closest_mix(&[(Color::RED, 255)], 0), Color::WHITE);
+
+let palette = [(Color::RED, 100), (Color::GREEN, 100), (Color::BLUE, 100)];
+assert_eq!(
+    Color::new(254, 23, 102).closest_mix(&palette, 5),
+    Color::new(218, 20, 57),
+);
 ```
 
 ## Exercise 06: Lexial Analysis
