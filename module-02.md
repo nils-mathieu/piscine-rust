@@ -34,11 +34,41 @@ Correcting an already well-tested exercise is easier and faster than having to w
 defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
 they are not specified in the `allowed symbols` section.
 
-## Exercise 00: A Point In Space
+## Exercise 00: Dimensional Analysis
 
 ```txt
 turn-in directory:
     ex00/
+
+files to turn in:
+    src/main.rs  Cargo.toml
+```
+
+Copy/Past the following code and make it compile by adding type alias definitions.
+
+```rust
+fn seconds_to_minutes(seconds: Seconds) -> Minutes {
+    seconds / 60.0
+}
+
+fn main() {
+    let s: Seconds = 120.0;
+    let m: Minutes = seconds_to_minutes(s);
+
+    println!("{s} seconds is {m} minutes");
+}
+```
+
+```txt
+>_ cargo run
+120 seconds is 2 minutes
+```
+
+## Exercise 01: A Point In Space
+
+```txt
+turn-in directory:
+    ex01/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -70,36 +100,6 @@ impl Point {
     fn distance(&self, other: &Self) -> f32;
     fn translate(&mut self, dx: f32, dy: f32);
 }
-```
-
-## Exercise 01: Dimensional Analysis
-
-```txt
-turn-in directory:
-    ex01/
-
-files to turn in:
-    src/main.rs  Cargo.toml
-```
-
-Copy/Past the following code and make it compile by adding type alias definitions.
-
-```rust
-fn seconds_to_minutes(seconds: Seconds) -> Minutes {
-    seconds / 60.0
-}
-
-fn main() {
-    let s: Seconds = 120.0;
-    let m: Minutes = seconds_to_minutes(s);
-
-    println!("{s} seconds is {m} minutes");
-}
-```
-
-```txt
->_ cargo run
-120 seconds is 2 minutes
 ```
 
 ## Exercise 02: Where's My Pizza?
