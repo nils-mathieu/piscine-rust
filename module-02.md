@@ -210,8 +210,7 @@ allowed symbols:
 
 Create a simple TODO-List application.
 
-When the user starts the program, the program asks them what to do. Available commands are the
-following:
+When the user starts the program, they are asked what to do. Available commands are the following:
 
 ```rust
 enum Command {
