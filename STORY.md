@@ -95,13 +95,14 @@ but it was closer to jelly than to glue.
 
 "Careful!" Kevin yelled, taking a quick step back.
 
-Cedric tried to follow Kevin but it was too late. His shoe slowly started to melt.
+Cedric tried to follow Kevin but it was too late. His feet was stuck, and his shoe slowly started to
+melt.
 
 "Don't panic!" Kevin continued. "Give me a little space to work with."
 
 But the victime of the slime did not hear Kevin, he was too focused on the creature that wanted to
-eat him alive. He started to feel the body of the slime against his feet, and a increasingly painful
-feeling followed. Suddenly, a flash appeared in front of him.
+eat him alive. He started to feel the body of the slime against his feet, and an increasingly
+painful feeling followed. Suddenly, a flash appeared in front of him.
 
 It was Kevin, whose right hand was stretched before him, a woried look in the eye. The two students
 looked at each other for a couple seconds.
