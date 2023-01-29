@@ -276,7 +276,7 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed dependencies:
-    ftkit  unicode-width
+    ftkit  unicode-width(v0.1.10)
 
 allowed symbols:
     ftkit::ARGS  ftkit::read_line
