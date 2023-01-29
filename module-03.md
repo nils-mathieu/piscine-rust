@@ -93,23 +93,11 @@ assert_eq!(min(String::from("abc"), String::from("def")), "abc");
 
 Still not allowed to use `return`!
 
-## Exercise 02: TODO
+## Exercise 02: Oooooh... So, that's how it works!
 
 ```txt
 turn-in directory:
-    ex03/
-
-file to turn in:
-    src/main.rs  Cargo.toml
-```
-
-TODO: Find something here. Maybe generic types for the first time, but what...
-
-## Exercise 03: Oooooh... So, that's how it works!
-
-```txt
-turn-in directory:
-    ex03/
+    ex02/
 
 file to turn in:
     src/lib.rs  Cargo.toml
@@ -152,6 +140,41 @@ fn main() {
 ```
 
 You are *not* allowed to use the `#[derive(...)]` macro!
+
+## Exercise 03: 42
+
+```txt
+turn-in directory:
+    ex03/
+
+files to turn in:
+    src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::fmt::Debug  std::println
+```
+
+Define the following trait:
+
+```rust
+trait FortyTwo {
+    fn forty_two() -> Self;
+}
+```
+
+* The `forty_two` associated function must return an instance of the implementator that represents
+the number 42 in some way.
+
+Implement this trait for some common types, at least `u32` and `String`.
+
+```rust
+fn print_forty_two<T: Debug + FortyTwo>();
+```
+
+* The `print_forty_two` function must create an instance of `T` using the `FortyTwo` trait, and then
+print it to the standard output using its `Debug` implementation.
+
+Create a `main` function that showcase this function being called for at least two distinct types.
 
 ## Exercise 04: A Useful Generic Vector
 
@@ -419,8 +442,9 @@ fn decode_csv<R: Record>(contents: &str) -> Result<Vec<R>, DecodingError>;
 * `encode_csv` takes a list of records and encode them into a `String`.
 * `decode_csv` takes the content of a CSV file and decodes it into a list of records.
 
-You might have noticed that implementing the `Record` trait is *very* repetitive. As a bonus, you
-can create an `impl_record!` macro to implement it in a single line:
+You might have noticed that implementing the `Record` trait is *very* repetitive. As a bonus (a
+bonus to the bonus, if you will), you can create an `impl_record!` macro to implement it in a single
+line:
 
 ```rust
 struct MyType {
