@@ -85,8 +85,8 @@ solve.
 ## Module 03
 
 Cedric did not remember Keven being so... Stupid? But smart at the same time. When that did smartass
-grew such balls? Ced' opened his mouth to counter attack, but changed his mind and instead looked
-at the road. He had to admit, being out there with someone was still better than being alone. The
+grew such balls? Ced' opened his mouth to counter attack, but changed his mind and instead looked in
+front of hime. He had to admit, being out there with someone was still better than being alone. The
 forest we not exactly known for being peaceful. It was surprising that nothing had happened since
 the two students started their getaway.
 
