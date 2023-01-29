@@ -20,7 +20,7 @@ allowed symbols:
 ```
 
 Create a **program** that reads the standard input of the program, and copies it to the standard
-output, as well as every file specified in the command-line arguments.
+output, as well as every file specified in command-line arguments.
 
 Example:
 
