@@ -15,7 +15,7 @@ files to turn in:
 
 allowed symbols:
     std::io::{Write, Read, stdin, stdout, stderr}
-    std::fs::File  std::env::args_os
+    std::fs::File  std::env::args
     std::vec::Vec  std::string::String
 ```
 
@@ -33,7 +33,8 @@ Hello, World!
 Hello, World!
 ```
 
-You program must never panic. All errors must be handled properly.
+You program must not panic when interacting with the file system. All errors must be handled
+properly.
 
 ## Module 01: Duh
 
@@ -46,7 +47,7 @@ files to turn in:
 
 allowed symbols:
     std::fs::{metadata, Metadata}
-    std::env::args_os
+    std::env::args
 ```
 
 Create a **program** that computes the total size of a directory or file. The program must write the
@@ -65,6 +66,8 @@ kilobytes).
 megabytes).
 * If a size is more than a gigabyte, it is written in gigabytes, with one decimal (e.g. 23.9
 gigabytes).
+
+Your program must not panic when interacting with the file system. Errors must be handled properly.
 
 ## Module 02: File Info
 
