@@ -9,7 +9,6 @@
 
 ## Old Modules
 
-* [Module 07: Common Standard Collections](module-07.md)
 * [Module 08: Functions Are Values](module-08.md)
 * [Module 09: Iterators](module-09.md)
 * [Module 10: Threads And Concurrency](module-10.md)
