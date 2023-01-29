@@ -141,7 +141,7 @@ allowed symbols:
     <[u32]>::{len, is_empty, contains}
 ```
 
-Write a **function** that returns the largest subslice of `haystack` that contains all numbers in
+Write a **function** that returns the largest subslice of `haystack` that contains *all* numbers in
 `needle`.
 
 ```rust
@@ -255,7 +255,7 @@ Write a **function** that finds the Longest Increasing Sequence in a given array
 fn lis(slice: &[i32]) -> Vec<i32>;
 ```
 
-* The longuest sequence is returned in a list.
+* The longuest sequence is returned as a list.
 * The returned sequence must be *strictly* increasing.
 * When multiple longuest sequences are found, any of those sequences can be selected.
 
