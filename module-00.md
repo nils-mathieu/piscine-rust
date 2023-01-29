@@ -20,19 +20,18 @@ documentation. It contains the most up-to-date information about this rapidly ev
 
 ## General Rules
 
-Any code you turn in must compile *without warnings* using the `rustc` compiler available on the
+* Any code you turn in must compile *without warnings* using the `rustc` compiler available on the
 school's machines without additional options. You are *not* allowed to use `unsafe` code anywhere in
 your code (not until the last module :p).
 
-For exercises using the `cargo` package manager, the same rule applies. In that case, only the
+* For exercises using the `cargo` package manager, the same rule applies. In that case, only the
 crates specified in the `allowed dependencies` section are allowed. Any other dependency is
 forbidden. More generally, only the symbols specified in `allowed symbols` are authorized within an
 exercise.
 
-You are generally *not* authorized to modify lint levels - either using `#\[attributes\]`,
-`#!\[global_attributes\]` or with command-line arguments. You must use the `#![forbid(unsafe_code)]`
-attribute in every project you turn in (may it use Cargo or not). You may optionally allow the
-`dead_code` lint to silence warnings about unused variables, functions, etc.
+* You are generally *not* authorized to modify lint levels - either using `#\[attributes\]`,
+`#!\[global_attributes\]` or with command-line arguments. You may optionally allow the `dead_code`
+lint to silence warnings about unused variables, functions, etc.
 
 ```rust
 // Either globally:
