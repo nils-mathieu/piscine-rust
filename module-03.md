@@ -443,7 +443,7 @@ fn decode_csv<R: Record>(contents: &str) -> Result<Vec<R>, DecodingError>;
 * `decode_csv` takes the content of a CSV file and decodes it into a list of records.
 
 You might have noticed that implementing the `Record` trait is *very* repetitive. As a bonus (a
-bonus to the bonus, if you will), you can create an `impl_record!` macro to implement it in a single
+bonus to the bonus if you will), you can create an `impl_record!` macro to implement it in a single
 line:
 
 ```rust
@@ -454,4 +454,24 @@ struct MyType {
 
 // Example:
 impl_record!(MyType(id, name));
+
+#[cfg(test)]
+#[test]
+fn test_impl_record() {
+    let records = [
+        MyType { id: 10, name: "Marvin".into() },
+        MyType { id: 11, name: "Marvin".into() },
+        MyType { id: 12, name: "Marvin".into() },
+    ];
+
+    let csv = encode_csv(&records).unwrap();
+    assert_eq!(
+        csv,
+        "\
+        10,Marvin\n\
+        11,Marvin\n\
+        12,Marvin\n\
+        "
+    );
+}
 ```
