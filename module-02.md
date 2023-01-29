@@ -201,9 +201,9 @@ allowed dependencies:
 
 allowed symbols:
     std::{print, println}
-    std::vec::Vec::{new, push, remove, clear}
+    std::vec::Vec::{new, push, remove, clear, len, is_empty}
     std::string::String::as_str
-    str::{to_string, parse, len, is_empty}
+    str::{to_string, parse, len, is_empty, trim, strip_prefix}
     ftkit::{read_line, read_number}
     std::result::Result
 ```
@@ -237,6 +237,8 @@ struct TodoList {
 }
 
 impl TodoList {
+    fn new() -> Self; // optional
+
     fn display(&self);
     fn add(&mut self, todo: String);
     fn done(&mut self, index: usize);
@@ -289,6 +291,7 @@ files to turn in:
 
 allowed symbols:
     std::clone::Clone  std::maker::Copy  std::fmt::Debug  std::cmp::PartialEq
+    <[T]>::len
 ```
 
 Define a `Color` type, responsible for describing a color by its red, green and blue components.
@@ -370,7 +373,12 @@ allowed dependencies:
     ftkit
 
 allowed symbols:
-    ftkit::ARGS  std::option::Option  str::*  <[u8]>::*
+    ftkit::ARGS
+    std::option::Option
+    std::fmt::Debug
+    str::{strip_prefix, trim_start, char_indices, split_at, is_empty}
+    char::is_whitespace
+    std::{println, eprintln}
 ```
 
 Create a simple token parser. It must be able to take an input string, and turn it into a list
@@ -399,9 +407,11 @@ fn next_token(s: &mut &str) -> Option<Token>;
 
 * You may need to add some *lifetime annotations* to make the function compile properly.
 * The `next_token` function either produce *Some(_)* value if a token is available, or nothing when
-the input string contains no tokens.
+the input string contains no tokens. The part of `s` that have been consumed is stripped from the
+original `&str`.
 
-**Note:** You do not have to handle single or double quotes, nor do you have to care about escaping with `\\`!
+**Note:** You do not have to handle single or double quotes, nor do you have to care about escaping
+with `\\`!
 
 It must be possible to use the `next_token` function and the `Token` type in this way:
 
@@ -418,7 +428,7 @@ Finish your program to make it behave in this way:
 ```txt
 >_ cargo run -- a b
 error: exacltly one argument expected
->_ cargo run -- "echo hello | cat -e > file.txt"
+>_ cargo run -- "echo hello|cat -e> file.txt"
 Word("echo")
 Word("hello")
 Pipe
@@ -444,7 +454,8 @@ allowed symbols:
     ftkit::ARGS ftkit::random_number
     std::{println, print}
     std::thread::sleep  std::time::Duration
-    std::vec::Vec  std::result::Result
+    std::vec::Vec::{new, push}
+    std::result::Result
     std::marker::Copy  std::clone::Clone
     std::cmp::PartialEq
 ```
@@ -455,9 +466,9 @@ Create a **program** that plays [Conway's Game Of Life](https://en.wikipedia.org
 
 ```rust
 enum ParseError {
-    InvalidWidth(&'static str),
-    InvalidHeight(&'static str'),
-    InvalidPercentage(&'static str),
+    InvalidWidth { arg: &'static str },
+    InvalidHeight { arg: &'static str' },
+    InvalidPercentage { arg: &'static str },
     TooManyArguments,
     NotEnoughArguments,
 }
@@ -465,6 +476,11 @@ enum ParseError {
 enum Cell {
     Dead,
     Alive,
+}
+
+impl Cell {
+    fn is_alive(self) -> bool;
+    fn is_dead(self) -> bool;
 }
 
 struct Board {
@@ -481,6 +497,8 @@ impl Board {
 }
 ```
 
+* `is_alive` must return whether the cell is alive or not.
+* `is_dead` must return whether the cell is dead or not.
 * `new` must generate a random board of size (`width` by `height`), with approximatly
 `percentage`% live cells in it.
 * `from_args` must parse the command-line arguments passed to the application and use them to
@@ -489,7 +507,7 @@ create a `Board` instance. Errors are communicated through the `ParseError` enum
 itself infinitely in both directions. The cell at coordinate `width + 1` is the cell at coordinate
 `1`. Similarly, the cell at coordinate `-1` is the cell at coordinate `width - 1`.
 * `print` must print the board to the terminal. When `clear` is `true`, the function must also
-clear a previously displayed board.
+clear a previously displayed board. Try not to clear the whole terminal! Just the board.
 
 **Hint:** you might want to look at *ANSI Escape Codes* if you don't know where to start!
 
