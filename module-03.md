@@ -86,14 +86,14 @@ Example:
 
 ```rust
 assert_eq!(min(12i32, -14i32), -14);
-assert_eq!(min(12u32, 14u32), 12);
+assert_eq!(min(12f32, 14f32), 12f32);
 assert_eq!(min("abc", "def"), "abc");
 assert_eq!(min(String::from("abc"), String::from("def")), "abc");
 ```
 
 Still not allowed to use `return`!
 
-## Exercise 02: Grettings
+## Exercise 02: TODO
 
 ```txt
 turn-in directory:
@@ -101,31 +101,11 @@ turn-in directory:
 
 file to turn in:
     src/main.rs  Cargo.toml
-
-allowed symbols:
-    std::fmt::{Formatter, Display}
 ```
 
-* Write a **function** that greets a type.
+TODO: Find something here. Maybe generic types for the first time, but what...
 
-```rust
-fn greet<T: Display>(elem: &T);
-```
-
-Example:
-
-```rust
-greet(&1i32); // Hey, 1! How are you?
-greet("Marvin"); // Hey, Marvin! How are you?
-```
-
-* Create a type named `John`. Add the necessary declarations, such that:
-
-```rust
-greet(&John); // Hey, Mighty John! How are you?
-```
-
-## Exercise 03: A Generic Vector
+## Exercise 03: Oooooh... So, that's how it works!
 
 ```txt
 turn-in directory:
@@ -135,33 +115,43 @@ file to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::fmt::Debug  std::cmp::{Eq, PartialEq} std::marker::Copy
-    std::{assert*}  std::clone::Clone
+    std::fmt::{Display, Debug, Binary, Formatter, Write}
+    std::write
+    std::result::Result
 ```
 
-Create a `Vector` type.
+Create a type named `John` and implement the right such that executing the following code...
 
 ```rust
-struct Vector<T> {
-    x: T,
-    y: T,
-}
+fn main() {
+    let john = John;
 
-impl<T> Vector<T> {
-    fn new(x: T, y: T) -> Self;
+    println!("1. {john}");
+    println!("2. |{john:<30}|");
+    println!("3. |{john:>30}|");
+    println!("4. {john:.6}");
+    println!("5. {john:.0}");
+    println!("6. {john:?}");
+    println!("7. {john:#?}");
+    println!("8. {john:b}");
 }
 ```
 
-* The `new` function must create a new instance of `Vector<T>`, using the provided `x` and `y`
-arguments to construct the vector.
+...produces this output.
 
-For this exercise, you must write three different tests:
+```txt
+>_ cargo run
+1. Hey! I'm John.
+2. |Hey! I'm John.                |
+3. |                Hey! I'm John.|
+4. Hey! I
+5. Don't try to silence me!
+6. John, the man himself.
+7. John, the man himself. He's handsome AND formidable.
+8. Bip Boop?
+```
 
-* The first one must be named `copy_vector` and must show the vector being *copied* multiple times.
-* The second one must be named `clone_vector` and must show the vector being *cloned* multiple
-times. It must not be possible to *copy* this vector.
-* The thrid one must be named `compare_vector` and must verify that two `Vec<T>` can be compared
-using the `==` operator as long as `T` can.
+You are *not* allowed to use the `#[derive(...)]` macro!
 
 ## Exercise 04: A Useful Generic Vector
 
@@ -180,19 +170,48 @@ allowed symbols:
     std::marker::Copy  f32::sqrt f64::sqrt
 ```
 
-* Copy the previous exercise here (the `Vector<T>` type). This simple vector type, by itself, isn't
-very useful: you cannot do anything with it.
+```rust
+struct Vector<T> {
+    x: T,
+    y: Y,
+}
+```
 
 * Overload the `+`, `-`, `+=` and `-=` operators for `Vector<T>`, for any `T` that itself has
 support for those operators.
-
 * Overload the `*`, `*=`, `/` and `/=` operators for `Vector<T>`, for any `T` that itself has support
 for those operators. The second operand of those operations *must not* be `Vector<T>`, but `T`
 itself, meaning that you must be able to compute `Vector::new(1, 2) * 3` but not
 `Vector::new(1, 2) * Vector::new(2, 3)`.
-
+* Overload the `==` and `!=` operators for any `T` that supports them.
 * Implement specifically for both `Vector<f32>` and `Vector<f64>` a `length` function that computes
 its length. The length of a vector can be computed using this formula: `‖(x, y)‖ = sqrt(x² + y²)`.
+
+The following tests must compile and run properly:
+
+```rust
+#[cfg(test)]
+#[test]
+fn test_a() {
+    let v = Vector {
+        x: String::from("Hello, World!"),
+        y: String::from("Hello, Rust!"),
+    };
+
+    let w = v.clone();
+
+    assert_eq!(&v, &w);
+}
+
+#[cfg(test)]
+#[test]
+fn test_b() {
+    let v = Vector { x: "Hello, World!", y: "Hello, Rust!" };
+    let a = v;
+    let b = v;
+    assert_eq!(a, b);
+}
+```
 
 ## Exercise 05: What Time Is It?
 
