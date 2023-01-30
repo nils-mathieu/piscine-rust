@@ -2,9 +2,9 @@
 
 ## Modified
 
-* [Module 00: Hello World](module-00.md)
-* [Module 01: I Want To Talk To The Owner](module-01.md)
-* [Module 02: Structs n' Co](module-02.md)
+* [Module 00: First Steps](module-00.md)
+* [Module 01: Indirections](module-01.md)
+* [Module 02: Structure](module-02.md)
 * [Module 03: Polymorphine](module-03.md)
 * [Module 04: Side Effects](module-04.md)
 
