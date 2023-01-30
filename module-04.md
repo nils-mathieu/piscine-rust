@@ -1,4 +1,4 @@
-# Module 04
+# Module 04: Side Effects
 
 ## General Rules
 
