@@ -29,7 +29,8 @@ certainly not to Kevin. Ced' was suspicious, the presence of someone like Kevin 
 
 "I knew you were up to no good!" Kevin yelled, proud of having found the runaway.
 
-"You know nothing about me," Cedric retorted. "It's the only way!"
+"You know nothing about me," Cedric retorted. "It's the only way! Everything I do just keeps
+breaking apart!"
 
 Kevin had heard the rumors too. Cedric was sure of it. It wasn't really a legend, nor was it a myth,
 but something that somehow some people knew about within the academy. Not really a secret, but not
@@ -39,7 +40,7 @@ forset. At least the rumor told so!
 "You don't even know if it's true!"
 
 "You did not come here just to tell me that, did you?" Cedric was losing patience. He had not a
-single millisecond to loose, and Kevin, this idiot, was still talking nonsense.
+single millisecond to loose, and Kevin, was still talking nonsense.
 
 He did not respond.
 
@@ -84,11 +85,11 @@ solve.
 
 ## Module 03
 
-Cedric did not remember Keven being so... Stupid? But smart at the same time. When that did smartass
-grew such balls? Ced' opened his mouth to counter attack, but changed his mind and instead looked in
-front of hime. He had to admit, being out there with someone was still better than being alone. The
-forest we not exactly known for being peaceful. It was surprising that nothing had happened since
-the two students started their getaway.
+Cedric did not remember Keven being so... Stupid? But smart at the same time. *When that did this
+smartass grew such balls?* Cedric wondered. He opened his mouth to counter attack, but changed his
+mind and instead looked in front of hime. He had to admit, being out there with someone was still
+better than being alone. The forest we not exactly known for being peaceful. It was surprising that
+nothing had happened since the two students started their getaway.
 
 Just as he thought that, Cedric felt something weird beneath his left feet. It was kinda sticky,
 but it was closer to jelly than to glue.
@@ -114,3 +115,31 @@ With him having been so annoying for the past thirty minutes, Cedric had forgott
 been enrolled into the academy without a title of nobility. He *was* capable.
 
 "Don't worry," Kevin simply said. "I got your back."
+
+## Module 04
+
+The two student had been walking together for a little more than an hour since the slime incident,
+and Ced' was starting to feel more confortable around Kevin. Reasured, even.
+
+"Let's break for a bit," Cedric asked.
+
+"Whatever."
+
+Kevin stopped, and leaned against a tree. Cedric sat. The men stared into the distance for a bit,
+not really thinking about anything.
+
+"Why did you want to follow me?" Cedric suddenly asked.
+
+Keven started at him for a second, a light smile slowly appearing on his face. He opened his mouth
+to respond but Ced' quickly interrupted him.
+
+"And... How did you find me?"
+
+"It mas mostly luck to be honest," Kevin answered in all seriousness. "Or intuition, if you prefer."
+
+*Not very helpful,* Cedric thought. But at least he had succeeded in making Kevin answer one of his
+question. He sighed.
+
+"We can't really stay here, can we? Let's get back to work."
+
+Kevin nodded and waited for Cedric to get back up.
