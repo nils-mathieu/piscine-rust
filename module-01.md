@@ -247,6 +247,8 @@ files to turn in:
 allowed symbols:
     <[i32]>::{is_empty, len}
     std::vec::Vec::{push, len, is_empty, new, reverse}
+    u8::is_ascii_digit
+    std::assert
 ```
 
 Write a **function** that multiplies two numbers together. The numbers are given as a list of
@@ -258,6 +260,7 @@ fn big_add(a: &[u8], &[u8]) -> Vec<u8>;
 
 * `a` and `b` must only contain digits (`b'0'` to `b'9'` included). If anything else is found, the
 function must panic.
+* If either `a` or `b` is empty, the function panics.
 * Input numbers may contain leading zeros, but the result must not have any.
 
 Example:
