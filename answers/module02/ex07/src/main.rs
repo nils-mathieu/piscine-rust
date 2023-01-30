@@ -144,8 +144,11 @@ impl Board {
         for y in 0..self.height {
             print!("░░");
             for x in 0..self.width {
+                let r = ((x as f32 / self.width as f32) * 255.0) as u8;
+                let g = ((y as f32 / self.height as f32) * 255.0) as u8;
+                let b = 255;
                 match self.get(x as isize, y as isize) {
-                    Cell::Alive => print!("\x1B[32m█▓\x1B[0m"),
+                    Cell::Alive => print!("\x1B[38;2;{r};{g};{b}m█▓\x1B[0m"),
                     Cell::Dead => print!("  "),
                 }
             }
@@ -181,7 +184,7 @@ fn main() {
 
     board.print(false);
     loop {
-        std::thread::sleep(std::time::Duration::from_secs_f32(0.2));
+        std::thread::sleep(std::time::Duration::from_secs_f32(0.1));
         board.step();
         board.print(true);
     }
