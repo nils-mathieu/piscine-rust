@@ -100,7 +100,7 @@ turn-in directory:
     ex02/
 
 file to turn in:
-    src/lib.rs  Cargo.toml
+    src/main.rs  Cargo.toml
 
 allowed symbols:
     std::fmt::{Display, Debug, Binary, Formatter, Write}
@@ -139,8 +139,6 @@ fn main() {
 8. Bip Boop?
 ```
 
-You are *not* allowed to use the `#[derive(...)]` macro!
-
 ## Exercise 03: 42
 
 ```txt
@@ -176,7 +174,7 @@ print it to the standard output using its `Debug` implementation.
 
 Create a `main` function that showcase this function being called for at least two distinct types.
 
-## Exercise 04: A Useful Generic Vector
+## Exercise 04: Quick Math
 
 ```txt
 turn-in directory:
@@ -189,8 +187,8 @@ allowed symbols:
     std::cmp::{PartialEq, Eq}  std::fmt::Debug
     std::ops::{Add, Sub, AddAssign, SubAssign}
     std::ops::{Mul, MullAssign, Div, DivAssign}
-    std::{assert*} std::clone::Clone
-    std::marker::Copy  f32::sqrt f64::sqrt
+    std::{assert*} std::marker::Copy
+    std::clone::Clone  f32::sqrt f64::sqrt
 ```
 
 ```rust
@@ -198,14 +196,19 @@ struct Vector<T> {
     x: T,
     y: Y,
 }
+
+impl<T> Vector<T> {
+    fn new(x: T, y: T) -> Self;
+}
 ```
 
+* The `new` function must create a new `Vector<T>` with the specified components.
 * Overload the `+`, `-`, `+=` and `-=` operators for `Vector<T>`, for any `T` that itself has
 support for those operators.
 * Overload the `*`, `*=`, `/` and `/=` operators for `Vector<T>`, for any `T` that itself has support
 for those operators. The second operand of those operations *must not* be `Vector<T>`, but `T`
 itself, meaning that you must be able to compute `Vector::new(1, 2) * 3` but not
-`Vector::new(1, 2) * Vector::new(2, 3)`.
+`Vector::new(1, 2) * Vector::new(2, 3)`. You can require `T: Copy` when needed.
 * Overload the `==` and `!=` operators for any `T` that supports them.
 * Implement specifically for both `Vector<f32>` and `Vector<f64>` a `length` function that computes
 its length. The length of a vector can be computed using this formula: `‖(x, y)‖ = sqrt(x² + y²)`.
@@ -229,7 +232,7 @@ fn test_a() {
 #[cfg(test)]
 #[test]
 fn test_b() {
-    let v = Vector { x: "Hello, World!", y: "Hello, Rust!" };
+    let v = Vector::new("Hello, World!", "Hello, Rust!");
     let a = v;
     let b = v;
     assert_eq!(a, b);
@@ -247,7 +250,8 @@ files to turn in:
 
 allowed symbols:
     std::str::FromStr  std::fmt::{Display, Debug, Formatter}
-    str::*  std::result::Result  std::{write, println}
+    str::as_bytes  std::result::Result  std::{write, println}
+    u8::is_ascii_digit
 ```
 
 Create a type named `Time` responsible for storing, well, a time.
@@ -307,33 +311,34 @@ files to turn in:
 
 allowed symbols:
     std::boxed::Box  std::option::Option
+    std::panic
 ```
 
 * Create a linked list type named `List<T>` defined as follows.
 
 ```rust
-enum Node<T> {
+struct Node<T> {
     value: T,
-    next: Option<Box<T>>,
+    next: Option<Box<Node<T>>>,
 }
 
 struct List<T> {
-    head: Option<Node<T>>
+    head: Option<Box<Node<T>>>
 }
 
 impl<T> List<T> {
     fn new() -> Self;
 
-    fn push_back(&mut self, elem: T);
-    fn push_front(&mut self, elem: T);
+    fn push_front(&mut self, value: T);
+    fn push_back(&mut self, value: T);
 
     fn count(&self) -> usize;
 
     fn get(&self, i: usize) -> Option<&T>;
     fn get_mut(&mut self, i: usize) -> Option<&mut T>;
 
-    fn remove_back(&mut self) -> Option<T>;
     fn remove_front(&mut self) -> Option<T>;
+    fn remove_back(&mut self) -> Option<T>;
     fn clear(&mut self);
 }
 ```
@@ -354,7 +359,7 @@ The following tests must compile and pass.
 #[cfg(test)]
 #[test]
 fn default_list_is_empty() {
-    let mut list = List::default();
+    let list: List<i32> = Default::default();
     assert_eq!(list.count(), 0);
 }
 
@@ -365,7 +370,7 @@ fn cloned_list_are_equal() {
     list.push_back(String::from("Hello"));
     list.push_back(String::from("World"));
 
-    let mut cloned = list.clone();
+    let cloned = list.clone();
     assert_eq!(cloned.count(), list.count());
     assert_eq!(&cloned[0], &cloned[0]);
     assert_eq!(&cloned[1], &cloned[1]);
@@ -373,7 +378,7 @@ fn cloned_list_are_equal() {
 
 #[cfg(test)]
 #[test]
-#[should_panic(expected = "tried to access index 10, but the list contains 3 elements")]
+#[should_panic(expected = "tried to access out of bound index 10")]
 fn out_of_bound_access_panics() {
     let mut list: List<u32> = List::new();
     list.push_back(1);
@@ -391,13 +396,13 @@ turn-in directory:
     ex07/
 
 files to turn in:
-    src/lib.rs  src/**/*.rs  Cargo.toml
+    src/lib.rs  src/*.rs  Cargo.toml
 
 allowed symbols:
-    std::str::FromStr  str::split  std::result::Result
+    str::{split, to_string, lines}  std::result::Result
     std::vec::Vec  std::string::String  std::write
     std::fmt::{Debug, Display, Formatter, Write}
-    std::cmp::PartialEq
+    std::cmp::PartialEq  std::marker::Sized
 ```
 
 Let's create a generic CSV Encoder & Decoder. A CSV file is defined like this:
@@ -417,16 +422,28 @@ Each line corresponds to a *record*, and each column corresponds to a *field*.
 struct EncodingError;
 struct DecodingError;
 
-trait Field {
+trait Field: Sized {
     fn encode(&self, target: &mut String) -> Result<(), EncodingError>;
     fn decode(field: &str) -> Result<Self, DecodingError>;
 }
 ```
 
+* Implement the `Field` trait for `String`. Keep in mind that finding a ',' or a '\n' in the string
+is an `EncodingError`!
+* Implement the `Field` trait for `Option<T>` as long as `T` implements `Field` too. When the empty
+string maps to `None`, while a non-empty string maps to the `Field` implementation of `T`.
+* Implement the `Field` trait for *every possible integer type*. Because this is long and borring,
+write a *macro* to do it for you.
+
+```rust
+// ez
+impl_field_for_int!(u8, u16, u32, u64, u128, usize, i8, i16, i32, i64, i128, isize);
+```
+
 * Create a `Record` trait, which describes how to encode or decode a collection of `Field`s.
 
 ```rust
-trait Record {
+trait Record: Sized {
     fn encode(&self, target: &mut String) -> Result<(), EncodingError>;
     fn decode(line: &str) -> Result<Self, DecodingError>; 
 }
@@ -442,6 +459,73 @@ fn decode_csv<R: Record>(contents: &str) -> Result<Vec<R>, DecodingError>;
 * `encode_csv` takes a list of records and encode them into a `String`.
 * `decode_csv` takes the content of a CSV file and decodes it into a list of records.
 
+Example:
+
+```rust
+#[cfg(test)]
+#[derive(Debug, PartialEq)]
+struct User {
+    name: String,
+    age: u32,
+}
+
+#[cfg(test)]
+impl Record for User { /* ... */ }
+
+#[cfg(test)]
+#[test]
+fn test_encode() {
+    let database = [
+        User { name: "aaa".into(), age : 23 },
+        User { name: "bb".into(), age: 2 },
+    ];
+
+    let csv = encode_csv(&database).unwrap();
+
+    assert_eq!(
+        csv,
+        "\
+        aaa,23
+        bb,2
+        "
+    );
+}
+
+#[cfg(test)]
+#[test]
+fn test_decode() {
+    let csv = "\
+        hello,2\n\
+        yes,5\n\
+        no,100\n\
+    ";
+
+    let database = decode_csv(csv).unwrap();
+
+    assert_eq!(
+        database,
+        [
+            User { name: "hello".into(), age: 2 },
+            User { name: "yes".into(), age: 5 },
+            User { name: "no".into(), age: 100 },
+        ]
+    );
+}
+
+#[cfg(test)]
+#[test]
+fn decoding_error() {
+    let csv = "\
+        hello,2
+        yes,6
+        no,23,hello
+    ";
+
+    decode_csv(csv).unwrap_err();
+}
+
+```
+
 You might have noticed that implementing the `Record` trait is *very* repetitive. As a bonus (a
 bonus to the bonus if you will), you can create an `impl_record!` macro to implement it in a single
 line:
@@ -452,7 +536,7 @@ struct MyType {
     name: String,
 }
 
-// Example:
+// ez
 impl_record!(MyType(id, name));
 
 #[cfg(test)]
