@@ -430,10 +430,10 @@ trait Field: Sized {
 
 * Implement the `Field` trait for `String`. Keep in mind that finding a ',' or a '\n' in the string
 is an `EncodingError`!
-* Implement the `Field` trait for `Option<T>` as long as `T` implements `Field` too. When the empty
+* Implement the `Field` trait for `Option<T>` as long as `T` implements `Field` too. The empty
 string maps to `None`, while a non-empty string maps to the `Field` implementation of `T`.
-* Implement the `Field` trait for *every possible integer type*. Because this is long and borring,
-write a *macro* to do it for you.
+* Implement the `Field` trait for *every possible integer type*. Because this is long, repetitive
+and borring, write a *macro* to do it for you.
 
 ```rust
 // ez
