@@ -485,8 +485,8 @@ fn test_encode() {
     assert_eq!(
         csv,
         "\
-        aaa,23
-        bb,2
+        aaa,23\n\
+        bb,2\n\
         "
     );
 }
@@ -500,7 +500,7 @@ fn test_decode() {
         no,100\n\
     ";
 
-    let database = decode_csv(csv).unwrap();
+    let database: Vec<User> = decode_csv(csv).unwrap();
 
     assert_eq!(
         database,
@@ -516,12 +516,12 @@ fn test_decode() {
 #[test]
 fn decoding_error() {
     let csv = "\
-        hello,2
-        yes,6
-        no,23,hello
+        hello,2\n\
+        yes,6\n\
+        no,23,hello\n\
     ";
 
-    decode_csv(csv).unwrap_err();
+    decode_csv::<User>(csv).unwrap_err();
 }
 
 ```
