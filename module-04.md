@@ -1,8 +1,27 @@
 # Module 04
 
-## Introduction
+## General Rules
 
-TODO: Reading files is cool.
+* Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
+if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
+in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
+section are allowed.
+
+* Every exercise must be part of a virtual Cargo workspace, a single `workspace.members` table must
+be declared for the whole module.
+
+* Everything must compile *without warnings* with the `rustc` compiler available on the school's
+machines without additional options.  You are *not* allowed to use `unsafe` code anywere in your
+code.
+
+* You are generally *not* authorized to modify lint levels - either using `#\[attributes\]`,
+`#!\[global_attributes\]` or with command-line arguments. You may optionally allow the `dead_code`
+lint to silence warnings about unused variables, functions, etc.
+
+* You are *strongly* encouraged to write extensive tests for the functions and systems you turn in.
+Correcting an already well-tested exercise is easier and faster than having to write them during
+defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
+they are not specified in the `allowed symbols` section.
 
 ## Module 00: Tee-Hee
 
@@ -90,10 +109,49 @@ TODO:
 
 ## Module 04: Silence It!
 
-TODO: replace symbol of elf file by another because it's funny.
-The modification must be done in-place. Remove `write` by `sleep`.
+```txt
+turn-in directory:
+    ex04/
 
-Maybe only edit the "strings" section of the elf? That uses a tiny bit of parsing.
+files to turn in:
+    std/main.rs  Cargo.toml
+```
+
+Create a **program** that replaces any call to the `write` function in an ELF file by the `sleep`
+function.
+
+Example:
+
+```txt
+>_ ./a.out
+C is the best programming language! Fight me.
+>_ cargo run -- a.out
+>_ ./a.out
+>_ cargo run -- Cargo.toml
+error: not an ELF file
+```
+
+* Only the "string" section of the ELF file must be edited. Be careful when editing the text! You
+must not edit the function when it does not refer to unistd's `write` function.
+
+For example, the following program must *not* be patched:
+
+```c
+#include <stdio.h>
+
+void write(char const *s)
+{
+    printf("%s", s);
+}
+
+int main(void)
+{
+    write("Hello, World!");    
+    return 0;
+}
+```
+
+Parsing errors and I/O errors must be handled properly.
 
 ## Module 05: String Finder
 
@@ -105,9 +163,24 @@ files to turn in:
     std/main.rs  Cargo.toml
 ```
 
-TODO: Create a **program** that reads a file, and prints the UTF-8 strings it finds.
+Create a **program** that reads an arbitrary binary file, and prints the UTF-8 strings it finds.
 
-## Module 06: Remote Shell
+Example:
+
+```txt
+>_ cargo run -- ./a.out
+TODO:
+```
+
+The program must have the following options available:
+
+* `-z` filters out strings that are not null-terminated.
+* `-m <min>` filters out strings that are strictly smaller than `min`.
+* `-M <max>` filters out strings that are strictly larger than `max`.
+
+Errors when interacting with the file system must be handled properly!
+
+## Module 06: Reverse Shell
 
 ```txt
 turn-in directory:
@@ -117,10 +190,48 @@ files to turn in:
     std/client.rs  std/server.rs  Cargo.toml
 ```
 
-TODO: Create a "Not Secure Shell" that allows connecting to a remote computer and use it. Nothing
-is secured. The standard input of the client to sent to the standard input of the server, the
-standard output of the server is sent to the standard output of the client.
+Create a **Not So Secure Shell** client/server that allows a user to use a shell from a remote
+computer.
+
+```txt
+======= SERVER =======
+>_ cargo run --bin server -- 127.0.0.1:49150 /bin/bash
+remote-computer$ echo test
+test
+remote-computer$
+
+======= CLIENT =======
+>_ cargo run --bin client -- 127.0.0.1:49150
+remote-computer$ echo test
+test
+remote-computer$
+```
+
+The server must:
+
+1. Open socket connection and listen for incoming connections. When a connection is available, the
+server stops accepting new connections.
+2. Start the program specified in command-line arguments. It pipes the socket's output into the
+shell's standard input, and the shell standard output into the socket's input.
+3. When the remote client is disconnected, or when the child command exists, it stops.
+
+The client must:
+
+1. Connect to the specified address.
+2. Pipe its standard input into the socket's input. Pipe the socket's output into its standard
+output.
+3. If the socket is disconnected, the program stops.
+
+Errors must be handled properly!
 
 ## Module 07: PBP
+
+```txt
+turn-in directory:
+    ex07/
+
+files to turn in:
+    std/client.rs  std/server.rs  Cargo.toml
+```
 
 TODO: Write an asymetric encryptor and decryptor that uses private and public keys.
