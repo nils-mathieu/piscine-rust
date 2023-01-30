@@ -215,7 +215,9 @@ The server must:
 server stops accepting new connections.
 2. Start the program specified in command-line arguments. It pipes the socket's output into the
 shell's standard input, and the shell standard output into the socket's input.
-3. When the remote client is disconnected, or when the child command exists, it stops.
+3. Both the standard output of the child process, and the output of the socket must be copied to
+its standard output.
+4. When the remote client is disconnected, or when the child command exists, it stops.
 
 The client must:
 
@@ -224,7 +226,7 @@ The client must:
 output.
 3. If the socket is disconnected, the program stops.
 
-Errors must be handled properly!
+Errors must be handled properly in both the server and the client!
 
 ## Exercise 07: PBP
 
