@@ -69,7 +69,7 @@ gigabytes).
 
 Your program must not panic when interacting with the file system. Errors must be handled properly.
 
-## Module 02: File Info
+## Module 02: TODO
 
 ```txt
 turn-in directory:
@@ -88,23 +88,39 @@ TODO: Open a file/directory, and print information about it?
 
 TODO:
 
-## Module 04: TODO
-
-TODO: find a specific string and provide context optionally (like grep)?
-
-example: cargo run
-
-## Module 05: TODO
-
-TODO: do string (support UTF-8 + minimum de charactères)
-
-## Module 06: TODO
+## Module 04: Silence It!
 
 TODO: replace symbol of elf file by another because it's funny.
-The modification must be done in-place.
+The modification must be done in-place. Remove `write` by `sleep`.
 
-Only edit the "strings" section of the elf
+Maybe only edit the "strings" section of the elf? That uses a tiny bit of parsing.
 
-## Module 07: TODO
+## Module 05: String Finder
+
+```txt
+turn-in directory:
+    ex05/
+
+files to turn in:
+    std/main.rs  Cargo.toml
+```
+
+TODO: Create a **program** that reads a file, and prints the UTF-8 strings it finds.
+
+## Module 06: Remote Shell
+
+```txt
+turn-in directory:
+    ex06/
+
+files to turn in:
+    std/client.rs  std/server.rs  Cargo.toml
+```
+
+TODO: Create a "Not Secure Shell" that allows connecting to a remote computer and use it. Nothing
+is secured. The standard input of the client to sent to the standard input of the server, the
+standard output of the server is sent to the standard output of the client.
+
+## Module 07: PBP
 
 TODO: Write an asymetric encryptor and decryptor that uses private and public keys.
