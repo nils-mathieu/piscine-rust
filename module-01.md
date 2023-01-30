@@ -235,7 +235,7 @@ deduplicate(&mut v);
 assert_eq!(v, [1, 2, 3, 4]);
 ```
 
-## Exercise 06: LIS
+## Exercise 06: Big Add
 
 ```txt
 turn-in directory:
@@ -246,24 +246,25 @@ files to turn in:
 
 allowed symbols:
     <[i32]>::{is_empty, len}
-    std::vec::Vec::{push, insert, len, is_empty, new}
+    std::vec::Vec::{push, len, is_empty, new, reverse}
 ```
 
-Write a **function** that finds the Longest Increasing Sequence in a given array.
+Write a **function** that multiplies two numbers together. The numbers are given as a list of
+decimal digits and may be arbitrarly large.
 
 ```rust
-fn lis(slice: &[i32]) -> Vec<i32>;
+fn big_add(a: &[u8], &[u8]) -> Vec<u8>;
 ```
 
-* The longuest sequence is returned as a list.
-* The returned sequence must be *strictly* increasing.
-* When multiple longuest sequences are found, any of those sequences can be selected.
+* `a` and `b` must only contain digits (`b'0'` to `b'9'` included). If anything else is found, the
+function must panic.
+* Input numbers may contain leading zeros, but the result must not have any.
 
 Example:
 
 ```rust
-assert_eq!(&[2, 1, 3], [2, 3]);
-assert_eq!(&[2, 1, 4, 2, 4], [1, 2, 4]);
+assert_eq!(big_add(b"2", b"4"), b"6");
+assert_eq!(big_add(b"0010", b"0200"), b"210");
 ```
 
 ## Exercise 07: Justify Yourself!
