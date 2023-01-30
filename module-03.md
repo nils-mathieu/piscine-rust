@@ -174,11 +174,72 @@ print it to the standard output using its `Debug` implementation.
 
 Create a `main` function that showcase this function being called for at least two distinct types.
 
-## Exercise 04: Quick Math
+## Exercise 04: What Time Is It?
 
 ```txt
 turn-in directory:
     ex04/
+
+files to turn in:
+    src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::str::FromStr  std::fmt::{Display, Debug, Formatter}
+    str::as_bytes  std::result::Result  std::{write, println}
+    u8::is_ascii_digit
+```
+
+Create a type named `Time` responsible for storing, well, a time.
+
+```rust
+struct Time {
+    hours: u32,
+    minutes: u32,
+}
+
+enum TimeParseError {
+    MissingColon,
+    InvalidLength,
+    InvalidNumber,
+}
+```
+
+Implement the right traits such that the provided `main` function compiles and produces the given
+output.
+
+```rust
+fn main() {
+    let a: Time = "12:20".parse().unwrap();
+    let b: Time = "15:14".parse().unwrap();
+
+    println!("{a}");
+    println!("{b}");
+
+    let err1: TimeParseError = "12.20".parse::<Time>().unwrap_err();
+    let err2: TimeParseError = "12:2".parse::<Time>().unwrap_err();
+    let err3: TimeParseError = "12:2a".parse::<Time>().unwrap_err();
+    println!("error: {err1}");
+    println!("error: {err2}");
+    println!("error: {err3}");
+}
+```
+
+Output:
+
+```txt
+>_ cargo run
+12 hours, 20 minutes
+15 hours, 14 minutes
+error: missing ':'
+error: invalid length
+error: invalid number
+```
+
+## Exercise 05: Quick Math
+
+```txt
+turn-in directory:
+    ex05/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -237,67 +298,6 @@ fn test_b() {
     let b = v;
     assert_eq!(a, b);
 }
-```
-
-## Exercise 05: What Time Is It?
-
-```txt
-turn-in directory:
-    ex05/
-
-files to turn in:
-    src/main.rs  Cargo.toml
-
-allowed symbols:
-    std::str::FromStr  std::fmt::{Display, Debug, Formatter}
-    str::as_bytes  std::result::Result  std::{write, println}
-    u8::is_ascii_digit
-```
-
-Create a type named `Time` responsible for storing, well, a time.
-
-```rust
-struct Time {
-    hours: u32,
-    minutes: u32,
-}
-
-enum TimeParseError {
-    MissingColon,
-    InvalidLength,
-    InvalidNumber,
-}
-```
-
-Implement the right traits such that the provided `main` function compiles and produces the given
-output.
-
-```rust
-fn main() {
-    let a: Time = "12:20".parse().unwrap();
-    let b: Time = "15:14".parse().unwrap();
-
-    println!("{a}");
-    println!("{b}");
-
-    let err1: TimeParseError = "12.20".parse::<Time>().unwrap_err();
-    let err2: TimeParseError = "12:2".parse::<Time>().unwrap_err();
-    let err3: TimeParseError = "12:2a".parse::<Time>().unwrap_err();
-    println!("error: {err1}");
-    println!("error: {err2}");
-    println!("error: {err3}");
-}
-```
-
-Output:
-
-```txt
->_ cargo run
-12 hours, 20 minutes
-15 hours, 14 minutes
-error: missing ':'
-error: invalid length
-error: invalid number
 ```
 
 ## Exercise 06: A Singly-Linked List
