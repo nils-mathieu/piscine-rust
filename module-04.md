@@ -23,7 +23,7 @@ Correcting an already well-tested exercise is easier and faster than having to w
 defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
 they are not specified in the `allowed symbols` section.
 
-## Module 00: Tee-Hee
+## Exercise 00: Tee-Hee
 
 ```txt
 turn-in directory:
@@ -55,7 +55,7 @@ Hello, World!
 You program must not panic when interacting with the file system. All errors must be handled
 properly.
 
-## Module 01: Duh
+## Exercise 01: Duh
 
 ```txt
 turn-in directory:
@@ -88,7 +88,7 @@ gigabytes).
 
 Your program must not panic when interacting with the file system. Errors must be handled properly.
 
-## Module 02: TODO
+## Exercise 02: TODO
 
 ```txt
 turn-in directory:
@@ -103,11 +103,11 @@ allowed symbols:
 
 TODO: Open a file/directory, and print information about it?
 
-## Module 03: TODO
+## Exercise 03: TODO
 
 TODO:
 
-## Module 04: Silence It!
+## Exercise 04: Silence It!
 
 ```txt
 turn-in directory:
@@ -131,6 +131,8 @@ C is the best programming language! Fight me.
 error: not an ELF file
 ```
 
+* The modification must be done in-place. Do not overwrite the file completely!
+* Do not read to whole file. Skip to the parts that you actually need.
 * Only the "string" section of the ELF file must be edited. Be careful when editing the text! You
 must not edit the function when it does not refer to unistd's `write` function.
 
@@ -153,7 +155,7 @@ int main(void)
 
 Parsing errors and I/O errors must be handled properly.
 
-## Module 05: String Finder
+## Exercise 05: String Finder
 
 ```txt
 turn-in directory:
@@ -180,7 +182,7 @@ The program must have the following options available:
 
 Errors when interacting with the file system must be handled properly!
 
-## Module 06: Reverse Shell
+## Exercise 06: Reverse Shell
 
 ```txt
 turn-in directory:
@@ -224,7 +226,7 @@ output.
 
 Errors must be handled properly!
 
-## Module 07: PBP
+## Exercise 07: PBP
 
 ```txt
 turn-in directory:
