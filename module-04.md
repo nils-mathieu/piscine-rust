@@ -88,7 +88,7 @@ gigabytes).
 
 Your program must not panic when interacting with the file system. Errors must be handled properly.
 
-## Exercise 02: TODO
+## Exercise 02: to_args
 
 ```txt
 turn-in directory:
@@ -96,14 +96,71 @@ turn-in directory:
 
 files to turn in:
     std/main.rs  Cargo.toml
+
+allowed symbols:
+    std::env::args
+    std::process::Command
+    std::io::stdin
 ```
 
-TODO: XARG?
+Create a **program** takes a path and some arguments as an input, and spawns that process with:
 
+1. The arguments passed in command-line arguments.
+2. Each line of its standard input.
 
-## Exercise 03: TODO
+Example:
 
-TODO: 
+```rust
+>_ << EOF cargo run -- echo -n
+hello
+test
+EOF
+hello test>_
+```
+
+The program called the `echo -n hello test` command.
+
+Your program must not panic when interacting with the system, you must handle errors properly.
+
+## Exercise 03: Command Multiplexer
+
+```txt
+turn-in directory:
+    ex03/
+
+files to turn in:
+    std/main.rs  Cargo.toml
+
+allowed symbols:
+    std::env::args
+    std::process::{Command, Stdio}
+    std::vec::Vec
+    std::io::{stdout, Write, Read}
+```
+
+Create a **program** that starts multiple commands, gather their output and then print it to its
+standard output, in their original order without any of them mixing with any other. Standard error
+output is ignored. 
+
+Example:
+
+```txt
+>_ cargo run -- echo a b , echo b , cat Cargo.toml
+===== echo a b =====
+a b
+
+===== echo b =====
+b
+
+==== cat Cargo.toml =====
+[package]
+name = "ex03"
+version = "0.1.0"
+...
+```
+
+Commands must be executed in parallel! Any error occuring when interacting with the system must be
+handled properly.
 
 ## Exercise 04: Silence It!
 
@@ -113,6 +170,10 @@ turn-in directory:
 
 files to turn in:
     std/main.rs  Cargo.toml
+
+allowed symbols:
+    std::env::args
+    std::fs::File  std::io::{Read, Write, Seek}
 ```
 
 Create a **program** that replaces any call to the `write` function in an ELF file by the `sleep`
@@ -161,9 +222,14 @@ turn-in directory:
 
 files to turn in:
     std/main.rs  Cargo.toml
+
+allowed symbols:
+    std::env::args
+    std::fs::File  std::io::{Write, Read, stdout, stdin}
 ```
 
 Create a **program** that reads an arbitrary binary file, and prints the UTF-8 strings it finds.
+When no file is provided, the standard input is used instead.
 
 Example:
 
@@ -180,18 +246,107 @@ The program must have the following options available:
 
 Errors when interacting with the file system must be handled properly!
 
-## Exercise 06: TODO
-
-TODO: Something with TCP?
-
-## Exercise 07: PBP
+## Exercise 06: Dog
 
 ```txt
 turn-in directory:
     ex07/
 
 files to turn in:
-    std/client.rs  std/server.rs  Cargo.toml
+    std/server.rs  std/client.rs  Cargo.toml
+
+allowed symbols:
+    std::env::args
+    std::net::{TcpStream, TcpListener, SocketAddr}
+    std::io::{Write, Read}
 ```
 
-TODO: Write an asymetric encryptor and decryptor that uses private and public keys.
+Create two **programs**.
+
+* The first program is the server. Its role is to wait for TCP connections. When data is received,
+it is retransmitted to all other connections.
+
+* The second program is the client. Its role is to connect to the server, write the data it sends
+to its standard output, and send its standard input to the server.
+
+Example:
+
+```txt
+===== SERVER =====
+>_ cargo run --bin server -- 127.0.0.1:49150
+cedric: Hey!
+kevin: How are you?
+
+===== CLIENT 1 =====
+>_ cargo run --bin client -- 127.0.0.1:49150 cedric
+Hey!
+cedric: Hey!
+kevin: How are you?
+
+===== CLIENT 2 =====
+>_ cargo run --bin client -- 127.0.0.1:49150 kevin
+cedric: Hey!
+How are you?
+kevin: How are you?
+```
+
+Note that this interface is only an example! You can experiment with this!
+
+When the end-of-file is reached, the client closes its connection with the server. In both binaries,
+errors must be handled properly!
+
+## Exercise 07: Pretty Bad Privacy
+
+```txt
+turn-in directory:
+    ex07/
+
+files to turn in:
+    std/main  Cargo.toml
+
+allowed symbols:
+    std::vec::Vec
+    std::env::args
+    std::io::{stdin, stdout, stderr, Write, Read}
+    std::fs::File
+```
+
+Write a **program** that behaves in the following way:
+
+```txt
+>_ cargo run -- gen-keys my-key.pub my-key.priv
+>_ << EOF cargo run -- encrypt my-key.pub > encypted-message
+This is a very secret message.
+EOF
+>_ cat encrypted-message | cargo run -- decrypt my-key.priv
+This is a very secret message.
+```
+
+In order to generate keys, your program must perform the following steps:
+
+1. Generate two random prime numbers (`p` and `q`).
+2. Let `M` be their product.
+3. Let `Phi` be the value `(p - 1) * (q - 1)`.
+4. Pick a random `E`, such that:
+    * `E < Phi`
+    * `E` and `Phi` are coprime
+    * `E` and `M` are coprime
+5. Pick a random `D`, any multiplicative inverse of `E` modulo `Phi`.
+
+Your private key is `(D, M)`, and your public key is `(E, M)`.
+
+* With the public key, you can encrypt any number: `encrypt(m) { m^E % M }`.
+* With the private key, you can decrypt the original message: `decrypt(m') { m'^D % M }`.
+* Obviously, for any `m`, `decrypt(encrypt(m)) == m`.
+
+Now that you have your private and public keys, you can already create the `gen-keys` subcommand,
+which saves both keys to files specified as arguments to the command. You can choose the format that
+you like, may it be binary or textual.
+
+Let's define a new value: `B`, the "block size".
+
+* Let `B` be the largest integer such that `255^B < M`. 
+
+In order to encrypt or decrypt a message, take `B` bytes of your message at a time, treat then as a
+very big base-256 number, and put it through your encryption/decryption function. That's your
+encrypted/decrypted block! Perform the operation for every block of the message, and voilà!
