@@ -96,16 +96,14 @@ turn-in directory:
 
 files to turn in:
     std/main.rs  Cargo.toml
-
-allowed symbols:
-    std::fs::Metadata
 ```
 
-TODO: Open a file/directory, and print information about it?
+TODO: XARG?
+
 
 ## Exercise 03: TODO
 
-TODO:
+TODO: 
 
 ## Exercise 04: Silence It!
 
@@ -182,51 +180,9 @@ The program must have the following options available:
 
 Errors when interacting with the file system must be handled properly!
 
-## Exercise 06: Reverse Shell
+## Exercise 06: TODO
 
-```txt
-turn-in directory:
-    ex06/
-
-files to turn in:
-    std/client.rs  std/server.rs  Cargo.toml
-```
-
-Create a **Not So Secure Shell** client/server that allows a user to use a shell from a remote
-computer.
-
-```txt
-======= SERVER =======
->_ cargo run --bin server -- 127.0.0.1:49150 /bin/bash
-remote-computer$ echo test
-test
-remote-computer$
-
-======= CLIENT =======
->_ cargo run --bin client -- 127.0.0.1:49150
-remote-computer$ echo test
-test
-remote-computer$
-```
-
-The server must:
-
-1. Open socket connection and listen for incoming connections. When a connection is available, the
-server stops accepting new connections.
-2. Start the program specified in command-line arguments. It pipes the socket's output into the
-shell's standard input, and the shell standard output into the socket's input.
-3. Both the standard output of the child process, and the output of the socket must be copied to
-its standard output.
-4. When the remote client is disconnected, or when the child command exists, it stops.
-
-The client must:
-
-1. Connect to the specified address.
-2. Pipe its standard input into the socket's input. Pipe the socket's output into its standard
-output.
-3. If the socket is disconnected, the program stops.
-
-Errors must be handled properly in both the server and the client!
+TODO: Something with TCP?
 
 ## Exercise 07: PBP
 
