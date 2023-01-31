@@ -38,8 +38,8 @@ allowed symbols:
     std::vec::Vec  std::string::String
 ```
 
-Create a **program** that reads the standard input of the program, and copies it to the standard
-output, as well as every file specified in command-line arguments.
+Create a **program** that reads the standard input, and copies it to the standard output, as well as
+to every file specified in command-line arguments.
 
 Example:
 
@@ -145,9 +145,11 @@ output is ignored.
 Example:
 
 ```txt
->_ cargo run -- echo a b , echo b , cat Cargo.toml
+>_ cargo run -- echo a b , sleep 1 , echo b , cat Cargo.toml
 ===== echo a b =====
 a b
+
+==== sleep 1 =====
 
 ===== echo b =====
 b
@@ -302,13 +304,18 @@ turn-in directory:
     ex07/
 
 files to turn in:
-    std/main  Cargo.toml
+    std/main.rs src/*.rs  Cargo.toml
+
+allowed dependencies:
+    crypto_bigint(v0.4.9)  rand(v0.8.5)
 
 allowed symbols:
     std::vec::Vec
     std::env::args
     std::io::{stdin, stdout, stderr, Write, Read}
     std::fs::File
+    rand::*
+    crypto_bigint::*
 ```
 
 Write a **program** that behaves in the following way:
