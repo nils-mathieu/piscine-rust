@@ -337,7 +337,7 @@ Your private key is `(D, M)`, and your public key is `(E, M)`.
 
 * With the public key, you can encrypt any number: `encrypt(m) { m^E % M }`.
 * With the private key, you can decrypt the original message: `decrypt(m') { m'^D % M }`.
-* Obviously, for any `m`, `decrypt(encrypt(m)) == m`.
+* Obviously, for any `m < M`, `decrypt(encrypt(m)) == m`.
 
 Now that you have your private and public keys, you can already create the `gen-keys` subcommand,
 which saves both keys to files specified as arguments to the command. You can choose the format that
@@ -347,6 +347,6 @@ Let's define a new value: `B`, the "block size".
 
 * Let `B` be the largest integer such that `255^B < M`. 
 
-In order to encrypt or decrypt a message, take `B` bytes of your message at a time, treat then as a
+In order to encrypt or decrypt a block, take `B` bytes of your message, treat it as a
 very big base-256 number, and put it through your encryption/decryption function. That's your
 encrypted/decrypted block! Perform the operation for every block of the message, and voilà!
