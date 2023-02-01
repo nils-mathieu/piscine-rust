@@ -129,13 +129,17 @@ Let's start simple.
 ```rust
 fn ft_swap<T>(a: &mut T, b: &mut T);
 unsafe fn ft_strlen(s: *const u8) -> usize;
+unsafe fn ft_strcpy(dst: *mut u8, src: *const u8);
 ```
 
 * `ft_swap` must swaps any two values of any type. Maybe `T` can be copied; maybe not. Maybe it has
 a default value. Maybe not.
 * `ft_strlen` must count the number of non-null bytes, starting at `s`. You must write an
-appropriate "# Safety" section in the documentation of that function to educate its users about its
-correct usage.
+appropriate "# Safety" section in the documentation of that function to educate about its users
+about its correct usage.
+* `ft_strcpy` must copy the null-terminated string at `src` into `dst`. Just like `ft_strlen`, you
+must *precisely* describe the requirements of your function within a "# Safety" section in its
+documentation.
 
 Example:
 
@@ -157,11 +161,15 @@ assert_eq!(len, 13);
 
 TODO:
 
-## Exercise 02: Carton
+## Exercise 02:
+
+TODO:
+
+## Exercise 03: Carton
 
 ```txt
 turn-in directory:
-    ex02/
+    ex03/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -169,6 +177,7 @@ files to turn in:
 allowed symbols:
     std::alloc::{alloc, dealloc, Layout}
     std::ops::{Deref, DerefMut}
+    std::clone::Clone
 ```
 
 Create a type named `Carton<T>`, which must manage an allocation of a single `T` on the heap.
@@ -180,36 +189,164 @@ impl<T> Carton<T> {
 }
 ```
 
-The following code must work.
+* You must make sure that `Carton<T>` has the correct *variance* over `T`.
+* You muts make sure that the *drop checker* makes the correct assumptions about the lifetime of
+a `T` owned by a `Carton<T>`.
+* You must make sure that `Carton<T>` properly manages the memory it owns. When memory is allocated,
+it must be deallocated layer!
+* Be careful! *Careful*! Any code that you didn't write can panic. Cloning a value can panic.
+Dropping a value can panic. Make sure that your type do *not* leak memory; even when cloning or
+dropping.
+
+Example:
 
 ```rust
+#[derive(Clone, Copy)]
 struct Point { x: u32, y: u32 }
 let point_in_carton = Carton::new(Point { x: 1, y: 2 });
 assert_eq!(point_in_carton.x, 1);
 assert_eq!(point_in_carton.y, 2);
+
+let mut another_point = point_in_carton.clone();
+another_point.x = 2;
+another_point.y = 3;
+assert_eq!(another_point.x, 2);
+assert_eq!(another_point.y, 3);
+assert_eq!(point_in_carton.x, 1);
+assert_eq!(point_in_carton.y, 2);
 ```
 
-Because I'm feeling generous, I'll give some pointers. You need to make sure `Carton<T>` has the
-correct *variance* over `T`. You also need to properly inform the *drop checker* that your type owns
-a `T`.
+## Exercise 04:
 
-## Exercise 03:
+```txt
+turn-in directory:
+    ex04/
+
+files to turn in:
+    src/lib.rs  Cargo.toml  build.rs  awesome.c
+
+allowed symbols:
+```
+
+However sad may it be, Rust is not the only programming language in existence.
 
 TODO: FFI and build.rs
 structs #[repr(C)]
 
-## Exercise 04:
+## Exercise 05: RAII
 
-TODO: libc (create safe wrapper for some functions here?) Oh! A wrapper for file descriptors would
-be cool! Plus a bonus for errno turned into a result.
+```txt
+turn-in directory:
+    ex05/
 
-## Exercise 05:
+files to turn in:
+    src/main.rs  Cargo.toml
 
-TODO:
+allowed dependencies:
+    libc  cstr
 
-## Exercise 06:
+allowed symbols:
+    std::copy::Copy  std::clone::Clone
+    std::str::from_utf8_unchecked
+    libc::__errno_location
+    libc::strerror
+    libc::{write, read, open, close}
+    cstr::cstr
+```
 
-TODO:
+Create an `Errno` type, respondible for managing errors coming from C code.
+
+```rust
+struct Errno(libc::c_int);
+
+impl Errno {
+    fn last() -> Self;
+    fn make_last(self);
+    fn description(self) -> &'static str;
+}
+```
+
+* `last` must return the calling thread's last "errno".
+* `make_last` must make an `Errno` the calling thread's last "errno".
+* `description` must return a textual description of the error. Don't try to enumate *every*
+possible error! Use a function of `libc` to do it for you.
+
+TODO: add an example that show that `Debug` and `Display` must be implemented.
+
+With a robust way to handle errors, we can no start for real.
+
+```rust
+struct Fd(libc::c_int);
+
+impl Fd {
+    const STDIN: Self = /* ... */;
+    const STDOUT: Self = /* ... */;
+    const STDERR: Self = /* ... */;
+
+    fn open(file: &CStr) -> Result<Self, Errno>;
+    fn create(file: &CStr) -> Result<Self, Errno>;
+    fn write(self, data: &[u8]) -> Result<usize, Errno>;
+    fn read(self, buffer: &mut [u8]) -> Result<usize, Errno>;
+    fn close(self) -> Result<(), Errno>;
+}
+```
+
+* `open` must open a new file descriptor for reading (only).
+* `create` must open a new file descriptor for writing (only). If the file already exists, it must
+  be truncated.
+* `write` must write some of the data referenced by `data` to the file descriptor.
+* `read` must read some data from the file descriptor into `buffer`.
+* `close` must attempt to close the file descriptor.
+* In any case, errors must be handled properly.
+
+That's cool, and all. But we can do better!
+
+```rust
+struct File(Fd);
+
+impl File {
+    fn open(file: &CStr) -> Result<Self, Errno>;
+    fn create(file: &CStr) -> Result<Self, Errno>;
+    fn write(&self, data: &[u8]) -> Result<usize, Errno>;
+    fn read(&self, buffer: &mut [u8]) -> Result<usize, Errno>;
+    fn leak(self) -> Fd;
+}
+```
+
+* `open` and `create` work exactly the same as `Fd::open` and `Fd::create`.
+* `write` and `read` work the same way as `Fd::write` and `Fd::read`. Note, however, that they only
+  *borrow* the `File`.
+* `leak` must "leak" the file descriptor of the file; returning it and "forgetting" that it had to
+  be closed layer.
+
+When a `File` is dropped, it must automatically close its file descriptor.
+
+## Exercise 06: Never Needed Rust
+
+```txt
+turn-in directory:
+    ex07/
+
+files to turn in:
+    src/main.rs  Cargo.toml
+
+allowed dependencies:
+    libc
+
+allowed symbols:
+    libc::puts
+```
+
+Create a **program** that prints "Hello, World!" to the standard output.
+
+Example:
+
+```txt
+>_ cargo run
+Hello, World!
+```
+
+You must add the `#![no_std]` and `#![no_main]` attributes to your crate.
 
 ## Exercise 07: `ft_putchar`
 
@@ -219,6 +356,9 @@ turn-in directory:
 
 files to turn in:
     ft_putchar.rs
+
+allowed symbols:
+    core::arch::asm
 ```
 
 What better way to finish this great journey but by writing your very first `C` function?
@@ -227,10 +367,9 @@ What better way to finish this great journey but by writing your very first `C` 
 fn ft_putchar(c: u8);
 ```
 
-You can't use any function or symbol from the standard library apart from the `std::arch::asm!`
-macro. If you want to make sure nothing gets into your sacred namespace, you can use the
-`#![no_implicit_prelude]` global attribute.
+* `ft_putchar` must print the specified character to the standard output of the program.
 
-You can optionally provide a `main` function to showcase your work of art.
+* If you want to make sure nothing gets into your sacred namespace, you can add the
+  `#![no_implicit_prelude]` and `#![no_std]` global attributes.
 
-TODO: maybe this exercise shouldn't be the last one. It is not that complicated. Maybe? Not sure.
+* You can optionally provide a `main` function to showcase your work of art.
