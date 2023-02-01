@@ -150,16 +150,91 @@ ft_swap(&mut a, &mut b);
 assert_eq!(a, "Goodby, World!");
 assert_eq!(b, "Hello, World!");
 
-let s = b"Hello, World!\0;
+let s = b"Hello, World!\0";
 // SAFETY:
 //  /* ... */
 let len = unsafe { ft_strlen(s.as_ptr()) };
 assert_eq!(len, 13);
+
+let mut dst = [0u8; 14];
+// SAFETY:
+//  /* ... */
+unsafe { ft_strcpy(dst.as_mut_ptr(), s.as_ptr()) };
+assert_eq!(s, b"Hello, World\0");
 ```
 
-## Exercise 01:
+## Exercise 01: Philospher's Stone
 
-TODO:
+```txt
+turn-in directory:
+    ex01/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::slice::from_raw_parts
+    std::mem::transmute
+```
+
+Let's play the
+
+
+```rust
+type GoldNugget = u16;
+
+type Iron = u32;
+type Mercure = u64;
+
+struct PhilosopherStone;
+
+impl PhilosopherStone {
+    fn transmute_iron(self, iron: Iron) -> [GoldNugget; 2];
+    fn transmute_mercure(self, mercure: Mercure) -> [GoldNugget; 4];
+}
+```
+
+* The `transmute_iron` function must convert the given `Iron` into a bunch of `GoldNugget`s. The
+bit-pattern of the original iron *must be preserved*; ignoring byte-order.
+* The `transmute_mercure` function must convert the given `Mercure` into a bunch of `GoldNugget`s.
+The bit-pattern of the original mercure *must be preserved*; ignoring byte-order.
+
+Example:
+
+```rust
+// On a LITTLE-ENDIAN machine! On big-endian machines, the result will be different.
+let iron = 0x12345678;
+assert_eq!(PhilosopherStone.transmute_iron(iron), [0x5678, 0x1234]);
+let mercure = 0x123456780ABCDEF;
+assert_eq1(PhilosopherStone.transmute_mercure(mercure), [0xCDEF, 0x80AB, 0x5678, 0x1234]);
+```
+
+Let's generalize a bit.
+
+```rust
+type Gold = [u16];
+
+unsafe trait Metal {}
+```
+
+* A `Metal` is a type that may be turned into gold by the `PhilosopherStone`.
+* Do not forget the `# Safety` comment in the documentation for `Metal`!
+
+```rust
+impl PhilosopherStone {
+    fn transmute_metal<M: Metal>(self, metal: &M) -> &Gold;
+}
+```
+
+* The `transmute_metal` function must convert the given `metal` into `&Gold`.
+
+Example:
+
+```rust
+unsafe impl Metal for GoldNugget {}
+let nugget = 0x1233;
+assert_eq!(PhilosopherStone.transmute_metal(&nugget), &[0x3312]);
+```
 
 ## Exercise 02:
 
@@ -232,6 +307,7 @@ However sad may it be, Rust is not the only programming language in existence.
 
 TODO: FFI and build.rs
 structs #[repr(C)]
+union
 
 ## Exercise 05: RAII
 
@@ -321,34 +397,29 @@ impl File {
 
 When a `File` is dropped, it must automatically close its file descriptor.
 
-## Exercise 06: Never Needed Rust
+## Exercise 06: NonoGrind
 
 ```txt
 turn-in directory:
-    ex07/
+    ex06/
 
 files to turn in:
     src/main.rs  Cargo.toml
-
-allowed dependencies:
-    libc
-
-allowed symbols:
-    libc::puts
 ```
 
-Create a **program** that prints "Hello, World!" to the standard output.
+Create a **program** that spawns another program and verifies that any memory it allocates using
+`mmap` is properly freed with an associated `munmap` later down the line. Memory errors are
+displayed neatly when the "slave" (real GDB terminology) exits or crashes.
 
 Example:
 
 ```txt
->_ cargo run
-Hello, World!
+TODO: add an example
 ```
 
-You must add the `#![no_std]` and `#![no_main]` attributes to your crate.
+TODO: determine whether this is actually doable or not.
 
-## Exercise 07: `ft_putchar`
+## Exercise 07: Never Needed Rust
 
 ```txt
 turn-in directory:
@@ -365,11 +436,22 @@ What better way to finish this great journey but by writing your very first `C` 
 
 ```rust
 fn ft_putchar(c: u8);
+fn ft_exit(code: u8) -> !;
 ```
 
+* You must use the `#![no_std]` and `#![no_main]` global attributes.
+* If you want to make sure nothing gets into your sacred namespace, you can optioanlly add the
+  `#![no_implicit_prelude]` global attribute.
 * `ft_putchar` must print the specified character to the standard output of the program.
+* `ft_exit` must exit the process with the specified exit code.
+* Create a **program** that calls `ft_putchar` trice. Once with '4', once with '2', and once with
+  `\n`.
 
-* If you want to make sure nothing gets into your sacred namespace, you can add the
-  `#![no_implicit_prelude]` and `#![no_std]` global attributes.
+Example:
 
-* You can optionally provide a `main` function to showcase your work of art.
+```txt
+>_ ./ft_putchar
+42
+>_ echo $?
+42
+```
