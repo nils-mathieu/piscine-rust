@@ -153,11 +153,11 @@ YYYyyy
 
 You cannot use twice the same bound type on `F`!
 
-## Exercise 03: Largest Odd Number
+## Exercise 02: Largest Odd Number
 
 ```txt
 turn-in directory:
-    ex03/
+    ex02/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -227,11 +227,11 @@ assert_eq!(
 Oh! You can use the `return` keyword in neither of those functions. And also, no `;`. I don't like
 the name of this character.
 
-## Exercise 04: The Great Fibonacci
+## Exercise 03: The Great Fibonacci
 
 ```txt
 turn-in directory:
-    ex04/
+    ex03/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -286,18 +286,11 @@ Example:
 assert_eq!(even_fibs_bellow_1000(), 798);
 ```
 
+## Exercise 04:
+
+TODO:
+
 ## Exercuse 05: 
-
-```txt
-turn-in directory:
-    ex06/
-
-files to turn in:
-    src/main.rs  Cargo.toml
-
-allowed symbols:
-
-```
 
 TODO:
 
