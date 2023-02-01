@@ -278,7 +278,7 @@ fn even_fibs_bellow_1000() -> u32;
 
 * This function must return the sum of even fibonacci numbers bellow `1000` using the `Fibs`
 iterator you previously wrote.
-* You still can't use `return` nor can you use `;`s characters.
+* You still can't use `return` nor can you use `;`s characters!
 
 Example:
 
