@@ -34,15 +34,15 @@ they are not specified in the `allowed symbols` section.
 
 ## Exercise 00:
 
-TODO: Spawn a thread with no scope.
+TODO: Swap using cell and shared references.
 
-## Exercise 01: Scope The Threads
+## Exercise 01:
 
-TODO: Spawn a thread with scope.
+TODO: Spawn a thread (maybe see scopes). Send, Sync
 
 ## Exercise 02: Mutual Exclusion
 
-TODO: Mutex
+TODO: Mutex and how that relates to cell.
 
 ## Exercise 03:
 
@@ -90,12 +90,12 @@ duration: 147ms
 
 ## Exercise 05:
 
-TODO:
+TODO: 
 
 ## Exercise 06:
 
-TODO: Create a thread pool.
+TODO:
 
 ## Exercise 07:
 
-TODO: Create a multi-threaded webserver.
+TODO: Create a multi-threaded webserver (with a thread pool).
