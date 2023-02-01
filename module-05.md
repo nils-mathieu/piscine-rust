@@ -313,9 +313,7 @@ allowed symbols:
     std::vec::Vec
     std::env::args
     std::io::{stdin, stdout, stderr, Write, Read}
-    std::fs::File
-    rand::*
-    crypto_bigint::*
+    std::fs::File  rand::*  crypto_bigint::*
 ```
 
 Write a **program** that behaves in the following way:
@@ -340,7 +338,8 @@ In order to generate keys, your program must perform the following steps:
     * `E` and `M` are coprime
 5. Pick a random `D`, any multiplicative inverse of `E` modulo `Phi`.
 
-Your private key is `(D, M)`, and your public key is `(E, M)`.
+Your private key is `(D, M)`, and your public key is `(E, M)`. The size of those number is free for
+you to choose. The `crypo_bigint` crate provides a lot integer sizes.
 
 * With the public key, you can encrypt any number: `encrypt(m) { m^E % M }`.
 * With the private key, you can decrypt the original message: `decrypt(m') { m'^D % M }`.
