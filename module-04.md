@@ -1,4 +1,4 @@
-# Module 04: Side Effects
+# Module 04: Higher Order
 
 ## General Rules
 
@@ -23,337 +23,466 @@ Correcting an already well-tested exercise is easier and faster than having to w
 defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
 they are not specified in the `allowed symbols` section.
 
-## Exercise 00: Tee-Hee
+## Exercise 00: Print All Things
 
 ```txt
 turn-in directory:
     ex00/
 
 files to turn in:
-    std/main.rs  Cargo.toml
+    src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::io::{Write, Read, stdin, stdout, stderr}
-    std::fs::File  std::env::args
-    std::vec::Vec  std::string::String
+    std::ops::Range
+    std::iter::{IntoIterator, Iterator}
+    std::fmt::Debug
+    std::{print, println}
 ```
 
-Create a **program** that reads the standard input, and copies it to the standard output, as well as
-to every file specified in command-line arguments.
+Create a **function** with the following signature.
+
+```rust
+fn print_all_things<I: /* ... */>(i: I);
+```
+
+* The `print_all_things` function must print the values it is given.
+* You have to add appropriate trait bounds to `I`.
+* Yo must use exactly *one* for loop.
 
 Example:
 
-```txt
->_ echo "Hello, World!" | cargo run -- a b c
-Hello, World!
->_ cat a b c
-Hello, World!
-Hello, World!
-Hello, World!
+```rust
+fn main() {
+    print_all_things(0..=5);
+    print_all_things("Hello".chars());
+    print_all_things(vec![1, 3, 4, 2]);
+    print_all_things([1, 2, 5, 4]);
+}
 ```
 
-You program must not panic when interacting with the file system. All errors must be handled
-properly.
+```txt
+>_ cargo run
+[ 1 3 4 2 ]
+[ 1 2 5 4 ]
+[ 0 1 2 3 4 5 ]
+[ 'H' 'e' 'l' 'l' 'o' ]
+```
 
-## Exercise 01: Duh
+## Exercise 01: YYYYYYYYYYYYYY
 
 ```txt
 turn-in directory:
     ex01/
 
 files to turn in:
-    std/main.rs  Cargo.toml
+    src/yes.rs  src/collatz.rs  src/print_bytes.rs  Cargo.toml
 
 allowed symbols:
-    std::fs::{metadata, Metadata}
-    std::env::args
+    std::ops::{Fn, FnMut, FnOnce}
+    str::chars
 ```
 
-Create a **program** that computes the total size of a directory or file. The program must write the
-aggregated size of directories *in real-time*. As more files are taken in account in the count,
-the total size must be updated in the terminal.
+Create tree **functions**. Each function must be prototyped as follows.
+
+```rust
+fn collayz<F: /* ... */>(start: u32, f: F);
+fn yes<F: /* ... */>(f: F) -> !;
+fn print_byes<F: /* ... */>(f: F);
+```
+
+* The `collayz` function must call the `f` function on every new odd value in the [collatz sequence](https://en.wikipedia.org/wiki/Collatz_conjecture).
+* You must add an appropriate bound for the `F` generic type so that you can call it with a single
+`u32` parameter (i.e. `f(n: u32);`).
+* Create a `main` that calls `collatz` with `start = 11` and produces the following output:
 
 ```txt
->_ cargo run -- ~
-1.2 gigabytes
+>_ cargo run --bin collatz
+YYYYYYYYYYY
+YYYYYYYYYYYYYYYYY
+YYYYYYYYYYYYY
+YYYYY
+Y
 ```
 
-* If a size is less than a kilobyte, it is written in bytes. (e.g. 245 bytes)
-* If a size is more than a kilobyte, it is written in kilobytes, with one decimal (e.g. 12.2
-kilobytes).
-* If a size is more than a megabyte, it is written in megabytes, with one decimal (e.g. 100.4
-megabytes).
-* If a size is more than a gigabyte, it is written in gigabytes, with one decimal (e.g. 23.9
-gigabytes).
-
-Your program must not panic when interacting with the file system. Errors must be handled properly.
-
-## Exercise 02: to_args
-
-```txt
-turn-in directory:
-    ex02/
-
-files to turn in:
-    std/main.rs  Cargo.toml
-
-allowed symbols:
-    std::env::args
-    std::process::Command
-    std::io::stdin
-```
-
-Create a **program** takes a path and some arguments as an input, and spawns that process with:
-
-1. The arguments passed in command-line arguments.
-2. Each line of its standard input.
+* The `print_byes` function must call `f` in repeat until it returns `None` (rather
+than a `Some(u8)`). Each time, `print_bytes` prints the returned byte in binary, but zeros are
+replaced by 'Y's, and ones with `y`.
+* You must add an appropriate bound to the `F` generic type, such that it returns an `Option<u8>`
+and takes no parameters (i.e. `let ret: Option<u8> = f();`).
+* Create a `main` that calls the `print_bytes` function in a way that it produces the following
+output.
 
 Example:
 
-```rust
->_ << EOF cargo run -- echo -n
-hello
-test
-EOF
-hello test>_
+```txt
+>_ cargo run --bin yes
+YyYYyYYY
+YyyYYyYy
+YyyYyyYY
+YyyYyyYY
+YyyYyyyy
+YYyYyyYY
+YYyYYYYY
+YyYyYyyy
+YyyYyyyy
+YyyyYYyY
+YyyYyyYY
+YyyYYyYY
+YYyYYYYy
 ```
 
-The program called the `echo -n hello test` command.
+* The `yes` function must call the `f` function once, and print its return value in an infinite
+loop.
+* You must add an appropriate bound to the `F` generic type, such that it returns a `String` and
+that it can be called with no parameters (i.e. `let s: String = f();`).
+* Create a `main` function that calls `yes`. You *cannot* create the `String` inside of the function
+passed to `yes`.
 
-Your program must not panic when interacting with the system, you must handle errors properly.
+```txt
+>_ cargo run --bin yes
+YYYyyy
+YYYyyy
+YYYyyy
+YYYyyy
+YYYyyy
+YYYyyy
+YYYyyy
+YYYyyy
+...
+```
 
-## Exercise 03: Command Multiplexer
+You cannot use twice the same bound type on `F`!
+
+## Exercise 03: Largest Odd Number
 
 ```txt
 turn-in directory:
     ex03/
 
 files to turn in:
-    std/main.rs  Cargo.toml
+    src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::env::args
-    std::process::{Command, Stdio}
-    std::vec::Vec
-    std::io::{stdout, Write, Read}
+    std::iter::Iterator::{filter_map, map, filter, sum, collect}
+    str::{split_whitespaces, trim, split_once}
+    std::str::FromStr
 ```
 
-Create a **program** that starts multiple commands, gather their output and then print it to its
-standard output, in their original order without any of them mixing with any other. Standard error
-output is ignored. 
+Create a **function** that does the following:
+
+1. Take a string as input.
+2. Split the string on whitespaces.
+3. Parse each word into an `u32`. If it is not possible, the word is ignored.
+4. Only keep odd numbers.
+5. Returns the sum of the remaining numbers.
+
+```rust
+fn sum_of_odds(s: &str) -> u32;
+```
 
 Example:
 
-```txt
->_ cargo run -- echo a b , sleep 1 , echo b , cat Cargo.toml
-===== echo a b =====
-a b
-
-==== sleep 1 =====
-
-===== echo b =====
-b
-
-==== cat Cargo.toml =====
-[package]
-name = "ex03"
-version = "0.1.0"
-...
+```rust
+let sum = sum_of_odds("hey 20 test 3\t9 4 5, 1 hello");
+assert_eq!(sum, 13);
 ```
 
-Commands must be executed in parallel! Any error occuring when interacting with the system must be
-handled properly.
+Let's create a second one. It must:
 
-## Exercise 04: Silence It!
+1. Take a string as input.
+2. For each line of the input, split the line into two fields, separated by a colon `':'`. If the
+line contains no `:`, it is ignored.
+3. The first part is kept as a string reference, but starting and ending whitespaces are trimmed.
+The second part is turned into any `T`. Once again, errors are ignored.
+4. Finally, everything is turned into a vector.
+
+```rust
+fn create_pairs<T: FromStr>(s: &str) -> Vec<(&str, T)>;
+```
+
+Example:
+
+```rust
+let input = "\
+first: 1
+second 2
+   \t third   : 3
+fourth
+fifth  : 43\t
+\tsixth
+";
+
+let v: Vec<(&str, u32)> = create_pairs(input);
+
+assert_eq!(
+    v,
+    [
+        ("first", 1),
+        ("thrid", 3),
+        ("fifth", 43),
+    ]
+);
+```
+
+Oh! You can use the `return` keyword in neither of those functions. And also, no `;`. I don't like
+the name of this character.
+
+## Exercise 04: The Great Fibonacci
 
 ```txt
 turn-in directory:
     ex04/
 
 files to turn in:
-    std/main.rs  Cargo.toml
+    src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::env::args
-    std::fs::File  std::io::{Read, Write, Seek}
+    std::option::Option
+    std::u32::{checked_add, checked_mul}
+    std::iter::Iterator
+    std::iter::Iterator::{take_while, filter, count}
 ```
 
-Create a **program** that replaces any call to the `write` function in an ELF file by the `sleep`
-function.
+Create an **Iterator** named `Fibs` that yields *every* fibonacci number that fits in a `u32`.
+
+```rust
+impl Fibs {
+    fn new(first: u32, second: u32) -> Self;
+}
+```
+
+* The `new` function must allow the user of the type to choose the first and second term of the
+sequence.
 
 Example:
 
+```rust
+let mut count = 0;
+for fib in Fibs::new(0, 1) {
+    if fib >= 1000 {
+        break;
+    }
+    if fib % 2 == 0 {
+        count += fib;
+    }
+}
+
+assert_eq!(count, 798);
+```
+
+Write the `even_fibs_bellow_1000` function.
+
+```rust
+fn even_fibs_bellow_1000() -> u32;
+```
+
+* This function must return the sum of even fibonacci numbers bellow `1000` using the `Fibs`
+iterator you previously wrote.
+* You still can't use `return` nor can you use `;`s characters.
+
+Example:
+
+```rust
+assert_eq!(even_fibs_bellow_1000(), 798);
+```
+
+## Exercuse 05: 
+
 ```txt
->_ ./a.out
-C is the best programming language! Fight me.
->_ cargo run -- a.out
->_ ./a.out
->_ cargo run -- Cargo.toml
-error: not an ELF file
+turn-in directory:
+    ex06/
+
+files to turn in:
+    src/main.rs  Cargo.toml
+
+allowed symbols:
+
 ```
 
-* The modification must be done in-place. Do not overwrite the file completely!
-* Do not read to whole file. Skip to the parts that you actually need.
-* Only the "string" section of the ELF file must be edited. Be careful when editing the text! You
-must not edit the function when it does not refer to unistd's `write` function.
+TODO:
 
-For example, the following program must *not* be patched:
+## Exercise 06: Monotically Increasing
 
-```c
-#include <stdio.h>
+```txt
+turn-in directory:
+    ex06/
 
-void write(char const *s)
-{
-    printf("%s", s);
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::iter::Iterator  std::option::Option
+    std::cmp::{PartialOrd, Ordering}
+    std::clone::Clone
+```
+
+Create a type named `Increasing<I>`.
+
+```rust
+struct Increasing<I: Iterator> {
+    inner: I,
+    last: Option<I::Item>,
 }
 
-int main(void)
-{
-    write("Hello, World!");    
-    return 0;
+impl<I> Increasing<I> {
+    pub fn new<J>(iter: J) -> Self
+    where
+        J: IntoIterator<IntoIter = I>;
 }
 ```
 
-Parsing errors and I/O errors must be handled properly.
+* The `new` function must create an instance of `Increasing` using the `IntoIterator`
+implementation of `J`.
+* Implement the `Iterator` trait for `Increasing<I>`. You may add the bounds you wish to both `I`
+and `I::Item` (as long as the subject allows them) in order to make the assignmenet possible.
+* The created iterator must filter any non-strictly-increasing number of the original iterator.
 
-## Exercise 05: String Finder
+For example:
+
+```rust
+let mut iter = Increasing::new([0.4, 0.2, 0.1, 0.2, 0.4, 0.5, 0.4, 0.6]);
+assert_eq!(iter.next(), Some(0.4));
+assert_eq!(iter.next(), Some(0.5));
+assert_eq!(iter.next(), Some(0.6));
+assert_eq!(iter.next(), None);
+```
+
+## Exercise 07: Going Higher Order
 
 ```txt
 turn-in directory:
     ex05/
 
 files to turn in:
-    std/main.rs  Cargo.toml
+    src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::env::args
-    std::fs::File  std::io::{Write, Read, stdout, stdin}
+    std::ops::Fn  str::{len, split_at, chars}
+    char::{is_alphabetic, is_ascii_digit}
+    std::iter::Iterator::{count, all, any}
 ```
 
-Create a **program** that reads an arbitrary binary file, and prints the UTF-8 strings it finds.
-When no file is provided, the standard input is used instead.
+A "pattern matcher" is basically a function that takes a string and returns whether that string
+matches the pattern.
 
-Example:
-
-```txt
->_ cargo run -- ./a.out
-TODO:
+```rust
+fn(input: &str) -> bool
 ```
 
-The program must have the following options available:
+Let's begin simple, let's create some "pattern matcher generators". Each must return a "pattern
+matcher".
 
-* `-z` filters out strings that are not null-terminated.
-* `-m <min>` filters out strings that are strictly smaller than `min`.
-* `-M <max>` filters out strings that are strictly larger than `max`.
-
-Errors when interacting with the file system must be handled properly!
-
-## Exercise 06: Dog
-
-```txt
-turn-in directory:
-    ex07/
-
-files to turn in:
-    std/server.rs  std/client.rs  Cargo.toml
-
-allowed symbols:
-    std::env::args
-    std::net::{TcpStream, TcpListener, SocketAddr}
-    std::io::{Write, Read}
+```rust
+fn anything() -> impl Fn(&str) -> bool;
+fn exactly(to_match: &str) -> impl Fn(&str) -> bool;
+fn alphabetic() -> impl Fn(&str) -> bool;
+fn ascii_digits() -> impl Fn(&str) -> bool;
+fn min_size(min: usize) -> impl Fn(&str) -> bool;
 ```
 
-Create two **programs**.
+* The `anything` function returns a "pattern matcher" that matches all strings. In other words, it
+always returns `true`.
+* The `exactly` function returns a "pattern matcher" that matches strings exactly equal to
+`to_match`.
+* The `alphabetic` function returns a "pattern matcher" that matches strings which characters are
+all alphabetic letters.
+* The `ascii_digits` function returns a "pattern matcher" that matches strings which characters are
+ascii digits.
+* The `min_size` function returns a "pattern matcher" that matches strings with a length greater or
+equal to `min` *characters* (not *bytes*; *characters*).
 
-* The first program is the server. Its role is to wait for TCP connections. When data is received,
-it is retransmitted to all other connections.
+Let's compilcate things a bit.
 
-* The second program is the client. Its role is to connect to the server, write the data it sends
-to its standard output, and send its standard input to the server.
-
-Example:
-
-```txt
-===== SERVER =====
->_ cargo run --bin server -- 127.0.0.1:49150
-cedric: Hey!
-kevin: How are you?
-
-===== CLIENT 1 =====
->_ cargo run --bin client -- 127.0.0.1:49150 cedric
-Hey!
-cedric: Hey!
-kevin: How are you?
-
-===== CLIENT 2 =====
->_ cargo run --bin client -- 127.0.0.1:49150 kevin
-cedric: Hey!
-How are you?
-kevin: How are you?
+```rust
+fn maybe(pattern: impl Fn(&str) -> bool) -> impl Fn(&str) -> bool;
+fn not(pattern: impl Fn(&str) -> bool) -> impl Fn(&str) -> bool;
+fn or(
+    first: impl Fn(&str) -> bool,
+    second: impl Fn(&str) -> bool,
+) -> impl Fn(&str) -> bool;
+fn and(
+    first: impl Fn(&str) -> bool,
+    second: impl Fn(&str) -> bool,
+) -> impl Fn(&str) -> bool;
+fn chain(
+    first: impl Fn(&str) -> bool,
+    second: impl Fn(&str) -> bool,
+) -> impl Fn(&str) -> bool;
 ```
 
-Note that this interface is only an example! You can experiment with this!
+* The `maybe` function returns a "pattern matcher" that matches strings that are either empty,
+or match the `pattern` "pattern matcher".
+* The `not` function returns a "pattern matcher" that matches any string thats not matched by the
+`pattern` "pattern matcher".
+* The `or` function returns a "pattern matcher" that matches strings that match either the `first`
+or `second` "pattern matcher" (both is also valid!).
+* The `and` function returns a "pattern matcher" that matches strings that match both the `first`
+and `second` "pattern matcher".
+* The `chain` function returns a "patterm matcher" that matches any string which can be split in
+two, such that the first part matches with `first` and the second part matches with `second`.
 
-When the end-of-file is reached, the client closes its connection with the server. In both binaries,
-errors must be handled properly!
+With those awesome tools, create three pattern matchers.
 
-## Exercise 07: Pretty Bad Privacy
+* The first one must match strings with this form:
+  - at least one alphabetic character
+  - the character '@'
+  - at least one alphabetic character
+  - the character '.'
+  - either "fr" or "com"
 
-```txt
-turn-in directory:
-    ex07/
+```rust
+let pattern = /* ... */;
 
-files to turn in:
-    std/main.rs src/*.rs  Cargo.toml
-
-allowed dependencies:
-    crypto_bigint(v0.4.9)  rand(v0.8.5)
-
-allowed symbols:
-    std::vec::Vec
-    std::env::args
-    std::io::{stdin, stdout, stderr, Write, Read}
-    std::fs::File
-    rand::*
-    crypto_bigint::*
+assert!(pattern("my@address.com"));
+assert!(pattern("a@b.fr"));
+assert!(!pattern("@example.com"));
+assert!(!pattern("abc@.com"));
+assert!(!pattern("my@address.net"));
+assert!(!pattern("myaddress.fr"));
+assert!(!pattern("my-address@domain.fr"));
+assert!(!pattern("address@my-domain.fr"));
 ```
 
-Write a **program** that behaves in the following way:
+* The second one must match strings with this form:
+  - The character '('
+  - zero or more characters that are neither '(' nor ')'.
+  - The character ')'
 
-```txt
->_ cargo run -- gen-keys my-key.pub my-key.priv
->_ << EOF cargo run -- encrypt my-key.pub > encypted-message
-This is a very secret message.
-EOF
->_ cat encrypted-message | cargo run -- decrypt my-key.priv
-This is a very secret message.
+```rust
+let pattern = /* ... */;
+
+assert!(pattern("()"));
+assert!(pattern("(hello)"));
+assert!(pattern("(hello 123)"));
+assert!(!pattern("(hello () 123)"));
+assert!(!pattern("(hello "));
+assert!(!pattern(")"));
+assert!(!pattern(" (test) "));
 ```
 
-In order to generate keys, your program must perform the following steps:
+* The second one must match strings with this form: 
+  - An optional '+' or '-'.
+  - one or more ascii digits
+  - the following group is optional:
+    - the character '.'.
+    - at least one ascii digit.
+  - the following group is optional
+    - the character 'e' or 'E'
+    - at least one ascii digit
 
-1. Generate two random prime numbers (`p` and `q`).
-2. Let `M` be their product.
-3. Let `Phi` be the value `(p - 1) * (q - 1)`.
-4. Pick a random `E`, such that:
-    * `E < Phi`
-    * `E` and `Phi` are coprime
-    * `E` and `M` are coprime
-5. Pick a random `D`, any multiplicative inverse of `E` modulo `Phi`.
+```rust
+let pattern = /* ... */;
 
-Your private key is `(D, M)`, and your public key is `(E, M)`.
-
-* With the public key, you can encrypt any number: `encrypt(m) { m^E % M }`.
-* With the private key, you can decrypt the original message: `decrypt(m') { m'^D % M }`.
-* Obviously, for any `m < M`, `decrypt(encrypt(m)) == m`.
-
-Now that you have your private and public keys, you can already create the `gen-keys` subcommand,
-which saves both keys to files specified as arguments to the command. You can choose the format that
-you like, may it be binary or textual.
-
-Let's define a new value: `B`, the "block size".
-
-* Let `B` be the largest integer such that `255^B < M`. 
-
-In order to encrypt or decrypt a block, take `B` bytes of your message, treat it as a
-very big base-256 number, and put it through your encryption/decryption function. That's your
-encrypted/decrypted block! Perform the operation for every block of the message, and voilà!
+assert!(pattern("12"));
+assert!(pattern("+12"));
+assert!(pattern("-12"));
+assert!(pattern("12.5"));
+assert!(pattern("12.5e20"));
+assert!(pattern("12E10"));
+assert!(!pattern(""));
+assert!(!pattern("+"));
+assert!(!pattern("+12."));
+assert!(!pattern("+12e"));
+assert!(!pattern("+12.e10"));
+assert!(!pattern("12e10.10"));
+```
