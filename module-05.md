@@ -1,5 +1,9 @@
 # Module 05: Side Effects
 
+## Forword
+
+TODO:
+
 ## General Rules
 
 * Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`

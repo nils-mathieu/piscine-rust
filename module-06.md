@@ -1,13 +1,8 @@
 # Module 10: Concurrence
 
-## Introduction
+## Forword
 
-Nowdays, CPUs tend to have more than one core. And even without that, modern operating systems
-provide ways to execute multiple programs at the same time. Those programs may even share the same
-memory! In that case, we call those sub-programs "threads".
-
-A thread is just another executing context for an already existing process. Rust provides ways to
-start threads, ways to manipualte them, and ways to make them communicate safely.
+TODO:
 
 ## General Rules
 

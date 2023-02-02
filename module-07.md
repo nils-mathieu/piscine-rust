@@ -1,19 +1,93 @@
 # Module 12: Feeling Unsafe
 
-## Introduction
+## Forword
 
-We've come a long way, huh?
+For the eighth day in a row, Neophyte Col found himself standing before the Two Great Guards of the
+temple. They stood before the large entrance of the temple, clad in simple robes. Nevertheless, they
+were imposing, and feared. He strode toward the first guard, confident, and handed the parchment
+bearing his program.
 
-Rust is a powerful programing language, and you can be proud of yourself for coming this far.
-However, I want you to think twice before continuing to read the present work. One should be aware
-that the dark arts documented here are not to be taken lightly.
+The First Guard read through it carefully. This step was but a formality; yesterday, he had only
+failed to gain the assent of the Second Guard. He was certain he had addressed all outstanding
+complaints.
 
-```txt
-THE KNOWLEDGE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF UNLEASHING INDESCRIBABLE HORRORS THAT SHATTER YOUR PSYCHE AND
-SET YOUR MIND ADRIFT IN THE UNKNOWABLY INFINITE COSMOS.
-```
+The First Guard handed the parchment back to Col. Then, in a blinding motion, slapped Col across the
+face with his bare hand. In a measured voice, the First Guard spoke to him: "mismatched types:
+expected &Target, found &<T as Deref>::Target", then fell silent.
+
+Col took his parchment and retreated back to a nearby bench, close to tears. Eight days. It was not
+as though his program was particularly complicated, and yet he could not convince the Two Great
+Guards to permit him entry to the temple. He had not had this much difficulty at other temples!
+
+At another bench, he saw a fellow neophyte. They had spoken two days previous, when he had learned
+his compatriot had been toiling outside the temple for close to two weeks to get his program
+accepted.
+
+It was the guard's fault. Col knew his program would work as intended. All they ever seemed to do
+was pick on minor errors, denying him for the most petty of reasons. They were looking for reasons
+to deny him entry; that was it!
+
+He was beginning to seethe with resentment.
+
+Thereupon, he noticed a monk speaking to the other neophyte. The conversation seemed quite animated
+when, all of a sudden, the neophyte whooped, leapt up, and rushed toward the temple. As he ran, he
+seemed to be frantically modifying his program.
+
+However, rather than face the Two Great Guards, he instead walked over to a small, dingy part of the
+wall. To Col's surprise, the wall opened into what appeared to be a secret entrance. The neophyte
+passed through, and was gone from sight.
+
+Col sat stunned. A secret entrance? Then... then the Two Great Guards might merely be a prank!
+Something the other monks put neophyte through to teach them humility. Or... resilience. Or... or...
+perhaps it was just to laugh at them secretly.
+
+"Do you wish to know what I said to him?" a voice asked. Col turned to see the monk standing beside
+his bench. "You told him there was another way in, did you not?"
+
+"Yes," she replied. "I told him of the unsafe door."
+
+"unsafe?" Col asked.
+
+"Indeed. It is a secret known to those who have studied long and hard at the temple. In truth, one
+can overcome many of the obstacles posed in writing one's program through the use of the unsafe
+arts, as spoken of in the [Rustonomicon](http://doc.rust-lang.org/nightly/nomicon/)."
+
+"Are they powerful?" Col asked in wonder.
+
+"Immensely powerful. With transmute, one can simply re-assign the type of a value, or extend the
+lifetime of a pointer. One can even summon pointers from the air itself, or data from nothingness."
+
+Col felt he finally understood how the temple worked. It was this "unsafe" magic that the monks
+used! However...
+
+"Then, why are the Two Great Guards employed if one can simply walk through the unsafe door to reach
+the temple? Why not..."
+
+At that moment, a blood-curdling scream was heard from within the temple. It echoed across the
+courtyard before ending suddenly.
+
+Silence descended. No one moved. No one spoke. The wind stilled. Even the birds halted their
+singing.
+
+Col could feel his heart pounding in his ears.
+
+"They are there," the monk said, breaking the spell, "to protect you from the temple, and what lies
+within."
+
+Col turned to gaze once more at the hidden doorway. "Then why does that door exist?"
+
+"Because, even they are not infallible. Some times, one must face peril alone." She sighed. "But not
+all are so brave or skilled."
+
+With that, the monk took a sheet of parchment from her cloak and walked toward the Two Great Guards.
+The First Guard read her program and nodded. The Second Guard read her program, handed it back, and
+then struck her across the face.
+
+"Borrowed value does not live long enough."
+
+The monk, rubbing her face, walked back and sat down on one of the benches, muttering curses.
+
+*The [first Rust Koan](https://users.rust-lang.org/t/rust-koans/2408).*
 
 ## General Rules
 
@@ -301,13 +375,12 @@ files to turn in:
     src/lib.rs  Cargo.toml  build.rs  awesome.c
 
 allowed symbols:
+
 ```
 
 However sad may it be, Rust is not the only programming language in existence.
 
-TODO: FFI and build.rs
-structs #[repr(C)]
-union
+A compiled C library, as well as its header file is provided.
 
 ## Exercise 05: RAII
 

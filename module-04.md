@@ -1,5 +1,87 @@
 # Module 04: Higher Order
 
+## Forword
+
+(Intro)
+
+My friend with the gift of gab? Ferris Crab.
+
+(Verse 1)
+
+One of my crates got a lot of fly traits
+Twenty “i” eight edition? My decision: time to migrate
+I’m getting irate at all the excess `unsafe`
+wait — backtrace
+
+We got a cute crab, which is the best crate?
+That’s up for grabs. GitHub or Phab-
+ricator, review my pull now or later
+Hit @bors with the r+ and you’ll be my saviour
+
+And when I’m coming through, I got a cargo too
+Reaction to wasm? Domain working group
+If you need a `regex`, BurntSushi is your dude
+But if you need a `Future` well we also got a few
+
+Popping off this Vec like a pimple
+And you know that the block I’m from is an impl
+So if I talk about an IR, no it’s not GIMPLE
+Only `rustc` MIR, just that simple
+
+(Chorus)
+
+Thought there’d never be a Rust Rap?
+Turns out this is just that
+impl newsletter #RustFacts
+Ferris Crab, that’s a must have
+Data race, we gon’ bust that
+Mem unsafe, we gon’ bust that
+This the first and only Rust Rap
+Ferris Crab, that’s a must have
+
+(Verse 2)
+
+If you never borrow check, then you’re gonna get wrecked
+Pull out `gdb` cause you need to inspect out-of-bounds index
+Oh guess what’s next?
+Use after free turns out it’s gonna be
+
+Or… just use the `rustc`
+And you’ll be flushing all of these bugs down the drain
+Gushing super fast code from your brain
+No dusting: quite easy to maintain
+
+What’s the secret sauce? It’s all zero cost
+Couldn’t do it better if your boss
+Demand you try to do it all by hand, but why?
+Hate to be that guy, but generics monomorphize
+
+Don’t use a `while` loop, `i < n`
+Use an `Iterator`: much better by ten
+And when you have a dozen eggs don’t start counting hens
+But me and Ferris Crab: best friends to the end
+
+(Chorus)
+
+Thought there’d never be a Rust Rap?
+Turns out this is just that
+impl newsletter #RustFacts
+Ferris Crab, that’s a must have
+Data race, we gon’ bust that
+Mem unsafe, we gon’ bust that
+This the first and only Rust Rap
+Ferris Crab, that’s a must have
+
+(Outro)
+
+My friend with the gift of gab? Ferris Crab.
+
+*"[Ferris Crab](https://fitzgeraldnick.com/2018/12/13/rust-raps.html)"*
+
+```rust
+struct 🦀;
+```
+
 ## General Rules
 
 * Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
@@ -140,14 +222,14 @@ passed to `yes`.
 
 ```txt
 >_ cargo run --bin yes
-YYYyyy
-YYYyyy
-YYYyyy
-YYYyyy
-YYYyyy
-YYYyyy
-YYYyyy
-YYYyyy
+YyY
+YyY
+YyY
+YyY
+YyY
+YyY
+YyY
+YyY
 ...
 ```
 
@@ -290,15 +372,11 @@ assert_eq!(even_fibs_bellow_1000(), 798);
 
 TODO:
 
-## Exercuse 05: 
-
-TODO:
-
-## Exercise 06: Monotically Increasing
+## Exercuse 05: Monotically Increasing 
 
 ```txt
 turn-in directory:
-    ex06/
+    ex05/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -339,6 +417,10 @@ assert_eq!(iter.next(), Some(0.5));
 assert_eq!(iter.next(), Some(0.6));
 assert_eq!(iter.next(), None);
 ```
+
+## Exercise 06:
+
+TODO:
 
 ## Exercise 07: Going Higher Order
 

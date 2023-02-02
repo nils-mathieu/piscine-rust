@@ -1,15 +1,99 @@
 # Module 02: Structure
 
-## Introduction
+## Forword
 
-Using primitive types will only get you so far. Composing those types into larger types is the way
-to go! Rust makes good use of encapsulation, product and sum types, and more generally, algebraic
-data types to enpower developpers into constructing powerful abstractions without losing any bit of
-performance.
+Upon a warm autumn day, Brother Farbold was walking through the Gardens of Abstraction near the
+recently opened Temple of Rust. He passed many curious and elaborate displays of complex
+abstractions, when he chanced upon a monk toiling away at her own display. Her robes identified her
+as a neophyte, though her creased, worn hands spoke of many, many years of experience. Around her
+were scatted dozens of white stones of all shapes and sizes along with several different rakes.
+Attached to each was a single, small, paper label with a word written on it.
 
-This module will show you how to create new types to better represent the data you manipulate. By
-the end, you should have a general understanding of how types are created in Rust, and how to use
-them.
+Intrigued, he walked closer.
+
+"Ho!" he said, "what is your name?"
+
+"I am Neophyte Maran."
+
+"What problem are you working on, if I might enquire?"
+
+"I am attempting to translate a previous design that it might be suitable for the temple," the
+neophyte replied, concentrating on a large sheet of paper covered with sketches of boxes, connected
+by many lines and arrows.
+
+"I see many labels; what are those for?"
+
+"They define the class of each object."
+
+Brother Farbold paused. "What are classes?"
+
+The neophyte gave him a look of confusion. "You do not know what classes are?"
+
+"No," he replied. "I have heard such a phrase carried on the wind from far away, but in this place,
+we do not use it."
+
+"Ah, I see," said Maran. "In the temple where I came from, we use classes to define all the
+properties and behaviours of a thing, that many may share a single definition."
+
+"A useful device, then. In such a scheme, as a simple gardener, I would have a tend behaviour,
+then?"
+
+The neophyte nodded and picked up a small rock. "This is a Rock," she said, showing Brother Farbold
+the label. "It has no methods, for all it does is lie on the ground until operated on, but it has
+properties such as weight and volume."
+
+"So a rock cannot do anything at all?"
+
+"Nothing. Unlike this Rake, which possesses the ability to rake one or more Rocks. This allows me to
+model a garden and its evolution in its entirety."
+
+"Indeed? This simple model allows you to capture all possible interactions, then?"
+
+"Yes!" exclaimed Neophyte Maran proudly. "I have used this for many years with great success."
+
+"But what if the rock wishes to roll, or shine, or talk? Classes sound restrictive; I prefer to
+define smaller behaviours, that each thing may pick and choose what it wishes to do."
+
+The neophyte scoffed. "An object can do only that which it was designed to do, nothing more. You
+said you were a gardener; are you tasked to instruct new students, or to cook meals?"
+
+"I am not; I am tasked with gardening."
+
+"With classes, such is expressed by your class at design-time. As such, there can never be any
+confusion! To change behaviours is to change the design of the system!"
+
+"Facinating," said Farbold, nodding. The neophyte turned back to her work.
+
+"I must admit I am having trouble finding how to express this concept in a way that the temple will
+approve of, but I am su--" the neophyte was interrupted when one of the smaller white rocks struck
+her head.
+
+Holding her head, Maran turned around. "Did you throw a rock at me?" she demanded.
+
+"Me?" said Brother Farbold. "Of course not. I am but a simple Gardener; I know nothing of throwing
+Rocks."
+
+"The rock could not have thrown itself!"
+
+"And yet, your design does not allow for such a thing to have happened. Surely, you must be
+mistaken: no rock was thrown."
+
+Neophyte Maran grumbled and turned back to her sketches.
+
+A moment later, she flinched away as a long wooden pole struck her arm. "Did you...?"
+
+"A Rake can only rake Rocks; it cannot "hit Neophytes". You must be imagining things.
+
+"But you..."
+
+"Ho! Brother Farbold!" another monk cried from the other end of the garden. "Brother Schieb has
+taken ill; would you be so kind as to cook the evening meal in his stead?"
+
+"I would be happy to, Sister Doure; I am just now finishing my instruction of this neophyte."
+
+At that moment, Maran was enlightened.
+
+*The [second Rust Koan](https://users.rust-lang.org/t/rust-koans/2408/2).*
 
 ## General Rules
 

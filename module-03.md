@@ -1,19 +1,42 @@
 # Module 03: Polymorphine
 
-## Introduction
+## Forword
 
-If the C programming language had only one flaw, it would be its poorly reusable code. This
-language makes it very difficult to write code that may be used in multiple similar situations,
-especially when the only thing that changes is a bunch of types. It wasn't an issue at first
-because everything was basically an `int`. Things have changed a bit.
+```rust
+// Bastion of the Turbofish
+// ------------------------
+// Beware travellers, lest you venture into waters callous and unforgiving,
+// where hope must be abandoned, ere it is cruelly torn from you. For here
+// stands the bastion of the Turbofish: an impenetrable fortress holding
+// unshaking against those who would dare suggest the supererogation of the
+// Turbofish.
+//
+// Once I was young and foolish and had the impudence to imagine that I could
+// shake free from the coils by which that creature had us tightly bound. I
+// dared to suggest that there was a better way: a brighter future, in which
+// Rustaceans both new and old could be rid of that vile beast. But alas! In
+// my foolhardiness my ignorance was unveiled and my dreams were dashed
+// unforgivingly against the rock of syntactic ambiguity.
+//
+// This humble program, small and insignificant though it might seem,
+// demonstrates that to which we had previously cast a blind eye: an ambiguity
+// in permitting generic arguments to be provided without the consent of the
+// Great Turbofish. Should you be so naïve as to try to revolt against its
+// mighty clutches, here shall its wrath be indomitably displayed. This
+// program must pass for all eternity, fundamentally at odds with an impetuous
+// rebellion against the Turbofish.
+//
+// My heart aches in sorrow, for I know I am defeated. Let this be a warning
+// to all those who come after. Here stands the bastion of the Turbofish.
 
-Dynamic dispatch can be very useful to avoid repeating yourself. In fact, this is what
-inheritance-driven languages usually use (think Java, C# or C++ without templates).
+fn main() {
+    let (oh, woe, is, me) = ("the", "Turbofish", "remains", "undefeated");
+    let _: (bool, bool) = (oh<woe, is>(me));
+}
+```
 
-In Rust, we tend to use static dispatch by default. The idea is pretty simple: re-compile the
-function for every possible type that needs it. This allows more optimized code, but longer compile
-times and potentially larger binary sizes. In practice, the binary size can be easily managed. As
-for compilation times, this is still [a work in progress issue](https://perf.rust-lang.org/).
+*Extracted from `rustc`'s [unit tests](https://github.com/rust-lang/rust/blob/79d8a0fcefa5134db2a94739b1d18daa01fc6e9f/src/test/ui/bastion-of-the-turbofish.rs),
+in memory of Anna Harren.*
 
 ## General Rules
 

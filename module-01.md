@@ -1,17 +1,23 @@
 # Module 01: Indirections
 
-## Introduction
+## Forword
 
-Rust is basically operating on the same hardware abstraction level as C. As such, it does have a
-way to create pointers to any existing value. In Rust, however, it is *impossible* to create
-invalid pointers. When using that language, the compiler *ensures* statically that every pointer
-you create won't ever be invalidated while you are using it. To provide this guarentee, Rust uses
-a system known as the *Borrow Checker*.
+```rust
+fn punch_card() {
+    let rust = (
+        ..=..=.. ..    .. .. .. ..    .. .. .. ..    .. ..=.. ..
+        ..=.. ..=..    .. .. .. ..    .. .. .. ..    ..=..=..=..
+        ..=.. ..=..    ..=.. ..=..    .. ..=..=..    .. ..=.. ..
+        ..=..=.. ..    ..=.. ..=..    ..=.. .. ..    .. ..=.. ..
+        ..=.. ..=..    ..=.. ..=..    .. ..=.. ..    .. ..=.. ..
+        ..=.. ..=..    ..=.. ..=..    .. .. ..=..    .. ..=.. ..
+        ..=.. ..=..    .. ..=..=..    ..=..=.. ..    .. ..=.. ..
+    );
+    println!("{rust:?}");
+}
+```
 
-Rust's Borrow Checker can be a bit hard to get used to, but remember that 99% of the programs it
-rules out are actually invalid and could potentially lead to memory unsafety and undefined
-behavior. This module will introduce you to how it works, and what information it uses to
-determine whether a program is valid or not.
+*Extracted from `rustc`'s [unit tests](https://github.com/rust-lang/rust/blob/131f0c6df6777800aa884963bdba0739299cd31f/tests/ui/weird-exprs.rs#L126-L134).*
 
 ## General Rules
 
