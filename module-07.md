@@ -251,9 +251,6 @@ allowed symbols:
     std::mem::transmute
 ```
 
-Let's play the
-
-
 ```rust
 type GoldNugget = u16;
 
