@@ -27,19 +27,62 @@ Correcting an already well-tested exercise is easier and faster than having to w
 defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
 they are not specified in the `allowed symbols` section.
 
-## Exercise 00: Tee-Hee
+## Exercise 00: No Panics
 
 ```txt
-turn-in directory:
+turn-in directories:
     ex00/
 
 files to turn in:
-    std/main.rs  Cargo.toml
+    src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::io::{stdout, Write}
+    std::writeln
+```
+
+Create a **program** that prints integers from 1 to 10.
+
+```txt
+>_ cargo run
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+```
+
+The program must *never* panic.
+
+```txt
+>_ cargo run | head -n 3
+1
+2
+3
+```
+
+## Exercise 01: Tee-Hee
+
+```txt
+turn-in directory:
+    ex01/
+
+files to turn in:
+    src/main.rs  Cargo.toml
 
 allowed symbols:
     std::io::{Write, Read, stdin, stdout, stderr}
+    std::io::{Stdout, StdoutLock, Stdin, StdinLock}
+    std::io::{Error, Result}
     std::fs::File  std::env::args
     std::vec::Vec  std::string::String
+    std::iter::*
+    std::{print, println, eprintln}
 ```
 
 Create a **program** that reads the standard input, and copies it to the standard output, as well as
@@ -57,20 +100,22 @@ Hello, World!
 ```
 
 You program must not panic when interacting with the file system. All errors must be handled
-properly.
+properly. You are free to choose what to do in that case, but you must *not* crash/panic.
 
-## Exercise 01: Duh
+## Exercise 02: Duh
 
 ```txt
 turn-in directory:
-    ex01/
+    ex02/
 
 files to turn in:
     std/main.rs  Cargo.toml
 
 allowed symbols:
-    std::fs::{metadata, Metadata}
+    std::fs::{metadata, Metadata, read_dir, DirEntry, ReadDir}
+    std::path::Path  std::io::{Error, Result}
     std::env::args
+    std::{print, println, eprintln}
 ```
 
 Create a **program** that computes the total size of a directory or file. The program must write the
@@ -82,21 +127,23 @@ the total size must be updated in the terminal.
 1.2 gigabytes
 ```
 
-* If a size is less than a kilobyte, it is written in bytes. (e.g. 245 bytes)
-* If a size is more than a kilobyte, it is written in kilobytes, with one decimal (e.g. 12.2
-kilobytes).
-* If a size is more than a megabyte, it is written in megabytes, with one decimal (e.g. 100.4
-megabytes).
-* If a size is more than a gigabyte, it is written in gigabytes, with one decimal (e.g. 23.9
-gigabytes).
+ * If a size is less than a kilobyte, it is written in bytes. (e.g. 245 bytes)
+ * If a size is more than a kilobyte, it is written in kilobytes, with one decimal (e.g. 12.2
+   kilobytes).
+ * If a size is more than a megabyte, it is written in megabytes, with one decimal (e.g. 100.4
+   megabytes).
+ * If a size is more than a gigabyte, it is written in gigabytes, with one decimal (e.g. 23.9
+   gigabytes).
+ * For simplicty's sake, we'll assume that a kilobyte is 1000 bytes, a megabyte is 1000 kilobytes,
+   etc.
 
 Your program must not panic when interacting with the file system. Errors must be handled properly.
 
-## Exercise 02: to_args
+## Exercise 03: Stdin To Args
 
 ```txt
 turn-in directory:
-    ex02/
+    ex03/
 
 files to turn in:
     std/main.rs  Cargo.toml
@@ -105,6 +152,8 @@ allowed symbols:
     std::env::args
     std::process::Command
     std::io::stdin
+    std::vec::Vector
+    std::iter::*
 ```
 
 Create a **program** takes a path and some arguments as an input, and spawns that process with:
@@ -126,17 +175,17 @@ The program called the `echo -n hello test` command.
 
 Your program must not panic when interacting with the system, you must handle errors properly.
 
-## Exercise 03: Command Multiplexer
+## Exercise 04: Command Multiplexer
 
 ```txt
 turn-in directory:
-    ex03/
+    ex04/
 
 files to turn in:
     std/main.rs  Cargo.toml
 
 allowed symbols:
-    std::env::args
+    std::env::args  std::iter::*
     std::process::{Command, Stdio}
     std::vec::Vec
     std::io::{stdout, Write, Read}
@@ -167,58 +216,6 @@ version = "0.1.0"
 
 Commands must be executed in parallel! Any error occuring when interacting with the system must be
 handled properly.
-
-## Exercise 04: Silence It!
-
-```txt
-turn-in directory:
-    ex04/
-
-files to turn in:
-    std/main.rs  Cargo.toml
-
-allowed symbols:
-    std::env::args
-    std::fs::File  std::io::{Read, Write, Seek}
-```
-
-Create a **program** that replaces any call to the `write` function in an ELF file by the `sleep`
-function.
-
-Example:
-
-```txt
->_ ./a.out
-C is the best programming language! Fight me.
->_ cargo run -- a.out
->_ ./a.out
->_ cargo run -- Cargo.toml
-error: not an ELF file
-```
-
-* The modification must be done in-place. Do not overwrite the file completely!
-* Do not read to whole file. Skip to the parts that you actually need.
-* Only the "string" section of the ELF file must be edited. Be careful when editing the text! You
-must not edit the function when it does not refer to unistd's `write` function.
-
-For example, the following program must *not* be patched:
-
-```c
-#include <stdio.h>
-
-void write(char const *s)
-{
-    printf("%s", s);
-}
-
-int main(void)
-{
-    write("Hello, World!");    
-    return 0;
-}
-```
-
-Parsing errors and I/O errors must be handled properly.
 
 ## Exercise 05: String Finder
 

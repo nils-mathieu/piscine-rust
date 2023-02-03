@@ -96,8 +96,8 @@ be declared for the whole module.
 machines without additional options.  You are *not* allowed to use `unsafe` code anywere in your
 code.
 
-* You are generally *not* authorized to modify lint levels - either using `#\[attributes\]`,
-`#!\[global_attributes\]` or with command-line arguments. You may optionally allow the `dead_code`
+* You are generally *not* authorized to modify lint levels - either using `#[attributes]`,
+`#![global_attributes]` or with command-line arguments. You may optionally allow the `dead_code`
 lint to silence warnings about unused variables, functions, etc.
 
 * You are *strongly* encouraged to write extensive tests for the functions and systems you turn in.
@@ -235,7 +235,7 @@ YyY
 
 You cannot use twice the same bound type on `F`!
 
-## Exercise 02: Largest Odd Number
+## Exercise 02: One Liners
 
 ```txt
 turn-in directory:
@@ -333,8 +333,9 @@ impl Fibs {
 }
 ```
 
-* The `new` function must allow the user of the type to choose the first and second term of the
-sequence.
+ * The `new` function must allow the user of the type to choose the first and second term of the
+   sequence.
+ * Ensure that your iterator does *not* panic when reaching the greatest fibonacci `u32`.
 
 Example:
 
