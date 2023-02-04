@@ -479,27 +479,9 @@ impl File {
 
 When a `File` is dropped, it must automatically close its file descriptor.
 
-## Exercise 06: NonoGrind
+## Exercise 06:
 
-```txt
-turn-in directory:
-    ex06/
-
-files to turn in:
-    src/main.rs  Cargo.toml
-```
-
-Create a **program** that spawns another program and verifies that any memory it allocates using
-`mmap` is properly freed with an associated `munmap` later down the line. Memory errors are
-displayed neatly when the "slave" (real GDB terminology) exits or crashes.
-
-Example:
-
-```txt
-TODO: add an example
-```
-
-TODO: determine whether this is actually doable or not.
+TODO:
 
 ## Exercise 07: Never Needed Rust
 
