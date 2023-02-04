@@ -375,6 +375,7 @@ allowed symbols:
 
 ```
 
+TODO:
 However sad may it be, Rust is not the only programming language in existence.
 
 A compiled C library, as well as its header file is provided.
@@ -398,6 +399,8 @@ allowed symbols:
     libc::strerror
     libc::{write, read, open, close}
     cstr::cstr
+    std::cmp::{PartialEq, Eq, PartialOrd, Ord}
+    std::fmt::{Debug, Display}
 ```
 
 Create an `Errno` type, respondible for managing errors coming from C code.
@@ -417,7 +420,16 @@ impl Errno {
 * `description` must return a textual description of the error. Don't try to enumate *every*
 possible error! Use a function of `libc` to do it for you.
 
-TODO: add an example that show that `Debug` and `Display` must be implemented.
+Example:
+
+```rust
+Errno(12).make_last();
+assert_eq!(Errno::last(), Errno(12));
+
+let desc = format!("{}", Errno(1));
+// TODO: find what is the description of `Errno(1)`.
+assert_eq!(desc, "");
+```
 
 With a robust way to handle errors, we can no start for real.
 

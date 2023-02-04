@@ -293,7 +293,7 @@ How are you?
 kevin: How are you?
 ```
 
-Note that this interface is only an example! You can experiment with this!
+Note that this is only an example! You can experiment with this!
 
 When the end-of-file is reached, the client closes its connection with the server. In both binaries,
 errors must be handled properly!
@@ -332,7 +332,7 @@ In order to generate keys, your program must perform the following steps:
 
 1. Generate two random prime numbers (`p` and `q`).
 2. Let `M` be their product.
-3. Let `Phi` be the value `(p - 1) * (q - 1)`.
+3. Let `Phi` be the result of `(p - 1) * (q - 1)`.
 4. Pick a random `E`, such that:
     * `E < Phi`
     * `E` and `Phi` are coprime
