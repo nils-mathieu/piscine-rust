@@ -1,0 +1,5 @@
+[package]
+name = "m05ex05"
+version = "0.0.1"
+edition = "2021"
+authors = [ "Nils Mathieu <nmathieu@student.42.fr>" ]

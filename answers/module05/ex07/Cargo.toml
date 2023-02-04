@@ -1,0 +1,9 @@
+[package]
+name = "m05ex07"
+version = "0.0.1"
+edition = "2021"
+authors = [ "Nils Mathieu <nmathieu@student.42.fr>" ]
+
+[dependencies]
+rug = "1.19"
+rand = "0.8"
