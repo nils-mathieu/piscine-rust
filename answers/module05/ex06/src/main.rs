@@ -86,7 +86,7 @@ fn main() {
     let mut contents = contents.as_slice();
 
     while !contents.is_empty() {
-        let mut s = match std::str::from_utf8(contents) {
+        let s = match std::str::from_utf8(contents) {
             Ok(s) => s,
             Err(err) => std::str::from_utf8(&contents[..err.valid_up_to()]).unwrap(),
         };
@@ -97,15 +97,15 @@ fn main() {
             contents = &contents[s.len()..];
         }
 
-        if only_null_terminated {
-            while let Some(null) = s.bytes().position(|b| b == b'\0') {
-                if (min..=max).contains(&null) {
-                    println!("{}", s[..null].escape_debug());
-                }
-                s = &s[null + 1..];
-            }
-        } else if (min..=max).contains(&s.len()) {
-            println!("{}", s.escape_debug());
+        if !only_null_terminated {
+            s.split('\0')
+                .filter(|s| !s.contains(char::is_control))
+                .filter(|s| (min..=max).contains(&s.len()))
+                .for_each(|s| println!("{}", s.escape_debug()));
+        } else {
+            s.split(char::is_control)
+                .filter(|s| (min..=max).contains(&s.len()))
+                .for_each(|s| println!("{}", s.escape_debug()));
         }
     }
 }

@@ -274,15 +274,27 @@ allowed symbols:
     std::str::{from_utf8, Utf8Error}
 ```
 
-Create a **program** that reads an arbitrary binary file, and prints the UTF-8 strings it finds.
-When no file is provided, the standard input is used instead.
+Create a **program** that reads an arbitrary binary file, and prints printable UTF-8 strings it
+finds. When no file is provided, the standard input is used instead.
 
 Example:
 
 ```txt
 >_ cargo run -- ./a.out
-TODO:
+ELF
+>
+М
+@
++F
+@
+8
+@
+-
+,
+...
 ```
+
+* A *printable UTF-8 string* is only composed of non-control characters.
 
 The program must have the following options available:
 
