@@ -227,11 +227,73 @@ the philosopher is thinking about b
 * The program never ends.
 * The size of the philosopher's brain is provided in command-line arguments.
 
-## Exercise 04: PI * Rayon * Rayon
+## Exercise 04: Atomical
 
 ```txt
 turn-in directory:
-    ex04/
+    ex05/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::sync::atomic::{AtomicU8, Ordering}
+```
+
+Create a type named `Unique`.
+
+```rust
+#[derive(Debug, PartialEq, Eq)]
+struct Unique(u8);
+
+impl Unique {
+    pub fn new() -> Self;
+}
+```
+
+* There can be no two `Unique` instance with the same identifier (`u32`).
+* `new` must create a new, unique instance of `Unique`.
+* It must be possible to `Clone` a `Unique`, and the created `Unique` must still be unique.
+* Trying to create a `Unique` when no more IDs are available causes the function to panic.
+
+Example:
+
+```rust
+fn main()
+    let a = Unique::new();
+    let b = Unique::new();
+    let c = Unique::new();
+
+    assert_eq!("{a:?}");
+    assert_eq!("{b:?}");
+    assert_eq!("{c:?}");
+
+    let d = a.clone();
+    let e = c.clone();
+
+    assert_eq!("{d:?}");
+    assert_eq!("{e:?}");
+}
+```
+
+Would produce the following output:
+
+```txt
+>_ cargo run
+Unique(0)
+Unique(1)
+Unique(2)
+Unique(3)
+Unique(4)
+```
+
+What atomic memory ordering did you use? Why?
+
+## Exercise 05: PI * Rayon * Rayon
+
+```txt
+turn-in directory:
+    ex05/
 
 files to turn in:
     src/main.rs  Cargo.toml
@@ -267,7 +329,7 @@ pi: 3.144044
 duration: 147ms
 ```
 
-## Exercise 05:
+## Exercise 06: Scoped Threads
 
 ```txt
 turn-in directory:
@@ -277,13 +339,10 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
+    std::thread::{scope, ScopedJoinHandle}
 ```
 
 TODO:
-
-## Exercise 06: Reverse Shell
-
-TODO: now it's possible!
 
 ## Exercise 07:
 
