@@ -2,85 +2,90 @@
 
 ## Forword
 
-(Intro)
+Neophyte Col came to Master Tuor one day and said: "I have almost finished a program in which I see
+repeated patterns of code. The patterns are not regular enough to be abstracted by functions or
+traits. I have a mind to use macros, but am unsure of how to proceed."
 
-My friend with the gift of gab? Ferris Crab.
+Master Tuor considered this. "I believe I know who can help you find clarity. Come."
 
-(Verse 1)
+Together, they walked away from the main temple and past the gardens. On the periphery of the
+grounds, they came across a strange building. Each plank of wood, each panel, tile, window; all
+were unique in shape, size, colour, texture, material... "What is this place?" asked the neophyte.
 
-One of my crates got a lot of fly traits
-Twenty “i” eight edition? My decision: time to migrate
-I’m getting irate at all the excess `unsafe`
-wait — backtrace
+"It is where the Clan of the Falling Snowflake practice the art of Syntactic Abstraction. They
+abhor repetition above all else." Col nodded as they entered.
 
-We got a cute crab, which is the best crate?
-That’s up for grabs. GitHub or Phab-
-ricator, review my pull now or later
-Hit @bors with the r+ and you’ll be my saviour
+Inside, the building was just as relentlessly unique. No two doors were the same shape or size.
+Each candle and its perch were designed and coloured a different way. Col began to feel dizzy.
 
-And when I’m coming through, I got a cargo too
-Reaction to wasm? Domain working group
-If you need a `regex`, BurntSushi is your dude
-But if you need a `Future` well we also got a few
+Even the monks themselves exemplified this approach. Rather than the plain, dark brown robes the
+other monks wore, each monk of the Falling Snowflake wore a haphazard collection of materials and
+colours. Col wondered if perhaps a great storm had swept up a cloth merchant's wares and deposited
+them on these unsuspecting monks.
 
-Popping off this Vec like a pimple
-And you know that the block I’m from is an impl
-So if I talk about an IR, no it’s not GIMPLE
-Only `rustc` MIR, just that simple
+His eyes were then caught by the walls. They were covered with programs that seemed to be in some
+strange language as he might expect from the Temple of APL... but here and there he caught glimpses
+of familiar syntax, though they made little sense.
 
-(Chorus)
+The monks' speech was strange as well. Col observed several groups standing silently, staring at
+each other. He began to wonder if perhaps they were forbidden to speak at all, when he heard an
+outburst from one group:
 
-Thought there’d never be a Rust Rap?
-Turns out this is just that
-impl newsletter #RustFacts
-Ferris Crab, that’s a must have
-Data race, we gon’ bust that
-Mem unsafe, we gon’ bust that
-This the first and only Rust Rap
-Ferris Crab, that’s a must have
+"Sie durm! Wik puom, eeis."
 
-(Verse 2)
+With that, the monks standing in the group nodded at one another and walked away.
 
-If you never borrow check, then you’re gonna get wrecked
-Pull out `gdb` cause you need to inspect out-of-bounds index
-Oh guess what’s next?
-Use after free turns out it’s gonna be
+"Master..." Col began.
 
-Or… just use the `rustc`
-And you’ll be flushing all of these bugs down the drain
-Gushing super fast code from your brain
-No dusting: quite easy to maintain
+"As I said, they abhor repetition. As such, they abhor our language, filled as it is with
+redundancy, not to mention inaccuracy. Instead, they use their own tongue which is both perfectly
+precise, and perfectly optimal. They say what they mean and nothing else."
 
-What’s the secret sauce? It’s all zero cost
-Couldn’t do it better if your boss
-Demand you try to do it all by hand, but why?
-Hate to be that guy, but generics monomorphize
+"But they are so quiet, otherwise."
 
-Don’t use a `while` loop, `i < n`
-Use an `Iterator`: much better by ten
-And when you have a dozen eggs don’t start counting hens
-But me and Ferris Crab: best friends to the end
+Master Tuor nodded. "Do you think it easy to decide what one wishes to say, with utter and complete
+precision, before speaking a word?"
 
-(Chorus)
+As they passed through a tiny, five-sided doorway, they came upon a monk dressed in cloth dyed in
+a thousand shades of dark grey. Wrapped around the robes was a mesmerising pattern in white thread
+that seemed to spiral forever away into the cloth; an infinite, curving beast made of straight
+lines and squares.
 
-Thought there’d never be a Rust Rap?
-Turns out this is just that
-impl newsletter #RustFacts
-Ferris Crab, that’s a must have
-Data race, we gon’ bust that
-Mem unsafe, we gon’ bust that
-This the first and only Rust Rap
-Ferris Crab, that’s a must have
+"Neophyte, this is Master Quoem, head of the Clan of the Falling Snowflake." The monk nodded in
+greeting. "Tell him of your problem."
 
-(Outro)
+Col took a breath. "I have nearly completed a program in which I see much repetition.
 
-My friend with the gift of gab? Ferris Crab.
+"In some cases, the logic must call different functions, though all around it remains unchanged. In
+others, different types implement similar methods, yet they cannot be unified by traits.
 
-*"[Ferris Crab](https://fitzgeraldnick.com/2018/12/13/rust-raps.html)"*
+"I have been told that macros may be a solution to my problem. What would you advise?"
 
-```rust
-struct 🦀;
-```
+Master Quoem was silent. For many long minutes, he stared intently at Col. It went on for so long
+that Col began to shuffle nervously under the master's gaze, uncertain if he had somehow offended
+him.
+
+The master, Col noticed, had slightly odd eyebrows...
+
+Finally, Master Quoem spoke thus:
+
+"Fheiq kah, puom."
+
+Then he nodded at Col, turned, and walked away.
+
+"Thank you for your counsel, Master Quoem," said Master Tuor as he guided Col back the way they
+came.
+
+As they walked, Col tried to understand what had happened. Stepping back out into the sunlight, he
+came to a conclusion.
+
+"Did speaking to Master Quoem help you find your answer?" Master Tuor asked him.
+
+"Yes," replied Col. "I have finished my program."
+
+Master Tuor nodded; the neophyte had been enlightened.
+
+*The [fourth Rust Koan](https://users.rust-lang.org/t/rust-koans/2408/4).*
 
 ## General Rules
 
