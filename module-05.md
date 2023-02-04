@@ -27,7 +27,7 @@ Correcting an already well-tested exercise is easier and faster than having to w
 defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
 they are not specified in the `allowed symbols` section.
 
-## Exercise 00: No Panics
+## Exercise 00: Didn't Panic!
 
 ```txt
 turn-in directories:
@@ -60,10 +60,8 @@ Create a **program** that prints integers from 1 to 10.
 The program must *never* panic.
 
 ```txt
->_ cargo run | head -n 3
-1
-2
-3
+>_ cargo run | true
+>_ 
 ```
 
 ## Exercise 01: Tee-Hee
@@ -76,7 +74,7 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::io::{Write, Read, stdin, stdout, stderr}
+    std::io::{Write, Read, stdin, stdout}
     std::io::{Stdout, StdoutLock, Stdin, StdinLock}
     std::io::{Error, Result}
     std::fs::File  std::env::args
@@ -139,7 +137,7 @@ the total size must be updated in the terminal.
 
 Your program must not panic when interacting with the file system. Errors must be handled properly.
 
-## Exercise 03: Stdin To Args
+## Exercise 03: Pipe-Line
 
 ```txt
 turn-in directory:
@@ -151,6 +149,7 @@ files to turn in:
 allowed symbols:
     std::env::args
     std::process::Command
+    std::os::unix::process::CommandExt
     std::io::stdin
     std::vec::Vector
     std::iter::*
@@ -171,7 +170,7 @@ EOF
 hello test>_
 ```
 
-The program called the `echo -n hello test` command.
+The program invoked the `echo -n hello test` command.
 
 Your program must not panic when interacting with the system, you must handle errors properly.
 
@@ -186,23 +185,24 @@ files to turn in:
 
 allowed symbols:
     std::env::args  std::iter::*
-    std::process::{Command, Stdio}
+    std::process::{Command, Stdio, Child}
     std::vec::Vec
     std::io::{stdout, Write, Read}
+    std::{write, writeln}
+    std::eprintln
 ```
 
 Create a **program** that starts multiple commands, gather their output and then print it to its
-standard output, in their original order without any of them mixing with any other. Standard error
-output is ignored. 
+standard output, in their original order without any of them mixing with any other.
 
 Example:
 
 ```txt
->_ cargo run -- echo a b , sleep 1 , echo b , cat Cargo.toml
+>_ cargo run -- echo a b , sleep 1 , echo b , cat Cargo.toml , cat i-dont-exit.txt
+===== cat i-dont-exit.txt ====
+
 ===== echo a b =====
 a b
-
-==== sleep 1 =====
 
 ===== echo b =====
 b
@@ -212,23 +212,66 @@ b
 name = "ex03"
 version = "0.1.0"
 ...
+
+==== sleep 1 =====
+
 ```
 
-Commands must be executed in parallel! Any error occuring when interacting with the system must be
-handled properly.
+ * Commands must be executed in parallel.
+ * The standard error must be ignored.
+ * Any error occuring when interacting with the system must be handled properly.
+ * The output of a child must be displayed entierly as soon as it has finished executing, even if
+   there is still other commands in progress.
 
-## Exercise 05: String Finder
+## Exercise 05: GET
 
 ```txt
 turn-in directory:
     ex05/
 
 files to turn in:
+    src/main.rs  Cargo.toml
+
+allowed symbols:
+    std::env::args
+    std::net::{TcpStream, SocketAddr}
+    std::io::{Write, Read, stdout}
+```
+
+Create a **program** that sends an HTTP/1.1 request and prints the response.
+
+Example:
+
+```txt
+>_ cargo run -- nils-mathieu.fr
+HTTP/1.1 200 OK
+Server: tiny-http (Rust)
+Date: Sat, 04 Feb 2023 12:40:33 GMT
+Content-Length: 584
+
+<html>
+...
+```
+
+ * The program must send *valid* HTTP/1.1 requests.
+ * Only the GET method is required.
+
+**Note:** you should probably ask the server the `close` instantly the `Connection` to avoid
+having to detect the end of the payload.
+
+## Exercise 06: String Finder
+
+```txt
+turn-in directory:
+    ex06/
+
+files to turn in:
     std/main.rs  Cargo.toml
 
 allowed symbols:
     std::env::args
-    std::fs::File  std::io::{Write, Read, stdout, stdin}
+    std::io::read
+    std::str::{from_utf8, Utf8Error}
 ```
 
 Create a **program** that reads an arbitrary binary file, and prints the UTF-8 strings it finds.
@@ -249,55 +292,6 @@ The program must have the following options available:
 
 Errors when interacting with the file system must be handled properly!
 
-## Exercise 06: Dog
-
-```txt
-turn-in directory:
-    ex07/
-
-files to turn in:
-    std/server.rs  std/client.rs  Cargo.toml
-
-allowed symbols:
-    std::env::args
-    std::net::{TcpStream, TcpListener, SocketAddr}
-    std::io::{Write, Read}
-```
-
-Create two **programs**.
-
-* The first program is the server. Its role is to wait for TCP connections. When data is received,
-it is retransmitted to all other connections.
-
-* The second program is the client. Its role is to connect to the server, write the data it sends
-to its standard output, and send its standard input to the server.
-
-Example:
-
-```txt
-===== SERVER =====
->_ cargo run --bin server -- 127.0.0.1:49150
-cedric: Hey!
-kevin: How are you?
-
-===== CLIENT 1 =====
->_ cargo run --bin client -- 127.0.0.1:49150 cedric
-Hey!
-cedric: Hey!
-kevin: How are you?
-
-===== CLIENT 2 =====
->_ cargo run --bin client -- 127.0.0.1:49150 kevin
-cedric: Hey!
-How are you?
-kevin: How are you?
-```
-
-Note that this is only an example! You can experiment with this!
-
-When the end-of-file is reached, the client closes its connection with the server. In both binaries,
-errors must be handled properly!
-
 ## Exercise 07: Pretty Bad Privacy
 
 ```txt
@@ -308,13 +302,13 @@ files to turn in:
     std/main.rs src/*.rs  Cargo.toml
 
 allowed dependencies:
-    crypto_bigint(v0.4.9)  rand(v0.8.5)
+    rug(v1.19.0)  rand(v0.8.5)
 
 allowed symbols:
     std::vec::Vec
     std::env::args
     std::io::{stdin, stdout, stderr, Write, Read}
-    std::fs::File  rand::*  crypto_bigint::*
+    std::fs::File  rand::*  rug::*
 ```
 
 Write a **program** that behaves in the following way:
@@ -350,10 +344,13 @@ Now that you have your private and public keys, you can already create the `gen-
 which saves both keys to files specified as arguments to the command. You can choose the format that
 you like, may it be binary or textual.
 
-Let's define a new value: `B`, the "block size".
+Let's define a new value: `C`, the "chunk size".
 
-* Let `B` be the largest integer such that `255^B < M`. 
+* Let `C` be the largest integer such that `255^C < M`. 
 
-In order to encrypt or decrypt a block, take `B` bytes of your message, treat it as a
-very big base-256 number, and put it through your encryption/decryption function. That's your
-encrypted/decrypted block! Perform the operation for every block of the message, and voilà!
+In order to encrypt a message, take `C` bytes at once and treat them as a big base-256 number. Pass
+that number through the encryption function and encode the resulting encrypted chunk into `B+1`
+bytes.
+
+To decrypt a message, read `B+1` bytes from the encrypted message, and pass this base-256 number
+through the decryption function. Encode the resulting decrypted chunk into `B` bytes, and voilà!
