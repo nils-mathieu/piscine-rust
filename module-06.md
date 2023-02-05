@@ -91,7 +91,7 @@ assert_eq!(a.into_inner(), "ABC");
 assert_eq!(b.into_inner(), "ABC");
 ```
 
-## Exercise 01: Counting
+## Exercise 01: Logger
 
 ```txt
 turn-in directory:
@@ -101,43 +101,7 @@ files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::thread::{spawn, sleep, JoinHandle}
-    std::time::Duration
-```
-
-Create a **program** that does the following:
-
-* Start a thread.
-* Within the thread, print numbers from 1 to 10.
-* Wait a quarter of a second between each number.
-
-Example:
-
-```txt
->_ cargo run
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-```
-
-## Exercise 02: Logger
-
-```txt
-turn-in directory:
-    ex02/
-
-files to turn in:
-    src/main.rs  Cargo.toml
-
-allowed symbols:
-    std::sync::{Arc, Mutex}
+    std::sync::Mutex
     std::thread::spawn
     std::io::Write
 ```
@@ -173,16 +137,55 @@ impl<W: io::Write> Logger<W> {
  * `flush` must properly send the content of the buffer inconditionally and clears it.
 
 Create a `main` function spawning 10 threads. Each thread must try to write to the standard output
-using the same `Logger<Stdout>`.
+using the same `Logger<Stdout>` 10 times.
 
 ```txt
 >_ cargo run
-hello from thread 1!
-hello from thread 2!
-hello from thread 0!
-hello from thread 6!
+hello 0 from thread 1!
+hello 0 from thread 2!
+hello 0 from thread 0!
+hello 0 from thread 6!
+hello 1 from thread 1!
 ...
 ```
+
+ * A message from any given thread must not appear within the message of another thread.
+
+## Exercise 02: Last Error
+
+```txt
+turn-in directory:
+    ex02/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::thread_local
+    std::cell::Cell
+    std::marker::Copy  std::clone::Clone
+```
+
+Create an `Error` enum with the following variants:
+
+```rust
+enum Error {
+    Success,
+    FileNotFound,
+    IsDirectory,
+    WriteError,
+    ReadError,
+}
+
+impl Error {
+    fn last() -> Self;
+    fn make_last(self);
+}
+```
+
+ * `last` must return the calling thread's last `Error` instance. If `make_last` has never been
+   called yet, `Error::Success` is returned.
+ * `make_last` must set the calling thread's last `Error` instance.
 
 ## Exercise 03: A Philosopher's Tiny Brain
 
@@ -329,21 +332,69 @@ pi: 3.144044
 duration: 147ms
 ```
 
-## Exercise 06: Scoped Threads
+## Exercise 06: 404 Not Found
 
 ```txt
 turn-in directory:
-    ex05/
+    ex07/
 
 files to turn in:
     src/main.rs  Cargo.toml
 
 allowed symbols:
-    std::thread::{scope, ScopedJoinHandle}
+    std::thread::{spawn, JoinHandle}
+    std::sync::mpsc::{Sender, Receiver, channel}
+    std::sync::{Arc, RwLock}
+    std::net::{TcpListener, SocketAdd}
+    std::io::{Result, Error}
 ```
 
-TODO:
+Create a `ThreadPool` type.
+
+```rust
+type Task = Box<dyn 'static + FnOnce()>;
+
+struct ThreadPool {
+    threads: Vec<JoinHandle<()>>,
+    should_stop: Arc<RwLock<bool>>,
+    task_sender: Sender<Task>,
+}
+
+impl ThreadPool {
+    fn new(thread_count: usize) -> Self;
+    fn spawn_task<F>(task: F)
+    where
+        F: 'static + Send + FnOnce();
+}
+```
+
+ * The `new` function must create a new `ThreadPool` instance by spawning `thread_count` threads.
+ * The `spawn_task` function must put a task into the task pool.
+ * When a `ThreadPool` is dropped, its threads must stop. If any of the threads panicked, dropping
+   the `ThreadPool` must panic too.
+
+When a thread is not executing a task, it waits until one is available and executes it.
+
+Let create a multithreaded HTTP server!
+
+* You **program** must listen on an address and port specified in command-line arguments:
+
+```txt
+>_ cargo run -- 127.0.0.1:8080
+```
+
+* When a connection is received, the server must respond with a "404 Not Found" page.
+* Every new connection to the server must be handled on a thread pool.
+
+```txt
+>_ curl 127.0.0.1:8080/
+This page does not exist :(
+>_
+```
+
+* This must also work in a regular web browser.
 
 ## Exercise 07:
 
-TODO: Create a multi-threaded webserver (with a thread pool).
+TODO: something with condvar
+
