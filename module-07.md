@@ -307,15 +307,11 @@ let nugget = 0x1233;
 assert_eq!(PhilosopherStone.transmute_metal(&nugget), &[0x3312]);
 ```
 
-## Exercise 02:
-
-TODO:
-
-## Exercise 03: Carton
+## Exercise 02: Carton
 
 ```txt
 turn-in directory:
-    ex03/
+    ex02/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -361,6 +357,45 @@ assert_eq!(another_point.y, 3);
 assert_eq!(point_in_carton.x, 1);
 assert_eq!(point_in_carton.y, 2);
 ```
+
+## Exercise 03: `Cellule<T>`
+
+```txt
+turn-in directory:
+    ex03/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::clone::Clone  std::marker::Copy
+    std::cell::UnsafeCell
+    std::ptr::*  std::mem::*
+```
+
+Let's re-create our own `Cell<T>` named `Cellule<T>`.
+
+You must implement the following inherent methods, as specified in the official documentation of
+`Cell<T>`.
+
+```rust
+impl<T> Cellule<T> {
+    const fn new(value: T) -> Self;
+
+    fn set(&self, value: T);
+    fn replace(&self, value: T) -> T;
+
+    fn get(&self, value: T) -> Self;
+    fn get_mut(&mut self) -> &mut T;
+
+    fn into_inner(self) -> T;
+}
+```
+
+Note that you may need to add trait bounds to some of the above methods to ensure their safety,
+and once again, be extra careful of the *variance* of your type.
+
+You must write tests for the functions you've written.
 
 ## Exercise 04:
 
@@ -479,9 +514,71 @@ impl File {
 
 When a `File` is dropped, it must automatically close its file descriptor.
 
-## Exercise 06:
+## Exercise 06: Tableau
 
-TODO:
+```txt
+turn-in directory:
+    ex06/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::alloc::{alloc, dealloc, Layout}
+    std::marker::Copy  std::clone::Clone
+    std::ops::{Deref, DerefMut}
+    std::ptr::*  std::mem::*
+```
+
+To finish with this module, let's re-create our own `Vec<T>`. Your type will be named `Tableau<T>`.
+
+It must implement the following inherent methods, as specified in the official documentation:
+
+```rust
+impl<T> Tableau<T> {
+    const fn new() -> Self;
+
+    fn len(&self) -> usize;
+    fn is_empty(&self) -> bool;
+
+    fn push(&mut self, item: T);
+    fn pop(&mut self) -> Option<T>;
+
+    fn clear(&mut self);
+}
+```
+
+It must be possible to do the following:
+
+```rust
+let mut a = Vec::new();
+a.push(1); a.push(2); a.push(4);
+let b = a.clone();
+
+for it in b {
+    println!("{it}");
+}
+// This will print:
+// 1
+// 2
+// 4
+
+let c: &[i32] = &*a;
+assert_eq!(c, [1, 2, 4]);
+```
+
+If you're feeling like taking a challenge, you can try to write a macro to construct a `Tableau<T>`
+automatically:
+
+```rust
+let v: Tableau<i32> = tableau![1, 2, 4];
+assert_eq!(v, [1, 2, 4]);
+```
+
+In any case, you must write extensive tests for your type. Valgrind may be used to detect invalid
+operations (which would means that you have used `unsafe` incorrectly .\\/.). Be careful of
+`panic!`s, they can happen anytime you call a function that you didn't write. Remember the
+`DropDetector`? No?
 
 ## Exercise 07: Never Needed Rust
 
