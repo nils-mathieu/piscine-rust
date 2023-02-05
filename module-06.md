@@ -394,7 +394,54 @@ This page does not exist :(
 
 * This must also work in a regular web browser.
 
-## Exercise 07:
+## Exercise 07: Rendez-Vous
 
-TODO: something with condvar
+```txt
+turn-in directory:
+    ex07/
 
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+    std::sync::{Condvar, Mutex}
+    std::option::Option
+    std::result::Result
+    std::mem::{replace, swap}
+```
+
+Let's create a "Rendez-Vous" primitive in Rust.
+
+Example:
+
+```rust
+// THREAD 1
+let a = rdv.wait(42u32); // if thread2 has not arrived yet, wait.
+// We know that thread2 has arrived too!
+assert_eq!(a, 21u32);
+
+// THREAD 2
+let a = rdv.wait(21u32); // if thread1 has not arrived yet, wait.
+// We know that thread1 has arrived too!
+assert_eq!(a, 42u32);
+```
+
+The "Rendez-Vous" must be defined as follows:
+
+```rust
+struct RendezVous<T> { /* ... */ }
+
+impl<T> RendezVous<T> {
+    const fn new() -> Self;
+    fn wait(&self, value: T) -> T;
+    fn try_wait(&self, value: T) -> Result<T, T>;
+}
+```
+
+ * `new` must create a new `RendezVous`.
+ * `wait` must block until it has been called twice. The first call returns the value passed by the
+   second call, and the second call returns the value passed by the first call.
+ * `try_wait` checks whether someone is waiting using `wait`. If so, the values are exchanged and
+   `Ok(_)` is returned. Otherwise, the input value is returned in the `Err(_)`.
+ * A thread must never [spin](https://en.wikipedia.org/wiki/Busy_waiting) when waiting for
+   something to happen!
