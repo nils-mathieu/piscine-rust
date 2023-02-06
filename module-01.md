@@ -257,8 +257,8 @@ allowed symbols:
     std::assert
 ```
 
-Write a **function** that multiplies two numbers together. The numbers are given as a list of
-decimal digits and may be arbitrarly large.
+Write a **function** that adds two numbers together. The numbers are given as a list of decimal
+digits and may be arbitrarly large.
 
 ```rust
 fn big_add(a: &[u8], &[u8]) -> Vec<u8>;
@@ -305,7 +305,7 @@ is given in the standard input as best as it can to that number of columns.
 
 * The input is separated into "paragraphs". Each "paragraph" is separated by at least two line feeds
 `'\n'`. The last line of each paragraph is *not* justified.
-* In the final output, multiple spaces are replaced by a single one.
+* Multiple spaces in the input are treated as one.
 * In the final output, paragraphs are always separated by a single empty line.
 * If a word do not fit on a single line, it gets its own line and ignores the column requirement.
 * If the user provides no arguments, or too many, or if the argument is invalid, the program is
