@@ -430,6 +430,7 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
+    std::iter::{Iterator, DoubleEndedIterator}
 ```
 
 Create a `Groups` iterator.
@@ -450,15 +451,89 @@ impl<'a, F> Groups<'a, F> {
  * The `new` inherent method creates a new `Groups` instance.
  * `Groups` must implement the `Iterator<Item = &str>` trait.
  * The `f` function is called on every character of the string. As long as the function returns
-   `true`.
+   `true`. Characters for which the function returns `false` are ignored.
 
-The `Groups`
+Example:
 
-## Exercise 06:
+```rust
+let mut groups = Groups::new("  hello,\tworld ", char::is_alphabetic);
 
-TODO: create a "printf" that uses a trait. It must be possible to use the same trait to
-1. write to the standard output/error
-2. write to a string
+assert_eq!(groups.next(), Some("hello"));
+assert_eq!(groups.next(), Some("world"));
+assert_eq!(groups.next(), None);
+```
+
+It must be possible to call `Iterator::rev` on your iterator to reverse it.
+
+Example:
+
+```rust
+let mut groups = Groups::new("  abc\t def,test");
+
+assert_eq!(groups.next(), Some("abc"));
+assert_eq!(groups.next_back(), Some("test"));
+assert_eq!(groups.next_back(), Some("def"));
+assert_eq!(groups.next(), None);
+```
+
+## Exercise 06: More Format
+
+```txt
+turn-in directory:
+    ex06/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+```
+
+Let's create our own formatting system. Let's begin with a `Print` trait.
+
+```rust
+struct FormatError;
+
+type WriteFn = dyn FnMut(&[u8]) -> Result<(), FormatError>;
+
+trait Print {
+    fn print(&self, write: &mut WriteFn) -> Result<(), FormatError>;
+}
+```
+
+Calling `print` should use the `write` function to write an instance of the implementator.
+
+Example, with an implementation of `Print` for `u32`:
+
+```rust
+14u32.print(|data| {
+    assert_eq!(data, b"14");
+});
+```
+
+Let's create a `format_with` function to make use of that awesome trait.
+
+```rust
+fn format_with<W>(s: &str, values: &[&dyn Print], write: W) -> Result<(), FormatError>
+where
+    W: FnMut(&[u8]) -> Result<(), FormatError>;
+
+fn format_string(s: &str, values: &[&dyn Print]) -> Result<String, FormatError>;
+fn format_print(s: &str, values: &[&dyn Print]) -> Result<(), FormatError>;
+```
+
+ * The `format_with` function parses the input string `s`, and replaces `%` characters with the
+   elements of `values`, calling `print` on them. If the length of `values` is not coherent with the
+   input string, the function may panic.
+ * The `format_string` function uses `format_with` to create a `String`. If any formating function
+   does not produce valid UTF-8, the function returns an error.
+ * The `format_print` function uses `format_with` to write to the standard output.
+
+Example:
+
+```rust
+let s: String = format_string("salut % les % gens!", &[&14u32, "Hello!"]).unwrap();
+assert_eq!(s, "salut 14 les Hello! gens!");
+```
 
 ## Exercise 07: Going Higher Order
 
