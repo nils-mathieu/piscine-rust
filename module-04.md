@@ -374,15 +374,11 @@ Example:
 assert_eq!(even_fibs_bellow_1000(), 798);
 ```
 
-## Exercise 04:
-
-TODO: double ended iterator
-
-## Exercuse 05: Monotically Increasing 
+## Exercuse 04: Monotically Increasing 
 
 ```txt
 turn-in directory:
-    ex05/
+    ex04/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -423,6 +419,40 @@ assert_eq!(iter.next(), Some(0.5));
 assert_eq!(iter.next(), Some(0.6));
 assert_eq!(iter.next(), None);
 ```
+
+## Exercise 05: From Side To Side
+
+```txt
+turn-in directory:
+    ex05/
+
+files to turn in:
+    src/lib.rs  Cargo.toml
+
+allowed symbols:
+```
+
+Create a `Groups` iterator.
+
+```rust
+struct Groups<'a, F> {
+    s: &'a str,
+    f: F,
+}
+
+impl<'a, F> Groups<'a, F> {
+    pub fn new(s: &'a str, f: F) -> Self
+    where
+        F: FnMut(char) -> bool;
+}
+```
+
+ * The `new` inherent method creates a new `Groups` instance.
+ * `Groups` must implement the `Iterator<Item = &str>` trait.
+ * The `f` function is called on every character of the string. As long as the function returns
+   `true`.
+
+The `Groups`
 
 ## Exercise 06:
 
