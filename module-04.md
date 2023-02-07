@@ -376,7 +376,7 @@ assert_eq!(even_fibs_bellow_1000(), 798);
 
 ## Exercise 04:
 
-TODO:
+TODO: double ended iterator
 
 ## Exercuse 05: Monotically Increasing 
 
@@ -426,7 +426,9 @@ assert_eq!(iter.next(), None);
 
 ## Exercise 06:
 
-TODO:
+TODO: create a "printf" that uses a trait. It must be possible to use the same trait to
+1. write to the standard output/error
+2. write to a string
 
 ## Exercise 07: Going Higher Order
 
