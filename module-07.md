@@ -397,29 +397,11 @@ and once again, be extra careful of the *variance* of your type.
 
 You must write tests for the functions you've written.
 
-## Exercise 04:
+## Exercise 04: RAII
 
 ```txt
 turn-in directory:
     ex04/
-
-files to turn in:
-    src/lib.rs  Cargo.toml  build.rs  awesome.c
-
-allowed symbols:
-
-```
-
-TODO:
-However sad may it be, Rust is not the only programming language in existence.
-
-A compiled C library, as well as its header file is provided.
-
-## Exercise 05: RAII
-
-```txt
-turn-in directory:
-    ex05/
 
 files to turn in:
     src/main.rs  Cargo.toml
@@ -514,11 +496,11 @@ impl File {
 
 When a `File` is dropped, it must automatically close its file descriptor.
 
-## Exercise 06: Tableau
+## Exercise 05: Tableau
 
 ```txt
 turn-in directory:
-    ex06/
+    ex05/
 
 files to turn in:
     src/lib.rs  Cargo.toml
@@ -529,8 +511,6 @@ allowed symbols:
     std::ops::{Deref, DerefMut}
     std::ptr::*  std::mem::*
 ```
-
-To finish with this module, let's re-create our own `Vec<T>`. Your type will be named `Tableau<T>`.
 
 It must implement the following inherent methods, as specified in the official documentation:
 
@@ -575,12 +555,98 @@ let v: Tableau<i32> = tableau![1, 2, 4];
 assert_eq!(v, [1, 2, 4]);
 ```
 
-In any case, you must write extensive tests for your type. Valgrind may be used to detect invalid
-operations (which would means that you have used `unsafe` incorrectly .\\/.). Be careful of
-`panic!`s, they can happen anytime you call a function that you didn't write. Remember the
-`DropDetector`? No?
+## Exercise 06: Foreign User
 
-## Exercise 07: Never Needed Rust
+```txt
+turn-in directory:
+    ex06/
+
+files to turn in:
+    src/lib.rs  Cargo.toml  build.rs  awesome.c
+
+allowed symbols:
+    std::mem::MaybeUninit
+    std::ffi::CStr
+    std::ffi::{c_int, c_char}
+```
+
+However sad may it be, Rust is not the only programming language in existence.
+
+Let's create a simple C library.
+
+```c
+typedef unsigned int t_id;
+
+typedef struct {
+    t_id id;
+    char const *name;
+} t_user;
+
+typedef struct {
+    t_id next_user_id;
+    t_user *users;
+    size_t count;
+    size_t allocated;
+} t_database;
+
+typedef enum {
+    ERR_SUCCESS,
+    ERR_MEMORY,
+    ERR_NO_MORE_IDS,
+    ERR_UNKNOWN_ID,
+} e_result;
+
+
+e_result create_database(t_database *database);
+void delete_database(t_database *database);
+
+e_result create_user(t_database *database, char const *name, t_id *result);
+e_result delete_user(t_database *database, t_id id);
+e_result get_user(t_database const *database, t_id id, t_user const **result);
+```
+
+ * `create_database` must initialize the passed `t_database` instance.
+ * `delete_database` must destroy the passed `t_database` instance, freeing the memory that was
+   allocated.
+ * `create_user` must insert a new `t_user` instance in the database.
+ * `delete_user` must remove a `t_user` from the database.
+ * `get_user` must write a pointer to the user with the provided ID, if any.
+
+In any case, on success, `ERR_SUCCESS` is returned. When a memory error occurs, `ERR_MEMORY` is
+returned. When no more IDs can be allocated, `ERR_NO_MORE_IDS` is returned. When a given ID is
+invalid, `ERR_UNKNOWN_ID` is returned.
+
+You now have an awesome C library, but it's sad that you cannot use it in Rust...
+
+Setup your project such that this C library is automatically compiled into a `.a` static library
+when to call `cargo build`. Your Rust library must link against that compiled C library.
+
+```rust
+enum Error { /* ... */ }
+
+type Id = /* ... */;
+
+struct User { /* ... */ }
+
+struct Database { /* ... */ }
+
+impl Database {
+    fn new() -> Self;
+
+    fn create_user(&mut self, name: &CStr) -> Result<Id, Error>;
+    fn delete_user(&mut self, id: Id) -> Result<(), Error>;
+    fn get_user(&self, id: Id) -> Result<&User, Error>;
+}
+```
+
+ * `new` must call the `create_database` function of your C library.
+ * `create_user` must call `create_user`.
+ * `delete_user` must call `delete_user`.
+ * `get_user` must call `get_user`.
+
+When a `Database` goes out of scope, it must automatically call `delete_database`.
+
+## Exercise 07: Bare Metal
 
 ```txt
 turn-in directory:
