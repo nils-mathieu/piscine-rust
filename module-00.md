@@ -222,7 +222,7 @@ turn-in directory:
     ex04/
 
 files to turn in:
-    src/default.rs  src/overflow.rs  src/other.rs  Cargo.toml
+    src/main.rs  src/overflow.rs  src/other.rs  Cargo.toml
 
 allowed symbols:
     std::println
@@ -294,7 +294,7 @@ allowed symbols:
 Write a **program** which prints every Friday that falls on the 13th of the month, since the first
 day of year 1 (it was a monday).
 
-To complete this task, you must write and use the following function:
+To complete this task, you must write the following function:
 
 ```rust
 fn is_leap_year(year: u32) -> bool;
