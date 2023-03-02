@@ -77,7 +77,7 @@ The function must be prototyped like this:
 fn min(a: i32, b: i32) -> i32;
 ```
 
-Oh, I almost forgot. The `return` keyword is forbidden! Good luck with that ~
+Oh, I almost forgot. The `return` keyword is forbidden in this exercise! Good luck with that ~
 
 ## Exercise 02: yyyyyyyyyyyyyy
 
