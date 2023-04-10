@@ -1,0 +1,17 @@
+[package]
+name = "m04ex01"
+version = "0.0.1"
+edition = "2021"
+authors = [ "Nils Mathieu <nmathieu@student.42.fr>" ]
+
+[[bin]]
+name = "collatz"
+path = "src/collatz.rs"
+
+[[bin]]
+name = "print_byes"
+path = "src/print_byes.rs"
+
+[[bin]]
+name = "yes"
+path = "src/yes.rs"

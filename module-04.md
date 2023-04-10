@@ -85,30 +85,30 @@ came to a conclusion.
 
 Master Tuor nodded; the neophyte had been enlightened.
 
-*The [fourth Rust Koan](https://users.rust-lang.org/t/rust-koans/2408/4).*
+_The [fourth Rust Koan](https://users.rust-lang.org/t/rust-koans/2408/4)._
 
 ## General Rules
 
-* Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
-if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
-in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
-section are allowed.
+- Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
+  if the subject requires a _program_, or with `cargo test` otherwise. Only dependencies specified
+  in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
+  section are allowed.
 
-* Every exercise must be part of a virtual Cargo workspace, a single `workspace.members` table must
-be declared for the whole module.
+- Every exercise must be part of a virtual Cargo workspace, a single `workspace.members` table must
+  be declared for the whole module.
 
-* Everything must compile *without warnings* with the `rustc` compiler available on the school's
-machines without additional options.  You are *not* allowed to use `unsafe` code anywere in your
-code.
+- Everything must compile _without warnings_ with the `rustc` compiler available on the school's
+  machines without additional options. You are _not_ allowed to use `unsafe` code anywere in your
+  code.
 
-* You are generally *not* authorized to modify lint levels - either using `#[attributes]`,
-`#![global_attributes]` or with command-line arguments. You may optionally allow the `dead_code`
-lint to silence warnings about unused variables, functions, etc.
+- You are generally _not_ authorized to modify lint levels - either using `#[attributes]`,
+  `#![global_attributes]` or with command-line arguments. You may optionally allow the `dead_code`
+  lint to silence warnings about unused variables, functions, etc.
 
-* You are *strongly* encouraged to write extensive tests for the functions and systems you turn in.
-Correcting an already well-tested exercise is easier and faster than having to write them during
-defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
-they are not specified in the `allowed symbols` section.
+- You are _strongly_ encouraged to write extensive tests for the functions and systems you turn in.
+  Correcting an already well-tested exercise is easier and faster than having to write them during
+  defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
+  they are not specified in the `allowed symbols` section.
 
 ## Exercise 00: Print All Things
 
@@ -129,12 +129,14 @@ allowed symbols:
 Create a **function** with the following signature.
 
 ```rust
-fn print_all_things<I: /* ... */>(i: I);
+fn print_all_things<I>(i: I)
+where
+    /* ... */;
 ```
 
-* The `print_all_things` function must print the values it is given.
-* You have to add appropriate trait bounds to `I`.
-* Yo must use exactly *one* for loop.
+- The `print_all_things` function must print the values it is given.
+- You have to add appropriate trait bounds to `I`.
+- Yo must use exactly _one_ for loop.
 
 Example:
 
@@ -149,10 +151,10 @@ fn main() {
 
 ```txt
 >_ cargo run
-[ 1 3 4 2 ]
-[ 1 2 5 4 ]
 [ 0 1 2 3 4 5 ]
 [ 'H' 'e' 'l' 'l' 'o' ]
+[ 1 3 4 2 ]
+[ 1 2 5 4 ]
 ```
 
 ## Exercise 01: YYYYYYYYYYYYYY
@@ -177,10 +179,10 @@ fn yes<F: /* ... */>(f: F) -> !;
 fn print_byes<F: /* ... */>(f: F);
 ```
 
-* The `collayz` function must call the `f` function on every new odd value in the [collatz sequence](https://en.wikipedia.org/wiki/Collatz_conjecture).
-* You must add an appropriate bound for the `F` generic type so that you can call it with a single
-`u32` parameter (i.e. `f(n: u32);`).
-* Create a `main` that calls `collatz` with `start = 11` and produces the following output:
+- The `collayz` function must call the `f` function on every new odd value in the [collatz sequence](https://en.wikipedia.org/wiki/Collatz_conjecture).
+- You must add an appropriate bound for the `F` generic type so that you can call it with a single
+  `u32` parameter (i.e. `f(n: u32);`).
+- Create a `main` that calls `collatz` with `start = 11` and produces the following output:
 
 ```txt
 >_ cargo run --bin collatz
@@ -191,13 +193,13 @@ YYYYY
 Y
 ```
 
-* The `print_byes` function must call `f` in repeat until it returns `None` (rather
-than a `Some(u8)`). Each time, `print_bytes` prints the returned byte in binary, but zeros are
-replaced by 'Y's, and ones with `y`.
-* You must add an appropriate bound to the `F` generic type, such that it returns an `Option<u8>`
-and takes no parameters (i.e. `let ret: Option<u8> = f();`).
-* Create a `main` that calls the `print_bytes` function in a way that it produces the following
-output.
+- The `print_byes` function must call `f` in repeat until it returns `None` (rather
+  than a `Some(u8)`). Each time, `print_bytes` prints the returned byte in binary, but zeros are
+  replaced by 'Y's, and ones with `y`.
+- You must add an appropriate bound to the `F` generic type, such that it returns an `Option<u8>`
+  and takes no parameters (i.e. `let ret: Option<u8> = f();`).
+- Create a `main` that calls the `print_bytes` function in a way that it produces the following
+  output (the bytes are those of `"Hello, World!"`).
 
 Example:
 
@@ -218,12 +220,11 @@ YyyYYyYY
 YYyYYYYy
 ```
 
-* The `yes` function must call the `f` function once, and print its return value in an infinite
-loop.
-* You must add an appropriate bound to the `F` generic type, such that it returns a `String` and
-that it can be called with no parameters (i.e. `let s: String = f();`).
-* Create a `main` function that calls `yes`. You *cannot* create the `String` inside of the function
-passed to `yes`.
+- The `yes` function must call the `f` function once, and print its return value in an infinite
+  loop.
+- You must add an appropriate bound to the `F` generic type, such that it returns a `String` and
+  that it can be called with no parameters (i.e. `let s: String = f();`).
+- Create a `main` function that calls `yes` and produces the following output.
 
 ```txt
 >_ cargo run --bin yes
@@ -278,9 +279,9 @@ Let's create a second one. It must:
 
 1. Take a string as input.
 2. For each line of the input, split the line into two fields, separated by a colon `':'`. If the
-line contains no `:`, it is ignored.
+   line contains no `:`, it is ignored.
 3. The first part is kept as a string reference, but starting and ending whitespaces are trimmed.
-The second part is turned into any `T`. Once again, errors are ignored.
+   The second part is turned into any `T`. Once again, errors are ignored.
 4. Finally, everything is turned into a vector.
 
 ```rust
@@ -305,7 +306,7 @@ assert_eq!(
     v,
     [
         ("first", 1),
-        ("thrid", 3),
+        ("third", 3),
         ("fifth", 43),
     ]
 );
@@ -327,10 +328,10 @@ allowed symbols:
     std::option::Option
     std::u32::{checked_add, checked_mul}
     std::iter::Iterator
-    std::iter::Iterator::{take_while, filter, count}
+    std::iter::Iterator::{take_while, filter, sum}
 ```
 
-Create an **Iterator** named `Fibs` that yields *every* fibonacci number that fits in a `u32`.
+Create an **Iterator** named `Fibs` that yields _every_ fibonacci number that fits in a `u32`.
 
 ```rust
 impl Fibs {
@@ -338,9 +339,9 @@ impl Fibs {
 }
 ```
 
- * The `new` function must allow the user of the type to choose the first and second term of the
-   sequence.
- * Ensure that your iterator does *not* panic when reaching the greatest fibonacci `u32`.
+- The `new` function must allow the user of the type to choose the first and second term of the
+  sequence.
+- Ensure that your iterator does _not_ panic when reaching the greatest fibonacci `u32`.
 
 Example:
 
@@ -364,9 +365,9 @@ Write the `even_fibs_bellow_1000` function.
 fn even_fibs_bellow_1000() -> u32;
 ```
 
-* This function must return the sum of even fibonacci numbers bellow `1000` using the `Fibs`
-iterator you previously wrote.
-* You still can't use `return` nor can you use `;`s characters!
+- This function must return the sum of even fibonacci numbers bellow `1000` using the `Fibs`
+  iterator you previously wrote.
+- You still can't use `return` nor can you use `;`s characters!
 
 Example:
 
@@ -374,7 +375,7 @@ Example:
 assert_eq!(even_fibs_bellow_1000(), 798);
 ```
 
-## Exercuse 04: Monotically Increasing 
+## Exercuse 04: Monotically Increasing
 
 ```txt
 turn-in directory:
@@ -397,18 +398,18 @@ struct Increasing<I: Iterator> {
     last: Option<I::Item>,
 }
 
-impl<I> Increasing<I> {
+impl<I: Iterator> Increasing<I> {
     pub fn new<J>(iter: J) -> Self
     where
         J: IntoIterator<IntoIter = I>;
 }
 ```
 
-* The `new` function must create an instance of `Increasing` using the `IntoIterator`
-implementation of `J`.
-* Implement the `Iterator` trait for `Increasing<I>`. You may add the bounds you wish to both `I`
-and `I::Item` (as long as the subject allows them) in order to make the assignmenet possible.
-* The created iterator must filter any non-strictly-increasing number of the original iterator.
+- The `new` function must create an instance of `Increasing` using the `IntoIterator`
+  implementation of `J`.
+- Implement the `Iterator` trait for `Increasing<I>`. You may add the bounds you wish to both `I`
+  and `I::Item` (as long as the subject allows them) in order to make the assignmenet possible.
+- The created iterator must filter any non-strictly-increasing number of the original iterator.
 
 For example:
 
@@ -431,6 +432,7 @@ files to turn in:
 
 allowed symbols:
     std::iter::{Iterator, DoubleEndedIterator}
+    std::str::*  std::char::*  std::option::Option
 ```
 
 Create a `Groups` iterator.
@@ -448,10 +450,10 @@ impl<'a, F> Groups<'a, F> {
 }
 ```
 
- * The `new` inherent method creates a new `Groups` instance.
- * `Groups` must implement the `Iterator<Item = &str>` trait.
- * The `f` function is called on every character of the string. As long as the function returns
-   `true`. Characters for which the function returns `false` are ignored.
+- The `new` inherent method creates a new `Groups` instance.
+- `Groups` must implement the `Iterator<Item = &str>` trait.
+- The `f` function is called on every character of the string. As long as the function returns
+  `true`. Characters for which the function returns `false` are ignored.
 
 Example:
 
@@ -486,14 +488,16 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
+    std::str::from_utf8
 ```
 
 Let's create our own formatting system. Let's begin with a `Print` trait.
 
 ```rust
+#[derive(Debug)]
 struct FormatError;
 
-type WriteFn = dyn FnMut(&[u8]) -> Result<(), FormatError>;
+type WriteFn<'a> = dyn 'a + FnMut(&str) -> Result<(), FormatError>;
 
 trait Print {
     fn print(&self, write: &mut WriteFn) -> Result<(), FormatError>;
@@ -502,36 +506,34 @@ trait Print {
 
 Calling `print` should use the `write` function to write an instance of the implementator.
 
-Example, with an implementation of `Print` for `u32`:
+Example, with an example implementation of `Print` for `u32`:
 
 ```rust
-14u32.print(|data| {
-    assert_eq!(data, b"14");
+42u32.print(&mut |s| {
+    assert_eq!(s, "42");
 });
 ```
 
 Let's create a `format_with` function to make use of that awesome trait.
 
 ```rust
-fn format_with<W>(s: &str, values: &[&dyn Print], write: W) -> Result<(), FormatError>
-where
-    W: FnMut(&[u8]) -> Result<(), FormatError>;
+fn format_with(s: &str, values: &[&dyn Print], write: &mut WriteFn) -> Result<(), FormatError>;
 
 fn format_string(s: &str, values: &[&dyn Print]) -> Result<String, FormatError>;
 fn format_print(s: &str, values: &[&dyn Print]) -> Result<(), FormatError>;
 ```
 
- * The `format_with` function parses the input string `s`, and replaces `%` characters with the
-   elements of `values`, calling `print` on them. If the length of `values` is not coherent with the
-   input string, the function may panic.
- * The `format_string` function uses `format_with` to create a `String`. If any formating function
-   does not produce valid UTF-8, the function returns an error.
- * The `format_print` function uses `format_with` to write to the standard output.
+- The `format_with` function parses the input string `s`, and replaces `%` characters with the
+  elements of `values`, calling `print` on them. If the length of `values` is not coherent with the
+  input string, the function may panic.
+- The `format_string` function uses `format_with` to create a `String`. If any formating function
+  does not produce valid UTF-8, the function returns an error.
+- The `format_print` function uses `format_with` to write to the standard output.
 
-Example:
+Example (assuming `Print` is implemented for `u32` and `&str`):
 
 ```rust
-let s: String = format_string("salut % les % gens!", &[&14u32, "Hello!"]).unwrap();
+let s: String = format_string("salut % les % gens!", &[&14u32, &"Hello!"]).unwrap();
 assert_eq!(s, "salut 14 les Hello! gens!");
 ```
 
@@ -568,16 +570,16 @@ fn ascii_digits() -> impl Fn(&str) -> bool;
 fn min_size(min: usize) -> impl Fn(&str) -> bool;
 ```
 
-* The `anything` function returns a "pattern matcher" that matches all strings. In other words, it
-always returns `true`.
-* The `exactly` function returns a "pattern matcher" that matches strings exactly equal to
-`to_match`.
-* The `alphabetic` function returns a "pattern matcher" that matches strings which characters are
-all alphabetic letters.
-* The `ascii_digits` function returns a "pattern matcher" that matches strings which characters are
-ascii digits.
-* The `min_size` function returns a "pattern matcher" that matches strings with a length greater or
-equal to `min` *characters* (not *bytes*; *characters*).
+- The `anything` function returns a "pattern matcher" that matches all strings. In other words, it
+  always returns `true`.
+- The `exactly` function returns a "pattern matcher" that matches strings exactly equal to
+  `to_match`.
+- The `alphabetic` function returns a "pattern matcher" that matches strings which characters are
+  all alphabetic letters.
+- The `ascii_digits` function returns a "pattern matcher" that matches strings which characters are
+  ascii digits.
+- The `min_size` function returns a "pattern matcher" that matches strings with a length greater or
+  equal to `min` _characters_ (not _bytes_; _characters_).
 
 Let's compilcate things a bit.
 
@@ -598,20 +600,20 @@ fn chain(
 ) -> impl Fn(&str) -> bool;
 ```
 
-* The `maybe` function returns a "pattern matcher" that matches strings that are either empty,
-or match the `pattern` "pattern matcher".
-* The `not` function returns a "pattern matcher" that matches any string thats not matched by the
-`pattern` "pattern matcher".
-* The `or` function returns a "pattern matcher" that matches strings that match either the `first`
-or `second` "pattern matcher" (both is also valid!).
-* The `and` function returns a "pattern matcher" that matches strings that match both the `first`
-and `second` "pattern matcher".
-* The `chain` function returns a "patterm matcher" that matches any string which can be split in
-two, such that the first part matches with `first` and the second part matches with `second`.
+- The `maybe` function returns a "pattern matcher" that matches strings that are either empty,
+  or match the `pattern` "pattern matcher".
+- The `not` function returns a "pattern matcher" that matches any string thats not matched by the
+  `pattern` "pattern matcher".
+- The `or` function returns a "pattern matcher" that matches strings that match either the `first`
+  or `second` "pattern matcher" (both is also valid!).
+- The `and` function returns a "pattern matcher" that matches strings that match both the `first`
+  and `second` "pattern matcher".
+- The `chain` function returns a "patterm matcher" that matches any string which can be split in
+  two, such that the first part matches with `first` and the second part matches with `second`.
 
 With those awesome tools, create three pattern matchers.
 
-* The first one must match strings with this form:
+- The first one must match strings with this form:
   - at least one alphabetic character
   - the character '@'
   - at least one alphabetic character
@@ -631,7 +633,7 @@ assert!(!pattern("my-address@domain.fr"));
 assert!(!pattern("address@my-domain.fr"));
 ```
 
-* The second one must match strings with this form:
+- The second one must match strings with this form:
   - The character '('
   - zero or more characters that are neither '(' nor ')'.
   - The character ')'
@@ -648,7 +650,7 @@ assert!(!pattern(")"));
 assert!(!pattern(" (test) "));
 ```
 
-* The second one must match strings with this form: 
+- The third one must match strings with this form:
   - An optional '+' or '-'.
   - one or more ascii digits
   - the following group is optional:
@@ -656,6 +658,7 @@ assert!(!pattern(" (test) "));
     - at least one ascii digit.
   - the following group is optional
     - the character 'e' or 'E'
+    - an optional '+' or '-'
     - at least one ascii digit
 
 ```rust
@@ -667,6 +670,8 @@ assert!(pattern("-12"));
 assert!(pattern("12.5"));
 assert!(pattern("12.5e20"));
 assert!(pattern("12E10"));
+assert!(pattern("12E+9"));
+assert!(pattern("12E-9"));
 assert!(!pattern(""));
 assert!(!pattern("+"));
 assert!(!pattern("+12."));
