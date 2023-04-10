@@ -411,8 +411,6 @@ assert!(strpcmp(b"abcd", b"ab*cd"));
 assert!(strpcmp(b"", b"****"));
 ```
 
-When in doupt, do what **Bash** does.
-
 Your crate must also include a bin-target which may be used to test the library easily. Note that
 the `strpcmp` function must still be in the *library*!
 
