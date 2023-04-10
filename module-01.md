@@ -310,6 +310,7 @@ is given in the standard input as best as it can to that number of columns.
 * If a word do not fit on a single line, it gets its own line and ignores the column requirement.
 * If the user provides no arguments, or too many, or if the argument is invalid, the program is
 allowed to panic.
+* Be careful! `é` has a width of `1`, but takes multiple bytes in memory!
 
 Example:
 
