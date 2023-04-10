@@ -419,8 +419,6 @@ opaque, and A has an opacity of `alpha`. 1 means opaque, 0 means transparent.
 C = A * alpha + B * (1 - alpha)
 ```
 
-You must *not* use `f32` or `f64` when blending colors!
-
 The distance between two colors A and B must be computed like this:
 
 ```
