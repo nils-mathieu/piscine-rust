@@ -87,36 +87,36 @@ then struck her across the face.
 
 The monk, rubbing her face, walked back and sat down on one of the benches, muttering curses.
 
-*The [first Rust Koan](https://users.rust-lang.org/t/rust-koans/2408).*
+_The [first Rust Koan](https://users.rust-lang.org/t/rust-koans/2408)._
 
 ## General Rules
 
-* Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
-if the subject requires a *program*, or with `cargo test` otherwise. Only dependencies specified
-in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
-section are allowed.
+- Any exercise you turn in must compile using the `cargo` package manager, either with `cargo run`
+  if the subject requires a _program_, or with `cargo test` otherwise. Only dependencies specified
+  in the `allowed dependencies` section are allowed. Only symbols specified in the `allowed symbols`
+  section are allowed.
 
-* Every exercise must be part of a virtual Cargo workspace, a single `workspace.members` table must
-be declared for the whole module.
+- Every exercise must be part of a virtual Cargo workspace, a single `workspace.members` table must
+  be declared for the whole module.
 
-* Everything must compile *without warnings* with the `rustc` compiler available on the school's
-machines without additional options.
+- Everything must compile _without warnings_ with the `rustc` compiler available on the school's
+  machines without additional options.
 
-* You are generally *not* authorized to modify lint levels - either using `#\[attributes\]`,
-`#!\[global_attributes\]` or with command-line arguments. You may optionally allow the `dead_code`
-lint to silence warnings about unused variables, functions, etc.
+- You are generally _not_ authorized to modify lint levels - either using `#\[attributes\]`,
+  `#!\[global_attributes\]` or with command-line arguments. You may optionally allow the `dead_code`
+  lint to silence warnings about unused variables, functions, etc.
 
-* You are *strongly* encouraged to write extensive tests for the functions and systems you turn in.
-Correcting an already well-tested exercise is easier and faster than having to write them during
-defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
-they are not specified in the `allowed symbols` section.
+- You are _strongly_ encouraged to write extensive tests for the functions and systems you turn in.
+  Correcting an already well-tested exercise is easier and faster than having to write them during
+  defense. Tests (when not specifically required by the subject) can use the symbols you want, even if
+  they are not specified in the `allowed symbols` section.
 
-You *are* allowed to use `unsafe` code in this module! However, some rules must be followed.
+You _are_ allowed to use `unsafe` code in this module! However, some rules must be followed.
 
 1. You must use the `#![forbid(unsafe_op_in_unsafe_fn)]` global attribute.
 
 2. When an `unsafe fn` function is defined, its documentation must contain a `# Safety` section
-describing how to use it correctly.
+   describing how to use it correctly.
 
 ```rust
 /// Returns one of the elements of `slice`, as specified by
@@ -141,7 +141,7 @@ unsafe fn get_unchecked(slice: &[u32], index: usize) -> u32 {
 ```
 
 3. When an `unsafe trait` trait is defined, its documentation must contain a `# Safety` section
-describing how to implement it correctly.
+   describing how to implement it correctly.
 
 ```rust
 /// Types that can be initialized to zeros.
@@ -181,9 +181,9 @@ unsafe impl Zeroable for u64 {}
 
 To summarise:
 
-* `unsafe fn` means "know what you are doing before calling this function".
-* `unsafe trait` means "know what you are doing before implementing this trait".
-* `unsafe {}` and `unsafe impl` both mean "I know what I am doing".
+- `unsafe fn` means "know what you are doing before calling this function".
+- `unsafe trait` means "know what you are doing before implementing this trait".
+- `unsafe {}` and `unsafe impl` both mean "I know what I am doing".
 
 ## Exercise 00: Libft
 
@@ -206,14 +206,14 @@ unsafe fn ft_strlen(s: *const u8) -> usize;
 unsafe fn ft_strcpy(dst: *mut u8, src: *const u8);
 ```
 
-* `ft_swap` must swaps any two values of any type. Maybe `T` can be copied; maybe not. Maybe it has
-a default value. Maybe not.
-* `ft_strlen` must count the number of non-null bytes, starting at `s`. You must write an
-appropriate "# Safety" section in the documentation of that function to educate about its users
-about its correct usage.
-* `ft_strcpy` must copy the null-terminated string at `src` into `dst`. Just like `ft_strlen`, you
-must *precisely* describe the requirements of your function within a "# Safety" section in its
-documentation.
+- `ft_swap` must swaps any two values of any type. Maybe `T` can be copied; maybe not. Maybe it has
+  a default value. Maybe not.
+- `ft_strlen` must count the number of non-null bytes, starting at `s`. You must write an
+  appropriate "# Safety" section in the documentation of that function to educate about its users
+  about its correct usage.
+- `ft_strcpy` must copy the null-terminated string at `src` into `dst`. Just like `ft_strlen`, you
+  must _precisely_ describe the requirements of your function within a "# Safety" section in its
+  documentation.
 
 Example:
 
@@ -265,10 +265,10 @@ impl PhilosopherStone {
 }
 ```
 
-* The `transmute_iron` function must convert the given `Iron` into a bunch of `GoldNugget`s. The
-bit-pattern of the original iron *must be preserved*; ignoring byte-order.
-* The `transmute_mercure` function must convert the given `Mercure` into a bunch of `GoldNugget`s.
-The bit-pattern of the original mercure *must be preserved*; ignoring byte-order.
+- The `transmute_iron` function must convert the given `Iron` into a bunch of `GoldNugget`s. The
+  bit-pattern of the original iron _must be preserved_; ignoring byte-order.
+- The `transmute_mercure` function must convert the given `Mercure` into a bunch of `GoldNugget`s.
+  The bit-pattern of the original mercure _must be preserved_; ignoring byte-order.
 
 Example:
 
@@ -276,20 +276,23 @@ Example:
 // On a LITTLE-ENDIAN machine! On big-endian machines, the result will be different.
 let iron = 0x12345678;
 assert_eq!(PhilosopherStone.transmute_iron(iron), [0x5678, 0x1234]);
-let mercure = 0x123456780ABCDEF;
-assert_eq1(PhilosopherStone.transmute_mercure(mercure), [0xCDEF, 0x80AB, 0x5678, 0x1234]);
+let mercure = 0x0123456789ABCDEF;
+assert_eq!(
+    PhilosopherStone.transmute_mercure(mercure),
+    [0xCDEF, 0x89AB, 0x4567, 0x0123],
+);
 ```
 
 Let's generalize a bit.
 
 ```rust
-type Gold = [u16];
+type Gold = [GoldNugget];
 
 unsafe trait Metal {}
 ```
 
-* A `Metal` is a type that may be turned into gold by the `PhilosopherStone`.
-* Do not forget the `# Safety` comment in the documentation for `Metal`!
+- A `Metal` is a type that may be turned into gold by the `PhilosopherStone`.
+- Do not forget the `# Safety` comment in the documentation for `Metal`!
 
 ```rust
 impl PhilosopherStone {
@@ -297,14 +300,16 @@ impl PhilosopherStone {
 }
 ```
 
-* The `transmute_metal` function must convert the given `metal` into `&Gold`.
+- The `transmute_metal` function must convert the given `metal` into `&Gold`.
 
 Example:
 
 ```rust
-unsafe impl Metal for GoldNugget {}
-let nugget = 0x1233;
-assert_eq!(PhilosopherStone.transmute_metal(&nugget), &[0x3312]);
+let mercure: Mercure = 0x0123456789ABCDEF;
+assert_eq!(
+    PhilosopherStone.transmute_metal(&mercure),
+    &[0xCDEF, 0x89AB, 0x4567, 0x0123],
+);
 ```
 
 ## Exercise 02: Carton
@@ -317,9 +322,11 @@ files to turn in:
     src/lib.rs  Cargo.toml
 
 allowed symbols:
-    std::alloc::{alloc, dealloc, Layout}
+    std::alloc::{alloc, dealloc, Layout, handle_alloc_error}
     std::ops::{Deref, DerefMut}
     std::clone::Clone
+    std::marker::PhantomData
+    std::ptr::{NonNull, drop_in_place}
 ```
 
 Create a type named `Carton<T>`, which must manage an allocation of a single `T` on the heap.
@@ -331,20 +338,18 @@ impl<T> Carton<T> {
 }
 ```
 
-* You must make sure that `Carton<T>` has the correct *variance* over `T`.
-* You muts make sure that the *drop checker* makes the correct assumptions about the lifetime of
-a `T` owned by a `Carton<T>`.
-* You must make sure that `Carton<T>` properly manages the memory it owns. When memory is allocated,
-it must be deallocated layer!
-* Be careful! *Careful*! Any code that you didn't write can panic. Cloning a value can panic.
-Dropping a value can panic. Make sure that your type do *not* leak memory; even when cloning or
-dropping.
+- You must make sure that `Carton<T>` has the correct _variance_ over `T`.
+- You must make sure that the _drop checker_ makes the correct assumptions about the lifetime of
+  a `T` owned by a `Carton<T>`.
+- You must make sure that `Carton<T>` properly manages the memory it owns. When memory is allocated,
+  it must be deallocated later!
 
 Example:
 
 ```rust
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 struct Point { x: u32, y: u32 }
+
 let point_in_carton = Carton::new(Point { x: 1, y: 2 });
 assert_eq!(point_in_carton.x, 1);
 assert_eq!(point_in_carton.y, 2);
@@ -393,7 +398,7 @@ impl<T> Cellule<T> {
 ```
 
 Note that you may need to add trait bounds to some of the above methods to ensure their safety,
-and once again, be extra careful of the *variance* of your type.
+and once again, be extra careful of the _variance_ of your type.
 
 You must write tests for the functions you've written.
 
@@ -432,10 +437,10 @@ impl Errno {
 }
 ```
 
-* `last` must return the calling thread's last "errno".
-* `make_last` must make an `Errno` the calling thread's last "errno".
-* `description` must return a textual description of the error. Don't try to enumate *every*
-possible error! Use a function of `libc` to do it for you.
+- `last` must return the calling thread's last "errno".
+- `make_last` must make an `Errno` the calling thread's last "errno".
+- `description` must return a textual description of the error. Don't try to enumate _every_
+  possible error! Use a function of `libc` to do it for you.
 
 Example:
 
@@ -466,13 +471,13 @@ impl Fd {
 }
 ```
 
-* `open` must open a new file descriptor for reading (only).
-* `create` must open a new file descriptor for writing (only). If the file already exists, it must
+- `open` must open a new file descriptor for reading (only).
+- `create` must open a new file descriptor for writing (only). If the file already exists, it must
   be truncated.
-* `write` must write some of the data referenced by `data` to the file descriptor.
-* `read` must read some data from the file descriptor into `buffer`.
-* `close` must attempt to close the file descriptor.
-* In any case, errors must be handled properly.
+- `write` must write some of the data referenced by `data` to the file descriptor.
+- `read` must read some data from the file descriptor into `buffer`.
+- `close` must attempt to close the file descriptor.
+- In any case, errors must be handled properly.
 
 That's cool, and all. But we can do better!
 
@@ -488,10 +493,10 @@ impl File {
 }
 ```
 
-* `open` and `create` work exactly the same as `Fd::open` and `Fd::create`.
-* `write` and `read` work the same way as `Fd::write` and `Fd::read`. Note, however, that they only
-  *borrow* the `File`.
-* `leak` must "leak" the file descriptor of the file; returning it and "forgetting" that it had to
+- `open` and `create` work exactly the same as `Fd::open` and `Fd::create`.
+- `write` and `read` work the same way as `Fd::write` and `Fd::read`. Note, however, that they only
+  _borrow_ the `File`.
+- `leak` must "leak" the file descriptor of the file; returning it and "forgetting" that it had to
   be closed layer.
 
 When a `File` is dropped, it must automatically close its file descriptor.
@@ -547,6 +552,10 @@ let c: &[i32] = &*a;
 assert_eq!(c, [1, 2, 4]);
 ```
 
+**Note:** Be careful! _Careful_! Any code that you didn't write can panic. Cloning a value can
+panic. Dropping a value can panic. Make sure that your type do _not_ leak memory; even when cloning
+or dropping.
+
 If you're feeling like taking a challenge, you can try to write a macro to construct a `Tableau<T>`
 automatically:
 
@@ -596,7 +605,6 @@ typedef enum {
     ERR_UNKNOWN_ID,
 } e_result;
 
-
 e_result create_database(t_database *database);
 void delete_database(t_database *database);
 
@@ -605,12 +613,12 @@ e_result delete_user(t_database *database, t_id id);
 e_result get_user(t_database const *database, t_id id, t_user const **result);
 ```
 
- * `create_database` must initialize the passed `t_database` instance.
- * `delete_database` must destroy the passed `t_database` instance, freeing the memory that was
-   allocated.
- * `create_user` must insert a new `t_user` instance in the database.
- * `delete_user` must remove a `t_user` from the database.
- * `get_user` must write a pointer to the user with the provided ID, if any.
+- `create_database` must initialize the passed `t_database` instance.
+- `delete_database` must destroy the passed `t_database` instance, freeing the memory that was
+  allocated.
+- `create_user` must insert a new `t_user` instance in the database.
+- `delete_user` must remove a `t_user` from the database.
+- `get_user` must write a pointer to the user with the provided ID, if any.
 
 In any case, on success, `ERR_SUCCESS` is returned. When a memory error occurs, `ERR_MEMORY` is
 returned. When no more IDs can be allocated, `ERR_NO_MORE_IDS` is returned. When a given ID is
@@ -639,10 +647,10 @@ impl Database {
 }
 ```
 
- * `new` must call the `create_database` function of your C library.
- * `create_user` must call `create_user`.
- * `delete_user` must call `delete_user`.
- * `get_user` must call `get_user`.
+- `new` must call the `create_database` function of your C library.
+- `create_user` must call `create_user`.
+- `delete_user` must call `delete_user`.
+- `get_user` must call `get_user`.
 
 When a `Database` goes out of scope, it must automatically call `delete_database`.
 
@@ -666,12 +674,12 @@ fn ft_putchar(c: u8);
 fn ft_exit(code: u8) -> !;
 ```
 
-* You must use the `#![no_std]` and `#![no_main]` global attributes.
-* If you want to make sure nothing gets into your sacred namespace, you can optioanlly add the
+- You must use the `#![no_std]` and `#![no_main]` global attributes.
+- If you want to make sure nothing gets into your sacred namespace, you can optioanlly add the
   `#![no_implicit_prelude]` global attribute.
-* `ft_putchar` must print the specified character to the standard output of the program.
-* `ft_exit` must exit the process with the specified exit code.
-* Create a **program** that calls `ft_putchar` trice. Once with '4', once with '2', and once with
+- `ft_putchar` must print the specified character to the standard output of the program.
+- `ft_exit` must exit the process with the specified exit code.
+- Create a **program** that calls `ft_putchar` trice. Once with '4', once with '2', and once with
   `\n`.
 
 Example:
